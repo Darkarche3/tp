@@ -10,8 +10,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.book.Book;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.BookList;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.MeritScore;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -29,7 +32,8 @@ class JsonAdaptedPerson {
     private final String phone;
     private final String email;
     private final String address;
-    private final String remark;
+    private final String meritScore;
+    private final String bookTitle;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -37,13 +41,16 @@ class JsonAdaptedPerson {
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("address") String address, @JsonProperty("remark") String remark,
+            @JsonProperty("email") String email, @JsonProperty("address") String address,
+            @JsonProperty("meritScore") String meritScore,
+            @JsonProperty("bookTitle") String bookTitle,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.remark = remark;
+        this.meritScore = meritScore;
+        this.bookTitle = bookTitle;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -57,16 +64,19 @@ class JsonAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        remark  = source.getRemark().value;
+        meritScore = source.getMeritScore().meritScore;
+        bookTitle = source.getBookList().value.bookTitle;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
     }
 
     /**
-     * Converts this Jackson-friendly adapted person object into the model's {@code Person} object.
+     * Converts this Jackson-friendly adapted person object into the model's
+     * {@code Person} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person.
+     * @throws IllegalValueException if there were any data constraints violated in
+     *                               the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
         final List<Tag> personTags = new ArrayList<>();
@@ -106,13 +116,25 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
-        if (remark == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
+        if (meritScore == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    MeritScore.class.getSimpleName()));
         }
-        final Remark modelRemark = new Remark(remark);
+        if (!MeritScore.isValidMeritScore(meritScore)) {
+            throw new IllegalValueException(MeritScore.MESSAGE_CONSTRAINTS);
+        }
+        final MeritScore modelMeritScore = new MeritScore(meritScore);
+
+        if (bookTitle == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    BookList.class.getSimpleName()));
+        }
+        if (!Book.isValidBookTitle(bookTitle)) {
+            throw new IllegalValueException(Book.MESSAGE_CONSTRAINTS);
+        }
+        final BookList modelBookList = new BookList(bookTitle);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelRemark, modelTags);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelMeritScore, modelBookList, modelTags);
     }
-
 }

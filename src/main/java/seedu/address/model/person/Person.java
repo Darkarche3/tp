@@ -23,13 +23,16 @@ public class Person {
 
     // Data fields
     private final Address address;
-    private final Remark remark;
+    private final MeritScore meritScore;
+    private final BookList bookList;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
+     * Constructs a person without any books borrowed.
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Remark remark, Set<Tag> tags) {
+
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -37,6 +40,24 @@ public class Person {
         this.address = address;
         this.remark = remark;
         this.tags.addAll(tags);
+        this.meritScore = new MeritScore(0);
+        this.bookList = new BookList("");
+    }
+
+    /**
+     * Constructs a person with books borrowed.
+     * Every field must be present and not null.
+     */
+    public Person(Name name, Phone phone, Email email, Address address,
+                  MeritScore meritScore, BookList bookList, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        this.meritScore = meritScore;
+        this.bookList = bookList;
     }
 
     public Name getName() {
@@ -65,6 +86,20 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * @return the merit score of the person
+     */
+    public MeritScore getMeritScore() {
+        return meritScore;
+    }
+
+    /**
+     * @return the book title of the book
+     */
+    public BookList getBookList() {
+        return bookList;
     }
 
     /**
@@ -100,30 +135,28 @@ public class Person {
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && meritScore.equals(otherPerson.meritScore)
+                && bookList.equals(otherPerson.bookList);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, meritScore, bookList, tags);
     }
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(getName())
-                .append(" Phone: ")
-                .append(getPhone())
-                .append(" Email: ")
-                .append(getEmail())
-                .append(" Address: ")
-                .append(getAddress())
-                .append(" Remark: ")
-                .append(getRemark())
-                .append(" Tags: ");
-        getTags().forEach(builder::append);
-        return builder.toString();
+        return new ToStringBuilder(this)
+                .add("name", name)
+                .add("phone", phone)
+                .add("email", email)
+                .add("address", address)
+                .add("tags", tags)
+                .add("Merit score", meritScore)
+                .add("book borrowed", bookList)
+                .toString();
     }
 
 }

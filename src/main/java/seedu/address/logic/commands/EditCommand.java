@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+//import java.awt.print.Book;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -15,14 +16,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.BookList;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.MeritScore;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -100,10 +103,15 @@ public class EditCommand extends Command {
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Remark updatedRemark = personToEdit.getRemark(); // edit command does not allow editing remarks
+        // create getMeritScore within edit person desciptor class shall be fine, and then uncomment below
+        MeritScore updatedMeritScore = personToEdit.getMeritScore();
+
+        BookList updatedBookList = personToEdit.getBookList();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark, updatedTags);
+        // return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress,
+                 updatedMeritScore, updatedBookList, updatedTags);
     }
 
     @Override
@@ -140,6 +148,8 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private MeritScore meritScore;
+        private BookList bookList;
 
         public EditPersonDescriptor() {}
 
@@ -152,6 +162,8 @@ public class EditCommand extends Command {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setMeritScore(toCopy.meritScore);
+            setBookList(toCopy.bookList);
             setTags(toCopy.tags);
         }
 
@@ -194,6 +206,22 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
+        public void setBookList(BookList bookList) {
+            this.bookList = bookList;
+        }
+
+        public Optional<BookList> getBookList() {
+            return Optional.ofNullable(bookList);
+        }
+
+        public void setMeritScore(MeritScore meritScore) {
+            this.meritScore = meritScore;
+        }
+
+        public Optional<MeritScore> getMeritScore() {
+            return Optional.ofNullable(meritScore);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -227,7 +255,9 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(bookList, otherEditPersonDescriptor.bookList)
+                    && Objects.equals(meritScore, otherEditPersonDescriptor.meritScore);
         }
 
         @Override
@@ -237,6 +267,8 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
+                    .add("meritScore", meritScore)
+                    .add("bookTitle", bookList)
                     .add("tags", tags)
                     .toString();
         }
