@@ -27,7 +27,7 @@ public class BookList {
      * The Storage class manages files operations for storing and retrieving
      * task data.
      * It handles the interaction with the data files where tasks are located.
-     * 
+     *
      * @param tasks List of tasks
      */
     public BookList(Library library) {
@@ -39,7 +39,7 @@ public class BookList {
 
     /**
      * Adds an instruction to a list of instructions.
-     * 
+     *
      * @param instruction the instruction to be added.
      */
     public void addInstruction(String instruction) {
@@ -65,7 +65,7 @@ public class BookList {
 
     /**
      * Gets list of tasks.
-     * 
+     *
      * @return ArrayList taskList
      */
     public  Library getBooks() {
@@ -99,7 +99,7 @@ public class BookList {
 
     /**
      * Saves all instructions to the data file.
-     * 
+     *
      * @param instruction Instruction to be stored.
      */
     public void saveTask(String instruction) {
