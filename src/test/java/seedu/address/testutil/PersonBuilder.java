@@ -1,10 +1,11 @@
 package seedu.address.testutil;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.model.book.Book;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.BookList;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.MeritScore;
 import seedu.address.model.person.Name;
@@ -24,7 +25,6 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_MERIT_SCORE = "0";
-    public static final String DEFAULT_BOOK_LIST = "";
 
 
     private Name name;
@@ -32,7 +32,7 @@ public class PersonBuilder {
     private Email email;
     private Address address;
     private MeritScore meritScore;
-    private BookList bookTitle;
+    private ArrayList<Book> bookList;
     private Set<Tag> tags;
 
     /**
@@ -44,7 +44,7 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         meritScore = new MeritScore(DEFAULT_MERIT_SCORE);
-        bookTitle = new BookList(DEFAULT_BOOK_LIST);
+        bookList = new ArrayList<>();
         tags = new HashSet<>();
     }
 
@@ -57,7 +57,7 @@ public class PersonBuilder {
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
         meritScore = personToCopy.getMeritScore();
-        bookTitle = personToCopy.getBookList();
+        bookList = personToCopy.getBookList();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -121,12 +121,14 @@ public class PersonBuilder {
      * Sets the {@code BookList} of the {@code Person} that we are building.
      */
     public PersonBuilder withBook(String bookTitle) {
-        this.bookTitle = new BookList(bookTitle);
+        ArrayList<Book> temp = new ArrayList<>(bookList);
+        temp.add(new Book(bookTitle));
+        this.bookList = temp;
         return this;
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, meritScore, bookTitle, tags);
+        return new Person(name, phone, email, address, meritScore, bookList, tags);
     }
 
 }

@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BOOKLIST;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
@@ -36,12 +37,12 @@ public class BorrowCommand extends Command {
     /**
      * @param index     of the person in the filtered person list to edit the
      *                  bookTitle
-     * @param book of the person to be updated to
+     * @param bookToBeBorrowed of the person to be updated to
      */
-    public BorrowCommand(Index index, Book book) {
-        requireAllNonNull(index, book);
+    public BorrowCommand(Index index, Book bookToBeBorrowed) {
+        requireAllNonNull(index, bookToBeBorrowed);
         this.index = index;
-        this.book = book;
+        this.book = bookToBeBorrowed;
     }
 
     @Override
@@ -60,12 +61,18 @@ public class BorrowCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
         // Check whether personToEdit has sufficient merit score
-        if (personToEdit.getMeritScore().getMeritScoreInt() <= 0) {
-            throw new CommandException(Messages.MESSAGE_INSUFFICIENT_MERIT_SCORE);
+        if (!model.canLendTo(personToEdit)) {
+            throw new CommandException(String.format(Messages.MESSAGE_INSUFFICIENT_MERIT_SCORE, model.getThreshold()));
         }
 
-        personToEdit.getBookList().add(book);
-        ArrayList<Book> updatedBookList = personToEdit.getBookList();
+        // Check whether book is present in library
+        if (!model.hasBookInLibrary(book)) {
+            throw new CommandException(String.format(Messages.MESSAGE_BOOK_NOT_IN_LIBRARY, book));
+        }
+        Book borrowedBook = model.popBookFromLibrary(book);
+        requireNonNull(borrowedBook);
+
+        ArrayList<Book> updatedBookList = personToEdit.getBookListWithNewBook(borrowedBook);
 
         Person editedPerson = new Person(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
             personToEdit.getAddress(), personToEdit.getMeritScore().decrementScore(), updatedBookList,
