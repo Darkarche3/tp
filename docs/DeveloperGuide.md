@@ -155,6 +155,86 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Merit Score feature
+
+_**[Merit implementation to be added here, mention cannot change directly in app]**_
+
+### Library and LibraryLogic feature
+
+_**[Library & LibraryLogic (should be Library Storage) implementation to be added here, mention why not a part of storage, mention cannot change book list directly in app]**_
+
+`Library` now acts as a similar entity to the `AddressBook` and `UserPrefs` and is now composited into `Model`, and implements the ReadOnlyLibrary Interface.
+
+`Model` now contains useful `Library` operations such as:
+* `Threshold` operations
+* `Book` operations on the book list in a library
+* Checks for if Borrowers can borrow books in a library
+
+[Link to updated Model UML Class diagram]
+
+### Limit Command and Threshold feature
+
+This command is facilitated through the use of `Threshold` as an attribute in the `Library` class.
+
+Any Borrower has to have a `MeritScore` greater or equals to the set `Threshold` in order to borrow from the `Library`.
+
+As `Threshold` is now an attribute of `Library`, the Borrower's ability to borrow now depends on the Library instance and not within the Borrow Command.
+
+Limit Command sets the `Threshold` of the `Library`, resulting in all Borrowers being affected by the change at the same time when the Limit Command is called.
+
+The default value of a `Threshold` is set as `-3`. Any calls to the Limit Command with the same value of the current `Threshold` will result in a duplicate threshold detected message.
+
+`Library` now has a method to check if a Borrower can borrow a book from the library by internally comparing the Borrower's `MeritScore` and the library's `Threshold`. Borrow Command now utilises this function to check if a Borrower is able to Borrow a book from the Library instead of handling the check within the Borrow Command itself.
+
+#### Desired Usage
+
+Librarians can retroactively disallow Borrowers from borrowing books from the Library, with Borrowers having to meet the limit set before being able to borrow again.
+
+1. Library starts in a default state. After some borrowing occurred.
+   * Borrower A has `MeritScore`:0
+   * Borrower B has `MeritScore`: -2
+   * Both Borrower A and Borrower B can borrow books from the library
+1. Librarian calls `limit 0`
+   * `Threshold`: 0
+   * Borrower A has `MeritScore`: 0 (greater than or equal to `Threshold`)
+   * Borrower B has `MeritScore`: -2 (less than `Threshold`)
+   * Borrower A can borrow but Borrower B cannot borrow from the Library
+1. Librarian calls `limit -2`
+   * `Threshold`: -2
+   * Borrower A has `MeritScore`: 0 (greater than or equal to `Threshold`)
+   * Borrower B has `MeritScore`: -2 (greater than or equal to `Threshold`)
+   * Both Borrower A and Borrower B can borrow books from the library
+1. Borrower B borrows a book
+   * `Threshold`: -2
+   * Borrower A has `MeritScore`: 0 (greater than or equal to `Threshold`)
+   * Borrower B has `MeritScore`: -3 (greater than or equal to `Threshold`)
+   * Borrower A can borrow but Borrower B cannot borrow from the Library
+1. Librarian calls `limit 1`
+   * `Threshold`: 1
+   * Borrower A has `MeritScore`: 0 (less than `Threshold`)
+   * Borrower B has `MeritScore`: -3 (less than `Threshold`)
+   * Both Borrower A and Borrower B cannot borrow books from the library
+1. Borrower A returns a book and Borrower B donates a book each
+   * `Threshold`: 1
+   * Borrower A has `MeritScore`: 1 (greater than or equal to `Threshold`)
+   * Borrower B has `MeritScore`: -2 (less than `Threshold`)
+   * Both Borrower A and Borrower B can donate and return to the library
+   * Borrower A can borrow but Borrower B still cannot borrow from the Library
+
+#### Alternative Implementation
+
+It is also plausible for `Threshold` to be implemented as an attribute within each Borrower.
+
+This would also change the implementation for the Limit Command to now individually set limits to each specified Borrower.
+
+This would give the Librarian greater flexibility to vary each of the Borrower's individual ability to borrow.
+
+This implementation was decided against as setting a standardised limit would give an easier time for Librarians to manage all Borrowers at the same time, and not having to individually manage each Borrower's `Threshold`
+
+Individual Borrower's ability to borrow can also be increased and decreased indirectly by changing the Borrower's merit score. **[LINK TO SECTION ON CHANGING MERIT SCORE]**
+
+Note: the Borrower's Merit score cannot be decreased without altering the Borrower's book list. **[LINK TO SECTION ON DECREASING MERIT SCORE]**
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -270,20 +350,21 @@ _{Explain here how the data archiving feature will be implemented}_
 * needs to keep track of which borrower borrowed which book
 * needs to keep track of which borrower returned which book
 
-**Value proposition**: manage borrowers and keepts track of borrowing and returning of books faster than a typical mouse/GUI driven app
+**Value proposition**: manage borrowers and keeps track of borrowing and returning of books faster than a typical mouse/GUI driven app
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​     | I want to …​                                      | So that I can…​                                                                  |
-| -------- | ---------- | ------------------------------------------------ |----------------------------------------------------------------------------------|
-| `* * *`  | libarian   | record the phone number of the borrower          | send SMS reminders to notify them that someone else is looking for the book      |
-| `* * *`  | libarian   | record the email address of the borrower         | send an email reminders to notify them that someone else is looking for the book |
-| `* * *`  | libarian   | record the postal address of the borrower        | send a warning letter when breaching community guidelines                        |
-| `* * *`  | libarian   | record how many books the borrower has borrowed  | keep track of the position of the books                                          |
-| `* * *`  | libarian   | record the date the borrower borrowed the book   | calculate when they need to return the book                                      |
+| Priority | As a …​   | I want to …​                                               | So that I can…​                                                                  |
+|----------|-----------|------------------------------------------------------------|----------------------------------------------------------------------------------|
+| `* * *`  | librarian | record the phone number of the borrower                    | send SMS reminders to notify them that someone else is looking for the book      |
+| `* * *`  | librarian | record the email address of the borrower                   | send an email reminders to notify them that someone else is looking for the book |
+| `* * *`  | librarian | record the postal address of the borrower                  | send a warning letter when breaching community guidelines                        |
+| `* * *`  | librarian | record the book title of all books in the library          | keep track of the books available in the library at the moment                   |
+| `* * *`  | librarian | record the book title the borrower has borrowed            | keep track of which books the borrower has borrowed                              |
+| `* *`    | librarian | be able to decide the threshold merit score for a borrower | choose when to not allow borrowers to borrow from the library                    |
 
 *{More to be added}*
 
@@ -366,6 +447,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Return**: An Action where a user returns the book which they borrowed from the library.
 * **Donate**: An action where a person donates a book to the library.
 * **Merit Score**: A measurement of a person's credibility. Everyone starts from 0, donating increases merit score.
+*  **Available Books**: The books from the library which are available to be lent to users at the moment.
 
 --------------------------------------------------------------------------------------------------------------------
 

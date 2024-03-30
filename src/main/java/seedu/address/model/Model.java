@@ -15,6 +15,7 @@ import seedu.address.model.person.Person;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+    Predicate<Book> PREDICATE_SHOW_ALL_BOOK = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -94,6 +95,14 @@ public interface Model {
 
     /** Returns the Library */
     ReadOnlyLibrary getLibrary();
+
+    /**
+     * Updates the filter of the filtered book list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredLibraryList(Predicate<Book> predicate);
+    /** Returns the list of books in the Library **/
+    ObservableList<Book> getLibraryBookList();
 
     /**
      * Adds {@code book} to the Library.

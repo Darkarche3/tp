@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -25,6 +26,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Book> filteredBooks;
     private final Library library;
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -37,6 +39,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredBooks = new FilteredList<>(FXCollections.observableArrayList(library.getBookList()));
         this.library = new Library(library);
     }
 
@@ -144,8 +147,20 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Book> getLibraryBookList() {
+        return FXCollections.observableArrayList(library.getBookList());
+    }
+
+    @Override // delete if not required for auto-update
+    public void updateFilteredLibraryList(Predicate<Book> predicate) {
+        requireNonNull(predicate);
+        filteredBooks.setPredicate(predicate);
+    }
+
+    @Override
     public void addBook(Book book) {
         library.addBook(book);
+        updateFilteredLibraryList(PREDICATE_SHOW_ALL_BOOK);
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import seedu.address.commons.exceptions.DataLoadingException;
@@ -39,7 +40,7 @@ public class LibraryLogic {
      * Constructs a LibraryLogic object with default file path
      */
     public LibraryLogic() {
-        this.filePath = "data\\library.txt";
+        this.filePath = Paths.get("data", "library.txt").toString();
         this.availableBooks = new ArrayList<>();
         this.threshold = new Threshold();
     }
@@ -95,7 +96,8 @@ public class LibraryLogic {
             if (!isInteger(line.trim())) {
                 throw new IllegalValueException("Error loading threshold from file: Bad threshold input");
             }
-            threshold = new Threshold(Integer.parseInt(line));
+            int i = Integer.parseInt(line);
+            threshold = new Threshold(i);
 
             // load rest as books
             while ((line = reader.readLine()) != null) {
@@ -139,7 +141,7 @@ public class LibraryLogic {
     public void saveBooksToFile(ReadOnlyLibrary library) throws IOException {
         createFileIfNotExists();
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            writer.println(threshold.toString());
+            writer.println(library.getThreshold());
             for (Book availableBook : library.getBookList()) {
                 writer.println(availableBook);
             }
