@@ -2,11 +2,12 @@ package seedu.address;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
@@ -99,7 +100,7 @@ public class MainApp extends Application {
             initialData = new AddressBook();
         }
 
-        ArrayList<Book> booksData;
+        ObservableList<Book> booksData;
         Threshold thresholdData;
         try {
             libraryLogic.loadLibraryFromFile();

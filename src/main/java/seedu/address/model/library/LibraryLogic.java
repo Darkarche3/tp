@@ -11,6 +11,9 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.ReadOnlyLibrary;
@@ -22,7 +25,7 @@ import seedu.address.model.book.Book;
 public class LibraryLogic {
     //TODO Refactor LibraryLogic to LibraryStorage and change file location to under storage package
     private String filePath;
-    private ArrayList<Book> availableBooks;
+    private ObservableList<Book> availableBooks;
     private Threshold threshold;
 
     /**
@@ -32,7 +35,7 @@ public class LibraryLogic {
      */
     public LibraryLogic(String filePath) {
         this.filePath = filePath;
-        this.availableBooks = new ArrayList<>();
+        this.availableBooks = FXCollections.observableArrayList();
         this.threshold = new Threshold();
     }
 
@@ -41,7 +44,7 @@ public class LibraryLogic {
      */
     public LibraryLogic() {
         this.filePath = Paths.get("data", "library.txt").toString();
-        this.availableBooks = new ArrayList<>();
+        this.availableBooks = FXCollections.observableArrayList();
         this.threshold = new Threshold();
     }
 
@@ -120,7 +123,7 @@ public class LibraryLogic {
      *
      * @return the list of books loaded from the file
      */
-    public ArrayList<Book> getAvailableBooks() {
+    public ObservableList<Book> getAvailableBooks() {
         return availableBooks;
     }
 

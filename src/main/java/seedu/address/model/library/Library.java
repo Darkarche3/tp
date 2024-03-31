@@ -2,9 +2,10 @@ package seedu.address.model.library;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.ReadOnlyLibrary;
 import seedu.address.model.book.Book;
 import seedu.address.model.person.Person;
@@ -24,7 +25,7 @@ public class Library implements ReadOnlyLibrary {
         }
     };
 
-    private ArrayList<Book> bookList;
+    private ObservableList<Book> bookList;
     private Threshold threshold;
     private LibraryLogic libraryLogic;
 
@@ -32,7 +33,7 @@ public class Library implements ReadOnlyLibrary {
      * Construct an empty library.
      */
     public Library() {
-        bookList = new ArrayList<>();
+        bookList = FXCollections.observableArrayList();
         threshold = new Threshold();
         libraryLogic = new LibraryLogic();
     }
@@ -51,7 +52,7 @@ public class Library implements ReadOnlyLibrary {
      * Construct an empty library with preset threshold.
      */
     public Library(int i) {
-        bookList = new ArrayList<>();
+        bookList = FXCollections.observableArrayList();
         threshold = new Threshold(i);
     }
 
@@ -60,7 +61,7 @@ public class Library implements ReadOnlyLibrary {
      *
      * @param bookList The list of books to initialize the library with.
      */
-    public Library(ArrayList<Book> bookList) {
+    public Library(ObservableList<Book> bookList) {
         this.bookList = bookList;
     }
 
@@ -70,7 +71,7 @@ public class Library implements ReadOnlyLibrary {
      * @param bookList The list of books to initialize the library with.
      * @param threshold The threshold limit
      */
-    public Library(ArrayList<Book> bookList, Threshold threshold) {
+    public Library(ObservableList<Book> bookList, Threshold threshold) {
         this.bookList = bookList;
         this.threshold = threshold;
     }
@@ -95,7 +96,7 @@ public class Library implements ReadOnlyLibrary {
      *
      * @return An ArrayList containing the books in the library, sorted alphabetically.
      */
-    public ArrayList<Book> list() {
+    public ObservableList<Book> list() {
         this.sortAlphabetically();
         return this.bookList;
     }
@@ -113,11 +114,11 @@ public class Library implements ReadOnlyLibrary {
     }
 
     @Override
-    public ArrayList<Book> getBookList() {
-        return bookList;
+    public ObservableList<Book> getBookList() {
+        return this.bookList;
     }
 
-    public void setBookList(ArrayList<Book> bookList) {
+    public void setBookList(ObservableList<Book> bookList) {
         this.bookList = bookList;
     }
 
