@@ -1,7 +1,5 @@
 package seedu.address.model;
 
-import java.util.ArrayList;
-
 import javafx.collections.ObservableList;
 import seedu.address.model.book.Book;
 import seedu.address.model.library.Threshold;
