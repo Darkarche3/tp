@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;

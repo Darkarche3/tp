@@ -9,9 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.DataLoadingException;

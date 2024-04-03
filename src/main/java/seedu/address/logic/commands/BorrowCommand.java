@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BOOKLIST;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_BOOK;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.ArrayList;
@@ -71,6 +72,7 @@ public class BorrowCommand extends Command {
         }
         Book borrowedBook = model.popBookFromLibrary(book);
         requireNonNull(borrowedBook);
+        model.updateFilteredLibraryList(PREDICATE_SHOW_ALL_BOOK);
 
         ArrayList<Book> updatedBookList = personToEdit.getBookListWithNewBook(borrowedBook);
 
