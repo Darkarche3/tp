@@ -149,7 +149,7 @@ Examples:
 
 Borrow a book from the library by a user.
 
-Format: `borrow INDEX [b/BOOKTITLE]`
+Format: `borrow INDEX b/BOOKTITLE`
 
 * Borrow the book with `BOOKTITLE` to user `INDEX`.
 * The index refers to the index number shown in the displayed User List.
@@ -157,14 +157,13 @@ Format: `borrow INDEX [b/BOOKTITLE]`
 
 Examples:
 * `borrow 2 b/I Love CS2103T CS2101` will record user index 2, borrows a book called "I Love CS2103T CS2101".
-* `borrow 4 b/The Hero with a Thousand Faces` will record user index 4, borrows a book called "The Hero with a Thousand Face". <br>
-  ![result for 'return 4 b/The Hero with a Thousand Faces'](images/ReturnBookUserguide.png)
+* `borrow 4 b/The Hero with a Thousand Faces` will record user index 4, borrows a book called "The Hero with a Thousand Face".
 
 ### Return a book from a user : `return`
 
 Returns the specified book borrowed by the specified user.
 
-Format: `return INDEX [b/BOOKTITLE]`
+Format: `return INDEX b/BOOKTITLE`
 
 * Return a book `BOOKTITLE` borrowed by user `INDEX`.
 * The index `INDEX` refers to the index number shown in the displayed User List.
@@ -172,13 +171,14 @@ Format: `return INDEX [b/BOOKTITLE]`
 
 Examples:
 * `return 2 b/I Love CS2103T CS2101` returns a book of title "I Love CS2103T CS2101" from the user at index 2.
-* `return 4 b/The Hero with a Thousand Faces` returns a book of title "The Hero with a Thousand Face" from the user at index 4.
+* `return 4 b/The Hero with a Thousand Faces` returns a book of title "The Hero with a Thousand Face" from the user at index 4.<br>
+![result for 'return 4 b/The Hero with a Thousand Faces'](images/ReturnBookUserguide.png)
 
 ### Donate a book from a user : `donate`
 
 Records a user donating a book to the library.
 
-Format: `donate INDEX [b/BOOKTITLE]`
+Format: `donate INDEX b/BOOKTITLE`
 
 * A user `INDEX` has donated book `BOOKTITLE`.
 * The index refers to the index number shown in the displayed User List.
@@ -192,7 +192,7 @@ Examples:
 
 Records the library manager adding a book to the library.
 
-Format: `addbook [b/BOOKTITLE]`
+Format: `addbook b/BOOKTITLE`
 
 * Library Manager has added book `BOOKTITLE`.
 
@@ -200,11 +200,11 @@ Examples:
 * `addbook b/I Love CS2103T CS2101` will record library manager, adds a book called "I Love CS2103T CS2101".
 * `delbook b/The Hero with a Thousand Faces` will record library manager, adds a book called "The Hero with a Thousand Face".
 
-### Delete a book from Library : `addbook`
+### Delete a book from Library : `delbook`
 
 Records the library manager deleting a book from the library.
 
-Format: `delbook [b/BOOKTITLE]`
+Format: `delbook b/BOOKTITLE`
 
 * Library Manager has deleted book `BOOKTITLE`.
 
@@ -304,16 +304,18 @@ _Details coming soon ..._
 
 ## Command summary
 
-| Action     | Format, Examples                                                                                                                                                      |
-|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
-| **Clear**  | `clear`                                                                                                                                                               |
-| **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
-| **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
-| **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
-| **List**   | `list`                                                                                                                                                                |
-| **Help**   | `help`                                                                                                                                                                |
-| **Borrow** | `borrow INDEX BOOKTITLE`<br> e.g., `borrow 1 b/The Hero with a Thousand Faces`                                                                                        |
-| **Return** | `return INDEX BOOKTITLE`<br> e.g., `return 1  b/The Hero with a Thousand Faces`                                                                                       |
-| **Donate** | `donate INDEX BOOKTITLE`<br> e.g., `donate 1 b/The Hero with a Thousand Faces`                                                                                        |
-| **Limit**  | `limit SET_LIMIT` <br> e.g. `limit 0`                                                                                                                                 |
+| Action      | Format, Examples                                                                                                                                                      |
+|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add**     | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
+| **Clear**   | `clear`                                                                                                                                                               |
+| **Delete**  | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
+| **Edit**    | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
+| **Find**    | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
+| **List**    | `list`                                                                                                                                                                |
+| **Help**    | `help`                                                                                                                                                                |
+| **Borrow**  | `borrow INDEX b/BOOKTITLE`<br> e.g., `borrow 1 b/The Hero with a Thousand Faces`                                                                                      |
+| **Return**  | `return INDEX b/BOOKTITLE`<br> e.g., `return 1  b/The Hero with a Thousand Faces`                                                                                     |
+| **Donate**  | `donate INDEX b/BOOKTITLE`<br> e.g., `donate 1 b/The Hero with a Thousand Faces`                                                                                      |
+| **AddBook** | `addbook b/BOOKTITLE`<br> e.g., `addbook b/The Hero with a Thousand Faces`                                                                                            |
+| **DelBook** | `delbook b/BOOKTITLE`<br> e.g., `delbook b/The Hero with a Thousand Faces`                                                                                            |
+| **Limit**   | `limit SET_LIMIT` <br> e.g. `limit 0`                                                                                                                                 |
