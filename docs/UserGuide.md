@@ -188,6 +188,30 @@ Examples:
 * `donate 2 b/I Love CS2103T CS2101` will record user index 2, donates a book called "I Love CS2103T CS2101".
 * `donate 4 b/The Hero with a Thousand Faces` will record user index 4, donates a book called "The Hero with a Thousand Face".
 
+### Add a book to Library : `addbook`
+
+Records the library manager adding a book to the library.
+
+Format: `addbook [b/BOOKTITLE]`
+
+* Library Manager has added book `BOOKTITLE`.
+
+Examples:
+* `addbook b/I Love CS2103T CS2101` will record library manager, adds a book called "I Love CS2103T CS2101".
+* `delbook b/The Hero with a Thousand Faces` will record library manager, adds a book called "The Hero with a Thousand Face".
+
+### Delete a book from Library : `addbook`
+
+Records the library manager deleting a book from the library.
+
+Format: `delbook [b/BOOKTITLE]`
+
+* Library Manager has deleted book `BOOKTITLE`.
+
+Examples:
+* `delbook b/I Love CS2103T CS2101` will record library manager, deletes a book called "I Love CS2103T CS2101".
+* `delbook b/The Hero with a Thousand Faces` will record library manager, deletes a book called "The Hero with a Thousand Face".
+
 ### Setting/Viewing the limit for the library
 
 Sets the limit of the library. such that only users with a merit score more than or equal to the set limit can borrow.
