@@ -28,16 +28,13 @@ public class LibraryCard extends UiPart<Region> {
     @FXML
     private Label bookName;
 
-
     /**
      * Creates a {@code BookCode} with the given {@code Book} and index to display.
      */
-    public LibraryCard(Book book) {
+    public LibraryCard(Book book, int displayedIndex) {
         super(FXML);
         this.book = book;
-
         String bookTitle = book.toString();
-
-        bookName.setText(bookTitle);
+        bookName.setText(displayedIndex + ". " + bookTitle);
     }
 }

@@ -30,7 +30,7 @@ public class BorrowCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_BOOKLIST + "Likes to swim.";
 
-    public static final String MESSAGE_ADD_BORROW_SUCCESS = "Added book to Person: %1$s";
+    public static final String MESSAGE_ADD_BORROW_SUCCESS = "Added book: %1$s to Person: %2$s";
 
     private final Index index;
     private final Book book;
@@ -38,12 +38,12 @@ public class BorrowCommand extends Command {
     /**
      * @param index     of the person in the filtered person list to edit the
      *                  bookTitle
-     * @param bookToBeBorrowed of the person to be updated to
+     * @param bookList of the person to be updated to
      */
-    public BorrowCommand(Index index, Book bookToBeBorrowed) {
-        requireAllNonNull(index, bookToBeBorrowed);
+    public BorrowCommand(Index index, Book bookList) {
+        requireAllNonNull(index, bookList);
         this.index = index;
-        this.book = bookToBeBorrowed;
+        this.book = bookList;
     }
 
     @Override
@@ -83,15 +83,15 @@ public class BorrowCommand extends Command {
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        return new CommandResult(generateSuccessMessage(editedPerson));
+        return new CommandResult(generateSuccessMessage(book, editedPerson));
     }
 
     /**
-     * Formats and returns the borrow success message.
+     * Generates a command execution success message when book {@code book} is successfully added
      * {@code personToEdit}.
      */
-    private String generateSuccessMessage(Person personToEdit) {
-        return String.format(MESSAGE_ADD_BORROW_SUCCESS, personToEdit);
+    private String generateSuccessMessage(Book book, Person personToEdit) {
+        return String.format(MESSAGE_ADD_BORROW_SUCCESS, book, personToEdit);
     }
 
     @Override

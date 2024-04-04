@@ -115,6 +115,7 @@ public class Library implements ReadOnlyLibrary {
 
     @Override
     public ObservableList<Book> getBookList() {
+        sortAlphabetically();
         return this.bookList;
     }
 
@@ -181,7 +182,7 @@ public class Library implements ReadOnlyLibrary {
         } else if (other instanceof Library) {
             Library otherLibrary = (Library) other;
             for (int i = 0; i < this.list().size(); i++) {
-                if (this.bookList.get(i).equals(otherLibrary.bookList.get(i))) {
+                if (!this.bookList.get(i).equals(otherLibrary.bookList.get(i))) {
                     return false;
                 }
             }

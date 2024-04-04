@@ -17,6 +17,9 @@ public class LimitCommandParser implements Parser<LimitCommand> {
      */
     public LimitCommand parse(String args) throws ParseException {
         try {
+            if (args.equals("")) {
+                return new LimitCommand(true);
+            }
             Threshold threshold = ParserUtil.parseThreshold(args);
             return new LimitCommand(threshold);
         } catch (ParseException pe) {

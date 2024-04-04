@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.DonateCommand;
+import seedu.address.model.book.Book;
 import seedu.address.testutil.TypicalIndexes;
 
 
@@ -50,10 +51,10 @@ public class DonateCommandParserTest {
     public void parse_allFieldsPresent_success() {
         // book title with no space in front and at back
         assertParseSuccess(parser, "9 " + CliSyntax.PREFIX_BOOKLIST + bookTitle,
-                new DonateCommand(TypicalIndexes.INDEX_KEPLER, new BookList(bookTitle)));
+                new DonateCommand(TypicalIndexes.INDEX_KEPLER, new Book(bookTitle)));
 
         // book title with spaces in front and at back
         assertParseSuccess(parser, "9 " + CliSyntax.PREFIX_BOOKLIST + "    " + bookTitle + "    ",
-                new DonateCommand(TypicalIndexes.INDEX_KEPLER, new BookList(bookTitle)));
+                new DonateCommand(TypicalIndexes.INDEX_KEPLER, new Book(bookTitle)));
     }
 }

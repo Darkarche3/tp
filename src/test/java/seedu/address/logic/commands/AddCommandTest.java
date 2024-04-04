@@ -21,7 +21,10 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyLibrary;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.book.Book;
+import seedu.address.model.library.Threshold;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -155,6 +158,66 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setLibrary(ReadOnlyLibrary library) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyLibrary getLibrary() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredLibraryList(Predicate<Book> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Book> getLibraryBookList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addBook(Book book) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteBook(int index) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canLendTo(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setThreshold(Threshold threshold) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Threshold getThreshold() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasThreshold(Threshold threshold) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasBookInLibrary(Book book) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Book popBookFromLibrary(Book book) {
             throw new AssertionError("This method should not be called.");
         }
     }

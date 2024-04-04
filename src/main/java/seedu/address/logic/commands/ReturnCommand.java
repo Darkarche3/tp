@@ -59,7 +59,7 @@ public class ReturnCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
-        if (personToEdit.getBookList().toString().isEmpty()) {
+        if (personToEdit.getBookList().isEmpty()) {
             throw new CommandException(Messages.MESSAGE_EMPTY_BOOKLIST_FIELD);
         }
 
@@ -81,7 +81,7 @@ public class ReturnCommand extends Command {
     }
 
     /**
-     * Generates a command execution success message when book title is successfully removed
+     * Generates a command execution success message when book {@code book} is successfully removed
      * {@code personToEdit}.
      */
     private String generateSuccessMessage(Book book, Person personToEdit) {

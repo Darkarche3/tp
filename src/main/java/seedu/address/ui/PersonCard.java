@@ -60,15 +60,40 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         meritScore.setText(person.getMeritScore().meritScore);
+        meritScore.setStyle(getMeritScoreStyle(person.getMeritScore().meritScore));
         String borrowedBookList = "";
         if (person.getBookList().isEmpty()) {
-            borrowedBookList = "This user is not borrowing any books at the moment!";
+            borrowedBookList = "------------------------------------------------------------"
+                    + "\n This user is not borrowing any books at the moment!"
+                    + "\n------------------------------------------------------------";
         } else {
-            borrowedBookList = "The user is currently borrowing:\n" + person.getBookListToStringWithIndex();
+            borrowedBookList = "------------------------------------ \n"
+                    + "The user is currently borrowing:\n" + person.getBookListToStringWithIndex()
+                    + "\n------------------------------------";
         }
         borrow.setText(borrowedBookList);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+    }
+
+    /**
+     * Updates the background color of the meritScore label based on the score.
+     */
+    public String getMeritScoreStyle(String meritScore) {
+        String color;
+        int threshold;
+        int score = Integer.parseInt(meritScore);
+        if (score > 5) {
+            color = "green";
+        } else if (score <= -3) {
+            color = "red";
+        } else {
+            color = "yellowgreen";
+        }
+
+        // meritScore.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white;");
+        //return " -fx-text-fill: " + color + ";";
+        return " -fx-text-fill: white;";
     }
 }

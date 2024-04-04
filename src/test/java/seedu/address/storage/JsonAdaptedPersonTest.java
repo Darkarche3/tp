@@ -6,6 +6,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,11 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_MERIT_SCORE = "abc";
-    private static final String INVALID_BOOK_LIST = " title";
+    private static final ArrayList<JsonAdaptedBook> INVALID_BOOK_LIST =
+            new ArrayList<>(Arrays.asList(new Book(" title")))
+                    .stream()
+                    .map(JsonAdaptedBook::new)
+                    .collect(Collectors.toCollection(ArrayList::new));;
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = BENSON.getName().toString();
@@ -33,7 +38,10 @@ public class JsonAdaptedPersonTest {
     private static final String VALID_EMAIL = BENSON.getEmail().toString();
     private static final String VALID_ADDRESS = BENSON.getAddress().toString();
     private static final String VALID_MERIT_SCORE = BENSON.getMeritScore().toString();
-    private static final String VALID_BOOK_LIST = BENSON.getBookList().toString();
+    private static final ArrayList<JsonAdaptedBook> VALID_BOOK_LIST = BENSON.getBookList()
+            .stream()
+            .map(JsonAdaptedBook::new)
+            .collect(Collectors.toCollection(ArrayList::new));
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
@@ -148,7 +156,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_MERIT_SCORE,
                         null, VALID_TAGS);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, BookList.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Book.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 

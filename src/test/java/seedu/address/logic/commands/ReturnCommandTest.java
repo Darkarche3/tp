@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.testutil.TypicalBooks.getTypicalLibrary;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_JACKER;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -20,6 +21,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.book.Book;
+import seedu.address.model.library.Library;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -27,20 +29,26 @@ public class ReturnCommandTest {
     private static final String BOOK_STUB = "How To Grow Taller";
     private static final String EMPTY_BOOK_STUB = "";
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalLibrary());
 
     @Test
     public void execute_returnUnfilteredList_success() {
-        Person editedPerson = new PersonBuilder(JACKER).withBook(BOOK_STUB).withMeritScore(0).build();
+        Person initialPerson = new PersonBuilder(JACKER).withBook(BOOK_STUB).withMeritScore(0).build();
+        Book bookObjectStub = new Book(BOOK_STUB);
 
-        ReturnCommand returnCommand = new ReturnCommand(INDEX_JACKER, new Book(BOOK_STUB));
+        ReturnCommand returnCommand = new ReturnCommand(INDEX_JACKER, bookObjectStub);
 
-        String expectedMessage = String.format(ReturnCommand.MESSAGE_RETURN_BOOK_SUCCESS, JACKER);
+        String expectedMessage = String.format(ReturnCommand.MESSAGE_RETURN_BOOK_SUCCESS, bookObjectStub, JACKER);
 
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(editedPerson, JACKER);
+        Model initialModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
+                new Library(model.getLibrary()));
+        initialModel.setPerson(JACKER, initialPerson);
 
-        assertCommandSuccess(returnCommand, model, expectedMessage, expectedModel);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
+                new Library(model.getLibrary()));
+        expectedModel.addBook(bookObjectStub);
+
+        assertCommandSuccess(returnCommand, initialModel, expectedMessage, expectedModel);
     }
 
     @Test
@@ -57,12 +65,28 @@ public class ReturnCommandTest {
     }
 
     @Test
-    public void execute_invalidBookListFilteredList_throwsCommandException() {
+    public void execute_emptyBookTitleFilteredList_throwsCommandException() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         ReturnCommand returnCommand = new ReturnCommand(INDEX_FIRST_PERSON, new Book(EMPTY_BOOK_STUB));
 
+        assertCommandFailure(returnCommand, model, Messages.MESSAGE_EMPTY_BOOK_INPUT_FIELD);
+    }
+
+    @Test
+    public void execute_invalidBookListFilteredList_throwsCommandException() {
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+
+        ReturnCommand returnCommand = new ReturnCommand(INDEX_FIRST_PERSON, new Book(BOOK_STUB));
+
         assertCommandFailure(returnCommand, model, Messages.MESSAGE_EMPTY_BOOKLIST_FIELD);
+    }
+
+    @Test
+    public void execute_invalidBookFilteredList_throwsCommandException() {
+        ReturnCommand returnCommand = new ReturnCommand(INDEX_SECOND_PERSON, new Book("Unknown Book"));
+
+        assertCommandFailure(returnCommand, model, Messages.MESSAGE_BOOK_DOES_NOT_EXIST);
     }
 
     @Test

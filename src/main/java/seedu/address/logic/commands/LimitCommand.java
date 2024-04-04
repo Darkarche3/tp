@@ -17,8 +17,13 @@ public class LimitCommand extends Command {
             + "Example: " + COMMAND_WORD + " -3";
 
     public static final String MESSAGE_LIMIT_THRESHOLD_SUCCESS = "Limit set to: %s";
+    public static final String MESSAGE_HAS_NO_ARGUMENT = "Current limit: %s\n"
+            + "To change the current limit, use parameters with limit.\n"
+            + "Parameters: INTEGER (cannot include spaces or + signs)\n"
+            + "Example: " + COMMAND_WORD + " -3";;
     public static final String MESSAGE_DUPLICATE_LIMIT = "Library already has the same limit set";
     public final Threshold threshold;
+    private boolean hasNoArgument = false;
 
     /**
      * @param threshold Limit for the Merit Score during borrowing.
@@ -29,8 +34,22 @@ public class LimitCommand extends Command {
         this.threshold = threshold;
     }
 
+    /**
+     * @param hasNoArgument Limit for the Merit Score during borrowing.
+     */
+    public LimitCommand(boolean hasNoArgument) {
+        assert(hasNoArgument);
+
+        this.threshold = new Threshold();
+        this.hasNoArgument = hasNoArgument;
+    }
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        if (hasNoArgument) {
+            return new CommandResult(String.format(MESSAGE_HAS_NO_ARGUMENT, model.getThreshold()));
+        }
+
         if (model.hasThreshold(threshold)) {
             throw new CommandException(MESSAGE_DUPLICATE_LIMIT);
         }

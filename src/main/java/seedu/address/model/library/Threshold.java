@@ -23,10 +23,13 @@ public class Threshold {
         this.threshold = -3;
     }
 
+    public int getThreshold() {
+        return this.threshold;
+    }
+
     public boolean isLessThanOrEqualTo(MeritScore meritScore) {
         return threshold <= meritScore.getMeritScoreInt();
     }
-
     @Override
     public boolean equals(Object other) {
         if (other == this) {

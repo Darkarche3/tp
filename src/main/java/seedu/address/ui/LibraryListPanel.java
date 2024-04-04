@@ -1,7 +1,9 @@
 package seedu.address.ui;
 
+import java.util.Comparator;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
@@ -25,6 +27,8 @@ public class LibraryListPanel extends UiPart<Region> {
      */
     public LibraryListPanel(ObservableList<Book> libraryList) {
         super(FXML);
+        ObservableList<Book> sortedLibraryList = FXCollections.observableArrayList(libraryList);
+        sortedLibraryList.sort(Comparator.comparing(Book::toString));
         libraryListView.setItems(libraryList);
         libraryListView.setCellFactory(listView -> new LibraryListViewCell());
     }
@@ -41,7 +45,7 @@ public class LibraryListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(new LibraryCard(book).getRoot());
+                setGraphic(new LibraryCard(book, getIndex() + 1).getRoot());
             }
         }
     }

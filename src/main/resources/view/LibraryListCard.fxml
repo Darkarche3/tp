@@ -27,7 +27,7 @@
                 </Label>
             </HBox>
             <FlowPane fx:id="tags" />
-            <Label fx:id="bookName" styleClass="cell_big_label" text="\$book" />
+            <Label fx:id="bookName" styleClass="cell_big_label" text="\$book" wrapText="True"/>
         </VBox>
     </GridPane>
 </HBox>
