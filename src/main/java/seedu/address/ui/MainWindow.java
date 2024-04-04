@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -53,6 +54,12 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane statusbarPlaceholder;
 
+    @FXML
+    private Label userList;
+
+    @FXML
+    private Label library;
+
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
      */
@@ -69,6 +76,13 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
+
+        userList.setText("Contact List");
+
+        library.setText("Library");
+
+        userList.setStyle(" -fx-text-fill: greenyellow;");
+        library.setStyle(" -fx-text-fill: greenyellow;");
     }
 
     public Stage getPrimaryStage() {
