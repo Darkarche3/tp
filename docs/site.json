@@ -1,8 +1,8 @@
 {
   "baseUrl": "",
   "titlePrefix": "MyBookshelf",
-  "titleSuffix": "AddressBook Level-3",
-  "faviconPath": "images/SeEduLogo.png",
+  "titleSuffix": "Library Management application",
+  "faviconPath": "images/mybookshelflogo.png",
   "style": {
     "codeTheme": "light"
   },

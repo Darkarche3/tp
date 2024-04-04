@@ -33,7 +33,7 @@ public class ReturnCommandTest {
 
     @Test
     public void execute_returnUnfilteredList_success() {
-        Person initialPerson = new PersonBuilder(JACKER).withBook(BOOK_STUB).withMeritScore(0).build();
+        Person initialPerson = new PersonBuilder(JACKER).withBooks(BOOK_STUB).withMeritScore(0).build();
         Book bookObjectStub = new Book(BOOK_STUB);
 
         ReturnCommand returnCommand = new ReturnCommand(INDEX_JACKER, bookObjectStub);

@@ -120,10 +120,8 @@ public class PersonBuilder {
     /**
      * Sets the {@code BookList} of the {@code Person} that we are building.
      */
-    public PersonBuilder withBook(String bookTitle) {
-        ArrayList<Book> temp = new ArrayList<>(bookList);
-        temp.add(new Book(bookTitle));
-        this.bookList = temp;
+    public PersonBuilder withBooks(String ... books) {
+        this.bookList = SampleDataUtil.getBookList(books);
         return this;
     }
 

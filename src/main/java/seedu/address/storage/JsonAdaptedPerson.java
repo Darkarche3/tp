@@ -42,7 +42,7 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("meritScore") String meritScore,
-            @JsonProperty("bookList") ArrayList<JsonAdaptedBook> bookList,
+            @JsonProperty("bookList") List<JsonAdaptedBook> bookList,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;

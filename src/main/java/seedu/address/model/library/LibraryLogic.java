@@ -88,8 +88,12 @@ public class LibraryLogic {
 
     private void createFileIfNotExists() {
         File file = new File(this.filePath);
+
         if (!file.exists()) {
             try {
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdir();
+                }
                 file.createNewFile();
                 logger.info("File " + filePath + " not found. Creating a new data file at " + filePath);
             } catch (IOException e) {

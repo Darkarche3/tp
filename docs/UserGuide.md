@@ -157,7 +157,8 @@ Format: `borrow INDEX b/BOOKTITLE`
 
 Examples:
 * `borrow 2 b/I Love CS2103T CS2101` will record user index 2, borrows a book called "I Love CS2103T CS2101".
-* `borrow 4 b/The Hero with a Thousand Faces` will record user index 4, borrows a book called "The Hero with a Thousand Face".
+* `borrow 1 b/The Hero with a Thousand Faces` will record user index 1, borrows a book called "The Hero with a Thousand Face".
+![result for 'borrow 1 b/The Hero with a Thousand Faces'](images/BorrowBookUserguide.png)
 
 ### Return a book from a user : `return`
 
@@ -171,8 +172,8 @@ Format: `return INDEX b/BOOKTITLE`
 
 Examples:
 * `return 2 b/I Love CS2103T CS2101` returns a book of title "I Love CS2103T CS2101" from the user at index 2.
-* `return 4 b/The Hero with a Thousand Faces` returns a book of title "The Hero with a Thousand Face" from the user at index 4.<br>
-![result for 'return 4 b/The Hero with a Thousand Faces'](images/ReturnBookUserguide.png)
+* `return 1 b/The Hero with a Thousand Faces` returns a book of title "The Hero with a Thousand Face" from the user at index 1.<br>
+![result for 'return 1 b/The Hero with a Thousand Faces'](images/ReturnBookUserguide.png)
 
 ### Donate a book from a user : `donate`
 
@@ -198,7 +199,8 @@ Format: `addbook b/BOOKTITLE`
 
 Examples:
 * `addbook b/I Love CS2103T CS2101` will record library manager, adds a book called "I Love CS2103T CS2101".
-* `delbook b/The Hero with a Thousand Faces` will record library manager, adds a book called "The Hero with a Thousand Face".
+* `addbook b/The Hero with a Thousand Faces` will record library manager, adds a book called "The Hero with a Thousand Face".
+![result for 'addbook b/The Hero with a Thousand Faces'](images/AddBookUserguide.png)
 
 ### Delete a book from Library : `delbook`
 
@@ -211,6 +213,7 @@ Format: `delbook b/BOOKTITLE`
 Examples:
 * `delbook b/I Love CS2103T CS2101` will record library manager, deletes a book called "I Love CS2103T CS2101".
 * `delbook b/The Hero with a Thousand Faces` will record library manager, deletes a book called "The Hero with a Thousand Face".
+![result for 'delbook b/The Hero with a Thousand Faces'](images/DeleteBookUserguide.png)
 
 ### Setting/Viewing the limit for the library
 
