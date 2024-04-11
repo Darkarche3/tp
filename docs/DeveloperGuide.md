@@ -4,7 +4,7 @@
   pageNav: 3
 ---
 
-# AB-3 Developer Guide
+# MyBookshelf Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -335,6 +335,33 @@ _{more aspects and alternatives to be added}_
 
 _{Explain here how the data archiving feature will be implemented}_
 
+--------------------------------------------------------------------------------------------------------------------
+
+## **Future Enhancements**
+
+1. More specific constraints for the `EMAIL` parameter.
+   * Add checks for top-level domain (.com, .net, .co etc) into regular expression
+1. Handling of extreme values to be added.
+   * Add checks for `INDEX` and `THRESHOLD` to be parsed within the boundaries of Java's Integer.MIN_VALUE and Integer.MAX_VALUE.
+   * Add a limit on the String length for `NAME`, `PHONE-NUMBER`, `EMAIL`, `ADDRESS`, `TAG`, `KEYWORD`, `BOOKTITLE` to a reasonable length.
+1. Improve clarity of command results.
+   * Reduce information related to Person displayed when command successfully executes to reduce bloat. Can be done by:
+     * Editing toString() to display less information.
+     * Reformatting toString() to include new lines for easier readability.
+     * Format specific fields to be displayed into the command result.
+   * Change message when `clear` command is executed to use the words "Contact list" instead of "Address book" for clarity.
+   * Improve error message when `INDEX` entered by user is greater than the length of the contact list to be clearer (e.g. Index is larger than the number of people in the list).
+   * Improve the usage message for commands that changes like `borrow`, `return`, `edit`.
+     * Change the phrasing of "Edits the book list" to be clearer (E.g. "Remove book from library user's book list" in `return` command).
+     * Remove the phrase "in the last person listing" as it is confusing.
+1. Change the definition of a duplicate Person.
+   * Currently only checks if the `NAME` field are exactly the same.
+   * Can be changed to check if `PHONE` or `EMAIL` are exactly the same as they are unique identifiers and not `NAME`.
+   * Allows for `NAME` to be case-insensitive (John Doe and john doe are the same person).
+   * Allows for Borrowers with the same name to exist (John Doe with phone number 123 is different from John Doe with phone number 911).
+   * Can throw warnings if `NAME` differs by only by whitespaces (John Doe and John   Doe are similar and could be duplicates).
+1. Add labels under each Borrower in the Contact list panel in the UI
+   * Label each field to allow for easier readability, especially between email and address (e.g. e: example@email.com, a: Kent Ridge View).
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -387,7 +414,43 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `MyBookshelf` and the **Actor** is the `Community Library Manager`, unless specified otherwise)
+(For all use cases below, the **System** is the `MyBookshelf` and the **Actor** is the `Community Library Manager (CLM)`, unless specified otherwise)
+
+#### Use case: UC1 - Add borrower
+
+#### MSS:
+
+1.  Borrower provides the following details:
+    * Name
+    * Phone number
+    * Email
+    * Address
+    * Optionally, additional tags
+2. CLM enters the provided information.
+3. MyBookshelf adds the borrower to the User List.
+4. MyBookshelf notifies CLM that the borrower has been successfully added.
+
+***Use case ends***
+
+#### Extensions:
+
+* 2a. MyBookshelf detects an error in the entered information.
+
+    * 2a1. MyBookshelf requests for the valid information.
+
+    * 2a2. CLM requests information from borrower.
+
+    * 2a3. CLM enters new information.
+    
+    Steps 2a1-2a3 are repeated until the information entered are valid.
+
+    ***Use case resumes from step 3.***
+
+* *a . At any time, CLM chooses to cancel the addition of borrower.<br>
+
+  * *a1. CLM clears the command line using the backspace key.<br>
+  
+  ***Use case ends.***
 
 **Use case: Borrower borrows a book from the library**
 
