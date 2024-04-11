@@ -160,7 +160,13 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Merit Score feature
 
-_**[Merit implementation to be added here, mention cannot change directly in app]**_
+We have added an attribute `Merit Score` to `Person` Class. The reason behind this is to have a measurement of a user's credibility, so that the library will not run out of books due to excessive borrow. <br> 
+<br>
+Every user will have a default merit score of 0 upon adding to the Contact List. Donating and returning books will increase the user's merit score by 1, while borrowing books will decrease user's merit score by 1. <br>
+<br>
+Before borrowing, **MyBookshelf** will check if the user has sufficient merit score. Successful borrow only happens when user's merit score exceeds the limit threshold. <br>
+<br>
+PS: You can set the threshold by using `limit` command. See more below.
 
 ### Library and LibraryLogic feature
 
@@ -171,7 +177,7 @@ _**[Library & LibraryLogic (should be Library Storage) implementation to be adde
 `Model` now contains useful `Library` operations such as:
 * `Threshold` operations
 * `Book` operations on the book list in a library
-* Checks for if Borrowers can borrow books in a library
+* Checks for if users can borrow books in a library
 
 [Link to updated Model UML Class diagram]
 
@@ -179,64 +185,64 @@ _**[Library & LibraryLogic (should be Library Storage) implementation to be adde
 
 This command is facilitated through the use of `Threshold` as an attribute in the `Library` class.
 
-Any Borrower has to have a `MeritScore` greater or equals to the set `Threshold` in order to borrow from the `Library`.
+Any user has to have a `Merit Score` greater or equals to the set `Threshold` in order to borrow from the `Library`.
 
-As `Threshold` is now an attribute of `Library`, the Borrower's ability to borrow now depends on the Library instance and not within the Borrow Command.
+As `Threshold` is now an attribute of `Library`, the user's ability to borrow now depends on the Library instance and not within the Borrow Command.
 
-Limit Command sets the `Threshold` of the `Library`, resulting in all Borrowers being affected by the change at the same time when the Limit Command is called.
+Limit Command sets the `Threshold` of the `Library`, resulting in all users being affected by the change at the same time when the Limit Command is called.
 
 The default value of a `Threshold` is set as `-3`. Any calls to the Limit Command with the same value of the current `Threshold` will result in a duplicate threshold detected message.
 
-`Library` now has a method to check if a Borrower can borrow a book from the library by internally comparing the Borrower's `MeritScore` and the library's `Threshold`. Borrow Command now utilises this function to check if a Borrower is able to Borrow a book from the Library instead of handling the check within the Borrow Command itself.
+`Library` now has a method to check if a user can borrow a book from the library by internally comparing the user's `Merit Score` and the library's `Threshold`. Borrow Command now utilises this function to check if a user is able to Borrow a book from the Library instead of handling the check within the Borrow Command itself.
 
 #### Desired Usage
 
-Librarians can retroactively disallow Borrowers from borrowing books from the Library, with Borrowers having to meet the limit set before being able to borrow again.
+Librarians can retroactively disallow users from borrowing books from the Library, with users having to meet the limit set before being able to borrow again.
 
 1. Library starts in a default state. After some borrowing occurred.
-   * Borrower A has `MeritScore`:0
-   * Borrower B has `MeritScore`: -2
-   * Both Borrower A and Borrower B can borrow books from the library
+   * User A has `Merit Score`:0
+   * User B has `Merit Score`: -2
+   * Both user A and user B can borrow books from the library
 1. Librarian calls `limit 0`
    * `Threshold`: 0
-   * Borrower A has `MeritScore`: 0 (greater than or equal to `Threshold`)
-   * Borrower B has `MeritScore`: -2 (less than `Threshold`)
-   * Borrower A can borrow but Borrower B cannot borrow from the Library
+   * User A has `Merit Score`: 0 (greater than or equal to `Threshold`)
+   * User B has `Merit Score`: -2 (less than `Threshold`)
+   * User A can borrow but user B cannot borrow from the Library
 1. Librarian calls `limit -2`
    * `Threshold`: -2
-   * Borrower A has `MeritScore`: 0 (greater than or equal to `Threshold`)
-   * Borrower B has `MeritScore`: -2 (greater than or equal to `Threshold`)
-   * Both Borrower A and Borrower B can borrow books from the library
-1. Borrower B borrows a book
+   * User A has `Merit Score`: 0 (greater than or equal to `Threshold`)
+   * User B has `Merit Score`: -2 (greater than or equal to `Threshold`)
+   * Both user A and user B can borrow books from the library
+1. User B borrows a book
    * `Threshold`: -2
-   * Borrower A has `MeritScore`: 0 (greater than or equal to `Threshold`)
-   * Borrower B has `MeritScore`: -3 (greater than or equal to `Threshold`)
-   * Borrower A can borrow but Borrower B cannot borrow from the Library
+   * User A has `Merit Score`: 0 (greater than or equal to `Threshold`)
+   * User B has `Merit Score`: -3 (greater than or equal to `Threshold`)
+   * User A can borrow but user B cannot borrow from the Library
 1. Librarian calls `limit 1`
    * `Threshold`: 1
-   * Borrower A has `MeritScore`: 0 (less than `Threshold`)
-   * Borrower B has `MeritScore`: -3 (less than `Threshold`)
-   * Both Borrower A and Borrower B cannot borrow books from the library
-1. Borrower A returns a book and Borrower B donates a book each
+   * User A has `Merit Score`: 0 (less than `Threshold`)
+   * User B has `Merit Score`: -3 (less than `Threshold`)
+   * Both user A and user B cannot borrow books from the library
+1. User A returns a book and user B donates a book each
    * `Threshold`: 1
-   * Borrower A has `MeritScore`: 1 (greater than or equal to `Threshold`)
-   * Borrower B has `MeritScore`: -2 (less than `Threshold`)
-   * Both Borrower A and Borrower B can donate and return to the library
-   * Borrower A can borrow but Borrower B still cannot borrow from the Library
+   * User A has `Merit Score`: 1 (greater than or equal to `Threshold`)
+   * User B has `Merit Score`: -2 (less than `Threshold`)
+   * Both user A and user B can donate and return to the library
+   * User A can borrow but user B still cannot borrow from the Library
 
 #### Alternative Implementation
 
-It is also plausible for `Threshold` to be implemented as an attribute within each Borrower.
+It is also plausible for `Threshold` to be implemented as an attribute within each user.
 
-This would also change the implementation for the Limit Command to now individually set limits to each specified Borrower.
+This would also change the implementation for the `limit` Command to now individually set limits to each specified user.
 
-This would give the Librarian greater flexibility to vary each of the Borrower's individual ability to borrow.
+This would give the librarian greater flexibility to vary each of the user's individual ability to borrow books.
 
-This implementation was decided against as setting a standardised limit would give an easier time for Librarians to manage all Borrowers at the same time, and not having to individually manage each Borrower's `Threshold`
+This implementation was decided against as setting a standardised limit would give an easier time for librarians to manage all users at the same time, and not having to individually manage each user's `Threshold`
 
-Individual Borrower's ability to borrow can also be increased and decreased indirectly by changing the Borrower's merit score. **[LINK TO SECTION ON CHANGING MERIT SCORE]**
+Individual user's ability to borrow can also be increased and decreased indirectly by changing the user's merit score. **[LINK TO SECTION ON CHANGING MERIT SCORE]**
 
-Note: the Borrower's Merit score cannot be decreased without altering the Borrower's book list. **[LINK TO SECTION ON DECREASING MERIT SCORE]**
+Note: the user's Merit Score cannot be decreased without altering the user's borrowing book list. **[LINK TO SECTION ON DECREASING MERIT SCORE]**
 
 ### \[Proposed\] Undo/redo feature
 
@@ -349,8 +355,8 @@ _{Explain here how the data archiving feature will be implemented}_
      * Editing toString() to display less information.
      * Reformatting toString() to include new lines for easier readability.
      * Format specific fields to be displayed into the command result.
-   * Change message when `clear` command is executed to use the words "Contact list" instead of "Address book" for clarity.
-   * Improve error message when `INDEX` entered by user is greater than the length of the contact list to be clearer (e.g. Index is larger than the number of people in the list).
+   * Change message when `clear` command is executed to use the words "Contact List" instead of "Address book" for clarity.
+   * Improve error message when `INDEX` entered by user is greater than the length of the Contact List to be clearer (e.g. Index is larger than the number of people in the list).
    * Improve the usage message for commands that changes like `borrow`, `return`, `edit`.
      * Change the phrasing of "Edits the book list" to be clearer (E.g. "Remove book from library user's book list" in `return` command).
      * Remove the phrase "in the last person listing" as it is confusing.
@@ -358,9 +364,9 @@ _{Explain here how the data archiving feature will be implemented}_
    * Currently only checks if the `NAME` field are exactly the same.
    * Can be changed to check if `PHONE` or `EMAIL` are exactly the same as they are unique identifiers and not `NAME`.
    * Allows for `NAME` to be case-insensitive (John Doe and john doe are the same person).
-   * Allows for Borrowers with the same name to exist (John Doe with phone number 123 is different from John Doe with phone number 911).
+   * Allows for users with the same name to exist (John Doe with phone number 123 is different from John Doe with phone number 911).
    * Can throw warnings if `NAME` differs by only by whitespaces (John Doe and John   Doe are similar and could be duplicates).
-1. Add labels under each Borrower in the Contact list panel in the UI
+1. Add labels under each user in the Contact List panel in the UI
    * Label each field to allow for easier readability, especially between email and address (e.g. e: example@email.com, a: Kent Ridge View).
 
 --------------------------------------------------------------------------------------------------------------------
@@ -386,49 +392,49 @@ _{Explain here how the data archiving feature will be implemented}_
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
-* needs to keep track of which borrower borrowed which book
-* needs to keep track of which borrower returned which book
+* needs to keep track of which user borrowed which book
+* needs to keep track of which user returned which book
 
-**Value proposition**: manage borrowers and keeps track of borrowing and returning of books faster than a typical mouse/GUI driven app
+**Value proposition**: manage users and keeps track of borrowing and returning of books faster than a typical mouse/GUI driven app
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                                               | So that I can…​                                                                  |
-|----------|--------------------------------------------|------------------------------------------------------------|----------------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions                                     | refer to instructions when I forget how to use the App                           |
-| `* * *`  | user                                       | add a new person                                           |                                                                                  |
-| `* * *`  | user                                       | delete a person                                            | remove entries that I no longer need                                             |
-| `* * *`  | user                                       | find a person by name                                      | locate details of persons without having to go through the entire list           |
-| `*`      | user with many persons in the address book | sort persons by name                                       | locate a person easily                                                           |
-| `* * *`  | librarian                                  | record the phone number of the borrower                    | send SMS reminders to notify them that someone else is looking for the book      |
-| `* * *`  | librarian                                  | record the email address of the borrower                   | send an email reminders to notify them that someone else is looking for the book |
-| `* * *`  | librarian                                  | record the postal address of the borrower                  | send a warning letter when breaching community guidelines                        |
-| `* * *`  | librarian                                  | record the book title of all books in the library          | keep track of the books available in the library at the moment                   |
-| `* * *`  | librarian                                  | record the book title the borrower has borrowed            | keep track of which books the borrower has borrowed                              |
-| `* *`    | librarian                                  | be able to decide the threshold merit score for a borrower | choose when to not allow borrowers to borrow from the library                    |
+| Priority | As a …​                                       | I want to …​                                                | So that I can…​                                                                  |
+|----------|-----------------------------------------------|-------------------------------------------------------------|----------------------------------------------------------------------------------|
+| `* * *`  | new librarian                                 | see usage instructions                                      | refer to instructions when I forget how to use the App                           |
+| `* * *`  | librarian                                     | add a new library user                                      | record a new user's information                                                  |
+| `* * *`  | librarian                                     | delete a library user                                       | remove entries that I no longer need                                             |
+| `* * *`  | librarian                                     | find a library user by name                                 | locate details of persons without having to go through the entire list           |
+| `*`      | librarian with many users in the Contact List | sort library user by name                                   | locate a person easily                                                           |
+| `* * *`  | librarian                                     | record the phone number of the library user                 | send SMS reminders to notify them that someone else is looking for the book      |
+| `* * *`  | librarian                                     | record the email address of the library user                | send an email reminders to notify them that someone else is looking for the book |
+| `* * *`  | librarian                                     | record the postal address of the library user               | send a warning letter when breaching community guidelines                        |
+| `* * *`  | librarian                                     | record the book title of all books in the library           | keep track of the books available in the library at the moment                   |
+| `* * *`  | librarian                                     | record the book title the library user has borrowed         | keep track of the books the borrower has borrowed                                |
+| `* *`    | librarian                                     | be able to decide the threshold merit score for the library | decide the limit of books to borrow to the users                                 |
 
-*{More to be added}*
+*{More to be added}* 
 
 ### Use cases
 
 (For all use cases below, the **System** is the `MyBookshelf` and the **Actor** is the `Community Library Manager (CLM)`, unless specified otherwise)
 
-#### Use case: UC1 - Add borrower
+#### Use case: UC1 - Add user to Contact List
 
 #### MSS:
 
-1.  Borrower provides the following details:
+1.  User provides the following details:
     * Name
     * Phone number
     * Email
     * Address
     * Optionally, additional tags
 2. CLM enters the provided information.
-3. MyBookshelf adds the borrower to the User List.
-4. MyBookshelf notifies CLM that the borrower has been successfully added.
+3. MyBookshelf adds the user to the Contact List.
+4. MyBookshelf notifies CLM that the user has been successfully added.
 
 ***Use case ends***
 
@@ -438,7 +444,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     * 2a1. MyBookshelf requests for the valid information.
 
-    * 2a2. CLM requests information from borrower.
+    * 2a2. CLM requests information from user.
 
     * 2a3. CLM enters new information.
     
@@ -446,7 +452,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     ***Use case resumes from step 3.***
 
-* *a . At any time, CLM chooses to cancel the addition of borrower.<br>
+* *a . At any time, CLM chooses to cancel the addition of user.<br>
 
   * *a1. CLM clears the command line using the backspace key.<br>
   
@@ -520,14 +526,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS.
 * **Librarian**: Community Library Manager, who is also the main target user of MyBookshelf.
-* **User**: People who uses the community library, including people who donate books to library and people who borrow books from the library.
+* **User**: People who uses the community library, including people who donate books to library and people who borrow books from the library. Users are also referred as **Borrower** when they are borrowing / had borrowed books from the library.
 * **Personal Information**: Personal Information of a user, e.g. name, phone number, email, address and tags, but not borrowed books and merit score.
 * **Book**: A Book Class containing details relating to book.
 * **Borrow**: An action where a user borrows a book from the library.
 * **Return**: An Action where a user returns the book which they borrowed from the library.
 * **Donate**: An action where a person donates a book to the library.
-* **Merit Score**: A measurement of a person's credibility. Everyone starts from 0, donating increases merit score.
-*  **Available Books**: The books from the library which are available to be lent to users at the moment.
+* **Merit Score**: A measurement of a person's credibility. Everyone starts from 0. Donating and returning books increases merit score, while borrowing books decreases merit score.
+* **Threshold**: A threshold for merit score. A user must higher merit score than threshold in order to borrow books. Threshold can be set to the library by librarian anytime.
+* **Contact List**: The list where it stores all the user's information, including personal information (e.g. name, phone number, etc.) , merit score and books he/she is borrowing. **Contact List** is also referred as **AddressBook** or **User List**. 
+* **Available Books**: The books from the library which are available to be lent to users at the moment. Sometimes, it is also referred as the **Library**.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
