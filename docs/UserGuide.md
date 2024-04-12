@@ -367,7 +367,7 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 3. Will be adding a `clearall` command to clear both library book and library user data.
 
 ### Introducing unique id for books
-1. Will be adding a id parameter for book object to allow each book copy of the same title to be unique.
+1. Will be adding a id parameter for book object to allow each book copy of the same title to be unique. This will prevent wrong copy of book from being deleted.
 
 ### Archiving data files
 _Details coming soon..._
@@ -391,6 +391,7 @@ _Details coming soon..._
 7. The `clear` command only clears the library user data. The usage pertaining to this command will be made clearer with the implementation of future features. Refer to the **Future Features** section above for more information.
 8. UI may not display special characters as intended. 
 9. Some languages may cause the UI to display unexpectedly. For example, Arabic characters will cause the text starts from right to left.
+10. When using multiple b/ prefix for addbook, borrow, delbook, donate, return, only the last b/ prefix will be 
 
 --------------------------------------------------------------------------------------------------------------------
 
