@@ -367,7 +367,7 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 3. Will be adding a `clearall` command to clear both library book and library user data.
 
 ### Introducing unique id for books
-1. Will be adding a id parameter for book object to allow each book copy of the same title to be unique. This will prevent wrong copy of book from being deleted.
+1. Will be adding a id parameter for book object to allow each book copy of the same title to be unique. This will prevent a wrong copy of the book from being deleted.
 
 ### Archiving data files
 _Details coming soon..._
