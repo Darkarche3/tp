@@ -89,6 +89,15 @@ public class AddressBookTest {
         assertEquals(expected, addressBook.toString());
     }
 
+    @Test
+    public void equalsMethod() {
+        // same object -> returns true
+        assertTrue(addressBook.equals(addressBook));
+
+        // other instance -> returns false
+        assertFalse(addressBook.equals("3"));
+    }
+
     /**
      * A stub ReadOnlyAddressBook whose persons list can violate interface constraints.
      */

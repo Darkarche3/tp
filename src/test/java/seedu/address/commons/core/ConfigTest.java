@@ -1,6 +1,7 @@
 package seedu.address.commons.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,6 +22,13 @@ public class ConfigTest {
         Config defaultConfig = new Config();
         assertNotNull(defaultConfig);
         assertTrue(defaultConfig.equals(defaultConfig));
+    }
+
+    @Test
+    public void equals_failure() {
+        Config defaultConfig = new Config();
+        // other instance
+        assertFalse(defaultConfig.equals(3));
     }
 
 

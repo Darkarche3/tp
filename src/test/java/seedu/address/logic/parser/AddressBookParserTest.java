@@ -14,8 +14,11 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.AddBookCommand;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.BorrowCommand;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.DeleteBookCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.DonateCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -23,10 +26,12 @@ import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.LimitCommand;
 import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.RemarkCommand;
+import seedu.address.logic.commands.ReturnCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.book.Book;
+import seedu.address.model.library.Threshold;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
@@ -93,7 +98,6 @@ public class AddressBookParserTest {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
     }
 
-    // todo in later iteration: add donated book to library
     @Test
     public void parseCommand_donate() throws Exception {
         String bookTitle = "Some book";
@@ -104,11 +108,47 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_remark() throws Exception {
-        final Remark remark = new Remark("Some remark.");
-        RemarkCommand command = (RemarkCommand) parser.parseCommand(RemarkCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + remark.value);
-        assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, remark), command);
+    public void parseCommand_borrow() throws Exception {
+        String bookTitle = "Some book";
+        BorrowCommand command = (BorrowCommand) parser.parseCommand(
+                BorrowCommand.COMMAND_WORD + " " + INDEX_KEPLER.getOneBased() + " "
+                        + CliSyntax.PREFIX_BOOKLIST + bookTitle);
+        assertEquals(new BorrowCommand(INDEX_KEPLER, new Book(bookTitle)), command);
+    }
+
+    @Test
+    public void parseCommand_return() throws Exception {
+        String bookTitle = "Some book";
+        ReturnCommand command = (ReturnCommand) parser.parseCommand(
+                ReturnCommand.COMMAND_WORD + " " + INDEX_KEPLER.getOneBased() + " "
+                        + CliSyntax.PREFIX_BOOKLIST + bookTitle);
+        assertEquals(new ReturnCommand(INDEX_KEPLER, new Book(bookTitle)), command);
+    }
+
+    @Test
+    public void parseCommand_limit() throws Exception {
+        int threshold = -10;
+        LimitCommand command = (LimitCommand) parser.parseCommand(
+                        LimitCommand.COMMAND_WORD + " " + threshold);
+        assertEquals(new LimitCommand(new Threshold(threshold)), command);
+    }
+
+    @Test
+    public void parseCommand_addBook() throws Exception {
+        String bookTitle = "Some book";
+        AddBookCommand command = (AddBookCommand) parser.parseCommand(
+                        AddBookCommand.COMMAND_WORD + " "
+                                + CliSyntax.PREFIX_BOOKLIST + bookTitle);
+        assertEquals(new AddBookCommand(new Book(bookTitle)), command);
+    }
+
+    @Test
+    public void parseCommand_deleteBook() throws Exception {
+        String bookTitle = "Some book";
+        DeleteBookCommand command = (DeleteBookCommand) parser.parseCommand(
+                        DeleteBookCommand.COMMAND_WORD + " "
+                                + CliSyntax.PREFIX_BOOKLIST + bookTitle);
+        assertEquals(new DeleteBookCommand(new Book(bookTitle)), command);
     }
 
     @Test

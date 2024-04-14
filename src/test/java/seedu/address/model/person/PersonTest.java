@@ -11,6 +11,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPersons.KEPLER;
 
 import org.junit.jupiter.api.Test;
 
@@ -88,6 +89,15 @@ public class PersonTest {
         // different tags -> returns false
         editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
+    }
+
+    @Test
+    public void getBookListToStringWithIndexMethod() {
+        String newBook = "New Book";
+        Person person = new PersonBuilder(KEPLER).withAnotherBook(newBook).build();
+        String expected = "1. " + "How To Become a Better Reader?\n";
+        expected += "2. " + newBook;
+        assertEquals(expected, person.getBookListToStringWithIndex());
     }
 
     @Test

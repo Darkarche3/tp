@@ -169,6 +169,15 @@ public class UniquePersonListTest {
     }
 
     @Test
+    public void equalsMethod() {
+        // same object -> returns true
+        assertTrue(uniquePersonList.equals(uniquePersonList));
+
+        // other instance -> returns false
+        assertFalse(uniquePersonList.equals("3"));
+    }
+
+    @Test
     public void toStringMethod() {
         assertEquals(uniquePersonList.asUnmodifiableObservableList().toString(), uniquePersonList.toString());
     }

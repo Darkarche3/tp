@@ -68,7 +68,7 @@ public class LibraryStorage {
      * @param bookTitle the book title of a book
      * @return true if the book title is valid, false otherwise
      */
-    private static boolean isValidBook(String bookTitle) {
+    public static boolean isValidBook(String bookTitle) {
         if (bookTitle == null || bookTitle.trim().isEmpty()) {
             return false;
         }

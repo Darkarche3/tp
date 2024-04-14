@@ -12,7 +12,7 @@ The user interacts with it using a CLI, and it has a GUI created with JavaFX. It
 Given below are my contributions to the project.
 
 * **Donate**: Done
-    * What it does: 
+    * What it does:
       * Adds the donated book to the library by its title.
       * Increases one's merit score upon donating a book.
     * Justification: Encourages community participation and enriches the library's collection.

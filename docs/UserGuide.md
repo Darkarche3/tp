@@ -494,7 +494,7 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 1. We allow entries with the same email and phone number into the contact list as there may be cases where two users share the same contact details. An example would be when a child does not own a mobile phone nor has an email and has to share with his/her parent.
 1. Commands that modifies book lists will reference the book using their respective book titles instead of their indexes. This is because the `findbook` command has not been implemented yet and would make indexing specific books in a large book list unfeasible.
 1. We allow `delete` to remove the library user's book list. This allows for more flexibility in managing the library. If books are returned, the library manager can use the `return` command to account for the books before deleting the person.
-1. Do not use words that start with b/, a/ as part of booktitles and addressess respectively. Tip: If you have a word starting with b/ or a/, you can type a filler character before. 
+1. Do not use words that start with b/, a/ as part of booktitles and addressess respectively. Tip: If you have a word starting with b/ or a/, you can type a filler character before.
    E.g. addbook b/Book with .b/ in the title.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -534,7 +534,7 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 5. Duplicated library users can be added with the same name but different capitalisation, due to our definition of duplicated people. Will be fixed in the future. Refer to the Developer Guide for more information.
 6. All parameters except `INDEX` and `THRESHOLD` do not have a limit to the number of characters. Refer to the Developer Guide for more information.
 7. The `clear` command only clears the library user data. The usage pertaining to this command will be made clearer with the implementation of future features. Refer to the **Future Features** section above for more information.
-8. UI may not display special characters as intended. 
+8. UI may not display special characters as intended.
 9. Some languages may cause the UI to display unexpectedly. For example, Arabic characters will cause the text starts from right to left.
 
 --------------------------------------------------------------------------------------------------------------------

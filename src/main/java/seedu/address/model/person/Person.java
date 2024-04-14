@@ -133,18 +133,6 @@ public class Person {
         return new ArrayList<>(Collections.unmodifiableList(mutableCopy));
     }
 
-    public String getBookListToString() {
-        this.bookList.sort(Comparator.comparing(book -> book.bookTitle));
-        String result = "";
-        for (int i = 0; i < bookList.size(); i++) {
-            result += this.bookList.get(i).bookTitle.toString();
-            if (i != bookList.size() - 1) {
-                result += "\n";
-            }
-        }
-        return result;
-    }
-
     public String getBookListToStringWithIndex() {
         this.bookList.sort(Comparator.comparing(book -> book.bookTitle));
         String result = "";

@@ -125,6 +125,14 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Adds the {@code book} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withAnotherBook(String book) {
+        this.bookList.add(new Book(book));
+        return this;
+    }
+
     public Person build() {
         return new Person(name, phone, email, address, meritScore, bookList, tags);
     }

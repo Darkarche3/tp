@@ -27,6 +27,11 @@ public class LibraryStorageTest {
     }
 
     @Test
+    public void isValidBook() {
+        assertEquals(LibraryStorage.isValidBook(""), false);
+    }
+
+    @Test
     void loadLibraryFromFile_booksInOrderValidFile_success() throws IOException, DataLoadingException {
         // Prepare a test file with valid data
         PrintWriter writer = new PrintWriter(new FileWriter("test_library.txt"));

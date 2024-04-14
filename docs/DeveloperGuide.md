@@ -14,6 +14,8 @@
 ## **Acknowledgements**
 
 _{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+1. This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
+1. Library storage was based on JinHan's IP (https://github.com/jinhanfromNUS/ip/).
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -89,6 +91,10 @@ The `UI` component,
 Here's a (partial) class diagram of the `Logic` component:
 
 <puml src="diagrams/LogicClassDiagram.puml" width="550"/>
+
+Here's the partial class diagram showing the interaction between the abstract Command class and the various command classes.
+
+<puml src="diagrams/CommandClassDiagram.puml" width="550" />
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
@@ -196,7 +202,7 @@ These changes aim to regulate borrowing behavior, preventing excessive borrowing
 * It handles loading threshold and book data from a file into an ObservableList<Book> and Threshold object respectively.
 * It also saves threshold and book data from an ReadOnlyLibrary object (which is implemented by the Library class) to a file.
 
-These two classes work together to provide functionality for managing a library's collection of books, with `Library` handling operations directly related to book management and `LibraryStorage` handling file I/O operations. 
+These two classes work together to provide functionality for managing a library's collection of books, with `Library` handling operations directly related to book management and `LibraryStorage` handling file I/O operations.
 
 This separation of concerns helps in keeping the code modular and maintainable.
 
@@ -440,7 +446,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | library manager                                     | record the book title the library user has borrowed         | keep track of the books the borrower has borrowed                                |
 | `* *`    | library manager                                     | be able to decide the threshold merit score for the library | decide the limit of books to borrow to the users                                 |
 
-*{More to be added}* 
+*{More to be added}*
 
 ### Use cases
 
@@ -839,18 +845,41 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+   1. Download `mybookshelf.jar` and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file <br>
+      Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 1. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
+   1. Re-launch the app by double-clicking the jar file or running `java -jar mybookshelf.jar`.<br>
+      Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+1. Exiting the app using `exit` command
+
+   1. Type `exit` to the command box.<br>
+   <br>
+   Expected: The app window closes.
+
+1. Exiting the app by clicking the close button
+
+   1. Navigate to the top right corner of MyBookshelf.
+   
+   1. Click the close button.<br>
+   <br>
+   Expected: The app window closes.
+   
+1. Exiting the app by clicking the `Exit` button in `File` tab
+
+   1. Navigate to the top left corner of MyBookshelf.
+   
+   1. Click the `File` tab.
+   
+   1. Click the `Exit` button.<br>
+   <br>
+   Expected: The app window closes.
 
 ### Deleting a person
 
@@ -867,12 +896,140 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+### Add a book into the library book list
+
+1. Add a book into the library book list.
+
+   1. Prerequisite: `BOOKTITLE` must not contain 'b/' with leading white spaces (e.g. Please b/ careful).
+   
+   1. Test case: `addbook b/Percy Jackson`<br>
+      Expected: Book 'Percy Jackson' is successfully added to the library book list.
+   
+   1. Test case: `addbook b/`<br>
+      Expected: No book is added to the library book list as `BOOKTITLE` cannot be empty. Error details shown in the status message. Status bar remains the same.
+
+### Delete a book from the library book list
+
+1. Delete a book from the library book list
+
+   1. Prerequisite: `BOOKTITLE` must match one of the books' `BOOKTITLE` in the library book list.
+   
+   1. Prerequisite: `BOOKTITLE` must not contain 'b/' with leading white spaces (e.g. Please b/ careful).
+   
+   1. Test case: `delbook b/Percy Jackson`<br>
+      Expected: Book 'Percy Jackson' has been successfully removed from the library book list.
+   
+   1. Test case: `delbook b/`<br>
+      Expected: No book is removed from the library book list as `BOOKTITLE` cannot be empty. Error details shown in the status message. Status bar remains the same.
+
+### Check the current threshold of the library
+
+   1. Check the current threshold of the library.
+
+      1. Prerequisite: The library has a valid `THRESHOLD`.
+
+      1. Test case: `limit`<br>
+      
+      Expected: The result box shows the current `THRESHOLD` of the library.
+
+### Set a new threshold to the library
+
+   1. Set a new threshold to the library
+
+      1. Prerequisite: The library has a valid `THRESHOLD`.
+
+      1. Prerequisite: The new `THRESHOLD` is an integer between `-2147483648` and `2147483647`.
+
+      1. Test case: `limit 0`<br>
+         Expected: Provided the new `THRESHOLD` is different from the old `THRESHOLD`.
+
+      1. Test case: `limit -3` (Provided the original `THRESHOLD` is identical with the `THRESHOLD` we want to change)<br>
+         Expected: `THRESHOLD` remains the same.
+
+### Donate a book
+
+1. Donate a book which is available in the Library list.
+  1. Prerequisite: `BOOKTITLE` must not contain 'b/' with leading white spaces (e.g. Please b/ careful).
+
+  1. Test case: `donate 1 b/Percy Jackson`<br>
+     Expected: The book 'Percy Jackson' is added to the libary booklist.
+  
+  1. Test case: `donate 1 b/`<br>
+     Expected: No book is added to the libary book list as `BOOKLIST` cannot be empty. Error details shown in the status message. Status bar remains the same.
+  
+  1. Other incorrect donate commands to try: `donate`, `donate 1`, `...` (where x is larger than the list size)<br>
+     Expected: No book is donated. Error details shown in the status message. Status bar remains the same.
+
+### Borrow a book
+
+1. Borrowing a book which is available in the Library list.
+  1. Prerequisite: `BOOKTITLE` must match one of the books' `BOOKTITLE` in the library book list.
+
+  1. Prerequisite: `BOOKTITLE` must not contain "b/" with leading white spaces (e.g. Please b/ careful).
+
+  1. Test case: `borrow 1 b/Percy Jackson`<br>
+     Expected: The book 'Percy Jackson' is removed from the libary booklist. The user's booklist will display the title 'Percy Jackson' to show user has successfully borrowed.
+
+  1. Test case: `borrow 1 b/`<br>
+     Expected: No book is added to the user's book list as `BOOKLIST` cannot be empty. Error details shown in the status message. Status bar remains the same.
+
+  1. Other incorrect borrow commands to try: `borrow`, `borrow 1`, `...` (where x is larger than the list size)<br>
+     Expected: No book is borrowed. Error details shown in the status message. Status bar remains the same.
+
+### Return a book
+
+1. Returning a book which is available in the Library list.
+  1. Prerequisite: Ensure that there exists at least one book in the user's booklist with the book title you wish to return.
+
+  1. Prerequisite: `BOOKTITLE` must not contain "b/" with leading white spaces (e.g. Please b/ careful).
+
+  1. Test case: `return 1 b/Percy Jackson`<br>
+     Expected: The book 'Percy Jackson' is removed from the user's booklist. The library booklist will display the title 'Percy Jackson' to show user has successfully returned.
+
+  1. Test case: `return 1 b/`<br>
+     Expected: No book is added to the libary book list as `BOOKLIST` cannot be empty. Error details shown in the status message. Status bar remains the same.
+
+  1. Other incorrect return commands to try: `return`, `return 1`, `...` (where x is larger than the list size)<br>
+     Expected: No book is returned. Error details shown in the status message. Status bar remains the same.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Saving library user's data
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    1. Prerequisites: The data file exists and is located at data/addressbook.json. Data in data file is valid.
 
-1. _{ more test cases …​ }_
+    1. MyBookshelf will automatically save the newest information upon any successful commands.
+
+1. Saving library book list's data
+
+    1. Prerequisites: The data file exists and is located at data/library.txt. Data in data file is valid.
+
+    1. MyBookshelf will automatically save the newest information upon any successful commands.
+
+1. Dealing with missing/corrupted library user's data files
+
+    1. MyBookshelf is unable to find specific file located at data/addressbook.json.
+
+    1. MyBookshelf creates a new empty file located at data/addressbook.json.
+
+    1. MyBookshelf loads the empty addressbook.json file.
+
+1. Dealing with missing library book list's data files
+
+    1. MyBookshelf is unable to find specific file located at data/library.txt.
+
+    1. MyBookshelf creates a new empty file located at data/library.txt.
+
+    1. MyBookshelf will load the empty data/library.txt file.
+
+1. Dealing with corrupted library book list's data files
+
+    1. Prerequisites: The data file exists and is located at data/library.txt.
+
+    1. MyBookshelf loads data from data/library.txt.
+
+    1. MyBookshelf notices an error while reading a specific data in data/library.txt.
+
+    1. MyBookshelf discards the specific data.
+
+    1. MyBookshelf continues to load data from data/library.txt.
