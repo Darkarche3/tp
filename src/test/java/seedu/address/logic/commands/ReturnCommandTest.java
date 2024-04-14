@@ -25,28 +25,33 @@ import seedu.address.model.library.Library;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
+
 public class ReturnCommandTest {
-    private static final String BOOK_STUB = "How To Grow Taller";
+    private static final String BOOK_TITLE_STUB = "Book Stub";
     private static final String EMPTY_BOOK_STUB = "";
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalLibrary());
 
     @Test
     public void execute_returnUnfilteredList_success() {
-        Person initialPerson = new PersonBuilder(JACKER).withBooks(BOOK_STUB).withMeritScore(0).build();
-        Book bookObjectStub = new Book(BOOK_STUB);
+        Book bookObjectStub = new Book(BOOK_TITLE_STUB);
+        // Since we only have withBooks() function, we set before return instead of after return
+        Person modelPerson = model.getFilteredPersonList().get(INDEX_JACKER.getZeroBased());
+        int beforeReturnMeritScore = modelPerson.getMeritScore().getMeritScoreInt() - 1;
+        Person beforeReturnPerson = new PersonBuilder(JACKER).withBooks(BOOK_TITLE_STUB)
+                .withMeritScore(beforeReturnMeritScore).build();
 
         ReturnCommand returnCommand = new ReturnCommand(INDEX_JACKER, bookObjectStub);
 
-        String expectedMessage = String.format(ReturnCommand.MESSAGE_RETURN_BOOK_SUCCESS, bookObjectStub, JACKER);
-
         Model initialModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
                 new Library(model.getLibrary()));
-        initialModel.setPerson(JACKER, initialPerson);
+        initialModel.setPerson(JACKER, beforeReturnPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs(),
                 new Library(model.getLibrary()));
         expectedModel.addBook(bookObjectStub);
+
+        String expectedMessage = String.format(ReturnCommand.MESSAGE_RETURN_BOOK_SUCCESS, bookObjectStub, JACKER);
 
         assertCommandSuccess(returnCommand, initialModel, expectedMessage, expectedModel);
     }
@@ -59,7 +64,7 @@ public class ReturnCommandTest {
         // ensures that outOfBoundIndex is still in bounds of address book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
 
-        ReturnCommand returnCommand = new ReturnCommand(outOfBoundIndex, new Book(BOOK_STUB));
+        ReturnCommand returnCommand = new ReturnCommand(outOfBoundIndex, new Book(BOOK_TITLE_STUB));
 
         assertCommandFailure(returnCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
@@ -77,7 +82,7 @@ public class ReturnCommandTest {
     public void execute_invalidBookListFilteredList_throwsCommandException() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
-        ReturnCommand returnCommand = new ReturnCommand(INDEX_FIRST_PERSON, new Book(BOOK_STUB));
+        ReturnCommand returnCommand = new ReturnCommand(INDEX_FIRST_PERSON, new Book(BOOK_TITLE_STUB));
 
         assertCommandFailure(returnCommand, model, Messages.MESSAGE_EMPTY_BOOKLIST_FIELD);
     }

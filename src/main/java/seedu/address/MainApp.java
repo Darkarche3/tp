@@ -25,12 +25,12 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.book.Book;
 import seedu.address.model.library.Library;
-import seedu.address.model.library.LibraryLogic;
 import seedu.address.model.library.Threshold;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.LibraryStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
@@ -50,7 +50,7 @@ public class MainApp extends Application {
     protected Logic logic;
     protected Storage storage;
     protected Model model;
-    protected LibraryLogic libraryLogic;
+    protected LibraryStorage libraryLogic;
     protected Config config;
 
     @Override
@@ -85,7 +85,7 @@ public class MainApp extends Application {
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
         ReadOnlyLibrary libraryData;
-        libraryLogic = new LibraryLogic();
+        libraryLogic = new LibraryStorage();
         try {
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {

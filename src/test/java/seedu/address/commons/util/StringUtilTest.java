@@ -38,13 +38,46 @@ public class StringUtilTest {
         assertFalse(StringUtil.isNonZeroUnsignedInteger("1 0")); // Spaces in the middle
 
         // EP: number larger than Integer.MAX_VALUE
-        assertFalse(StringUtil.isNonZeroUnsignedInteger(Long.toString(Integer.MAX_VALUE + 1)));
+        assertFalse(StringUtil.isNonZeroUnsignedInteger("2147483648"));
 
         // EP: valid numbers, should return true
         assertTrue(StringUtil.isNonZeroUnsignedInteger("1")); // Boundary value
         assertTrue(StringUtil.isNonZeroUnsignedInteger("10"));
     }
 
+    //---------------- Tests for isNonZeroUnsignedInteger --------------------------------------
+
+    @Test
+    public void isInteger() {
+
+        // EP: empty strings
+        assertFalse(StringUtil.isInteger("")); // Boundary value
+        assertFalse(StringUtil.isInteger("  "));
+
+        // EP: not a number
+        assertFalse(StringUtil.isInteger("a"));
+        assertFalse(StringUtil.isInteger("aaa"));
+
+        // EP: zero as prefix
+        assertTrue(StringUtil.isInteger("01"));
+
+        // EP: plus signed number
+        assertFalse(StringUtil.isInteger("+1"));
+
+        // EP: numbers with white space
+        assertFalse(StringUtil.isInteger(" 10 ")); // Leading/trailing spaces
+        assertFalse(StringUtil.isInteger("1 0")); // Spaces in the middle
+
+        // EP: number larger than Integer.MAX_VALUE
+        assertFalse(StringUtil.isInteger("2147483648"));
+
+        // EP: valid numbers, should return true
+        assertTrue(StringUtil.isInteger("1"));
+        assertTrue(StringUtil.isInteger("0"));
+        assertTrue(StringUtil.isInteger("-1"));
+        assertTrue(StringUtil.isInteger("10"));
+        assertTrue(StringUtil.isInteger("-100"));
+    }
 
     //---------------- Tests for containsWordIgnoreCase --------------------------------------
 

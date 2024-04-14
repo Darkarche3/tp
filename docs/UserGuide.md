@@ -6,9 +6,9 @@
 
 # MyBookshelf User Guide
 
-MyBookshelf is a desktop application for community library managers to better manage user contacts, books, and borrowing activity.
+*MyBookshelf* is a desktop application for community library managers to better manage library user contacts, books, and borrowing activity.
 
-It is optimised for use via a **Command Line Interface (CLI)** while not compromising on the benefits of a **Graphical User Interface (GUI)**. 
+It is optimised for use via a **Command Line Interface (CLI)** while not compromising on the benefits of a **Graphical User Interface (GUI)**.
 
 Tailored for fast typists, MyBookshelf can get your contact and borrowing management tasks done faster than traditional GUI apps.
 
@@ -21,29 +21,24 @@ Tailored for fast typists, MyBookshelf can get your contact and borrowing manage
 
 1. Ensure that you have `Java 11` or above installed in your computer.
 
-1. Download the latest `MyBookshelf.jar` from [here](https://github.com/AY2324S2-CS2103T-F11-2/tp/releases).
 
-1. Paste the file into the folder you want to use as the _home folder_ for the MyBookshelf app.
+2. Download the latest `MyBookshelf.jar` from [here](https://github.com/AY2324S2-CS2103T-F11-2/tp/releases).
 
-1. Open the command terminal, `cd` into the folder you placed the jar file in, and enter the following command `java -jar MyBookshelf.jar` to run the application.<br>
-   
-1. A window similar to the one below should appear in a few seconds. Notice that the app initialises with some sample data.<br>
+
+3. Paste the file into the folder you want to use as the _home folder_ for the *MyBookshelf* app.
+
+
+4. Open the command terminal, `cd` into the folder you placed the jar file in, and enter the following command `java -jar MyBookshelf.jar` to run the application.<br>
+
+
+5. A window similar to the one below should appear in a few seconds. Notice that the app initialises with some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
 
-    * `list` : Lists all users.
+6. Type the command into the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
 
-    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Contact List.
 
-    * `delete 3` : Deletes the 3rd user shown in the Contact List.
-
-    * `clear` : Delete all users from the Contact List.
-
-    * `exit` : Exits the app.
-
-1. Refer to the [Features](#features) below for details of each command.
+7. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -56,19 +51,25 @@ Tailored for fast typists, MyBookshelf can get your contact and borrowing manage
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
+
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend` (i.e. 1 times), `t/friend t/family t/TAGS ...` (i.e. multiple times).
 
+
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
+
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+
 </box>
 
 <box type="info" seamless>
@@ -82,12 +83,12 @@ Tailored for fast typists, MyBookshelf can get your contact and borrowing manage
 
 
 * `PHONE_NUMBER`: The phone number of the library user.
-  * Has a minimum limit of 3 digits.
+  * Requires a minimum of 3 digits.
   * No maximum limit currently set on the phone number.
 
 
 * `EMAIL`: The email address of the library user.
-  * Valid as long as it follows the format of `local-part@domain
+  * Valid as long as it follows the format of `local-part@domain`.
   * `local-part` contains alphanumeric characters and some special characters such as `+`, `_`, `.` and `-`.
   * `local-part` may not start or end with any special characters.
   * `local-part` must be followed with an `@`.
@@ -107,12 +108,10 @@ Tailored for fast typists, MyBookshelf can get your contact and borrowing manage
   * No spaces allowed within a tag (only a single word per tag).
 
 
-* `INDEX`: The number associated with the position of each library user in the Contact List.
-  * Assigned to library users based on the order added into the Contact List.
-[//]: # (todo check should we change the definiton of this index or not)
-[//]: # (  * `INDEX` refers to the number shown in the displayed Contact List.)
-  * Takes in a **positive integer** (e.g. 1, 2, 3, …​) up to the last `INDEX` in the Contact List.
-  * Can only take up to 2147483647. Refer here for more information.
+* `INDEX`: The number associated with the position of each library user in the current displayed Contact List.
+  * Assigned to library users based on the order added into the contact list.
+  * Takes in a **positive integer** (e.g. 1, 2, 3, …​) up to the last `INDEX` in the contact list.
+  * Can only take up to 2147483647.
 
 
 * `KEYWORD`: The part of the word you are searching for.
@@ -126,15 +125,14 @@ Tailored for fast typists, MyBookshelf can get your contact and borrowing manage
 
 * `THRESHOLD`: The merit score limit set for each library user.
   * Takes in integer values.
-  * Can only take in values from -2147483648 to 2147483647. Refer here for more information.
+  * Can only take in values from -2147483648 to 2147483647.
 
-
-<box type="info" seamless>
+</box>
 
 ### **Others:**<br>
 
 * This application is designed for use in **English**. We cannot guarantee the performance when used with other languages.
-* **Duplicated library users** are defined as users with the same name (case-sensitive). We currently do not allow duplicated users to be added.
+* **Duplicated library users** are defined as library users with the same name (case-sensitive).<br> We currently do not allow duplicated library users to be added.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Viewing help : `help`
@@ -146,135 +144,195 @@ Shows a message explaining how to access the help page.
 Format: `help`
 
 
-### Adding a user: `add`
+### Adding a library user: `add`
 
-Adds a user with user's personal information into the Contact List .
+Adds a new library user to the contact list. Fields are populated with the library user's personal information.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 <box type="tip" seamless>
 
-**Tip:** A user can have any number of tags (including 0)
+> **Tip:** A user can have any number of tags (including 0).
+
+</box>
+
+<box type="note" seamless>
+
+> **Note:** User with name identical to another user is deemed as a duplicate (case-sensitive), even when other information is different.
+
 </box>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* `add n/Kokoro Tsurumaki p/980101296 e/kokoro@bandori.com a/311, Hanasakigawa Ave 2, #08-08`
 
-### Listing all users : `list`
 
-Shows a list of all users in the Contact List.
+![result for 'add Kokoro'](images/cmdimages/addKokoro.png)
+![result for 'add Kokoro result'](images/cmdimages/addresultKokoro.png)
+
+### Listing all library users : `list`
+
+Displays a list of all library users in the contact list.
 
 Format: `list`
 
-### Editing a user : `edit`
 
-Edits an existing user's personal information from the Contact List.
+![result for 'list'](images/cmdimages/list.png)
+![result for 'list result'](images/cmdimages/listresult.png)
+
+### Editing a library user : `edit`
+
+Edits an existing library user's personal information from the contact list.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the user at the specified `INDEX`. The index refers to the index number shown in the displayed Contact List.
+* Edits the library user at the specified `INDEX`. This index refers to the index number of the target library user in the contact list.
 * At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the user will be removed i.e adding of tags is not cumulative.
-* You can remove all the user’s tags by typing `t/` without specifying any tags after it.
+* Existing values in the contact list will be updated to the input values.
+* When editing tags, the existing tags of the library user will be removed i.e adding of tags is not cumulative.
+* You can remove all the library user’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-*  `edit 2 n/Betsy Crower e/betsy@example.com t/` Edits the name and email address of the 2nd person to be `Betsy Crower` and `betsy@example.com`, simultaneously clears all existing tags.
+*  `edit 2 n/Mashiro Kurata` edits the name of the 2nd person to be `Mashiro Kurata`.
 
-### Locating users by name: `find`
 
-Finds users whose names contain any of the given keywords.
+    Before edit:
+![result for 'edit before'](images/cmdimages/editbeforeMashiro.png)
+
+
+    Edit:
+![result for 'edit'](images/cmdimages/editMashiro.png)
+![result for 'edit result'](images/cmdimages/editresultMashiro.png)
+
+### Locating library users by name: `find`
+
+Finds library users whose names matches any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
+* The search (`KEYWORD`) is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Users matching at least one keyword will be returned (i.e. `OR` search).
+* All library users matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findJaneTanResult.png)
+* `find kokoro mashiro` returns `Kokoro Tsurumaki`, `Mashiro Kurata`
+  ![result for 'find'](images/cmdimages/find.png)
+  ![result for 'find result'](images/cmdimages/findresult.png)
 
-### Deleting a user : `delete`
+### Deleting a library user : `delete`
 
-Deletes the specified user from the Contact List using index.
+Deletes the specified library user from the contact list through its index.
 
 Format: `delete INDEX`
 
-* Deletes the user at the specified `INDEX`.
-* The index refers to the index number shown in the displayed Contact List.
+* Deletes the library user at the specified `INDEX`.
+* The index refers to the index number associated with the target library user.
+
+<box type="warning" seamless>
+
+> **Warning:** `delete` removes all the target user's data, including their merit score and borrowing book list.
+
+</box>
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd user in the Contact List.
-* `find Betsy` followed by `delete 1` deletes the 1st user in the results of the `find` command.
+* `list` followed by `delete 2` deletes the 2nd user in the contact list.
+* `find kokoro mashiro` followed by `delete 2` deletes the 2nd user in the results of the `find` command.
+
+
+    Before delete:
+![result for 'delete before'](images/cmdimages/deletebefore.png)
+
+
+    Delete:
+![result for 'delete'](images/cmdimages/delete.png)
+![result for 'delete result'](images/cmdimages/deleteresult.png)
 
 ### Add a book to Library : `addbook`
 
-Records the library manager adding a book to the library.
+Adds a book to the library's book list.
 
 Format: `addbook b/BOOKTITLE`
 
-* Library Manager has added book `BOOKTITLE`.
+* Adds a book `BOOKTITLE` to the library and stores it.
 
 Examples:
-* `addbook b/The Hero with a Thousand Faces` will add a book titled "The Hero with a Thousand Faces" into the library.
-  ![result for 'addbook b/The Hero with a Thousand Faces'](images/AddBookUserguide.png)
+* `addbook b/Tales of Kokoro` will add a book titled "Tales of Kokoro" into the library.
+
+
+![result for 'addbook b/Tales of Kokoro'](images/cmdimages/addbookTalesofKokoro.png)
+![result for 'addbook b/Tales of Kokoro'](images/cmdimages/addbookresultTalesofKokoro.png)
 
 ### Delete a book from Library : `delbook`
 
-Records the library manager deleting a book from the library.
+Removes a book from the library's book list.
 
 Format: `delbook b/BOOKTITLE`
 
-* Library Manager has deleted book `BOOKTITLE`.
+* Remove the first book titled `BOOKTITLE` from the library.
+
+<box type="warning" seamless>
+
+> **Warning:** To avoid accidental deletion, `delbook` only removes the first book which matches `BOOKTITLE`, even there are multiple books with identical `BOOKTITLE`.
+
+</box>
 
 Examples:
-* `delbook b/The Hero with a Thousand Faces` will remove a book titled "The Hero with a Thousand Faces" from the library.
-  ![result for 'delbook b/The Hero with a Thousand Faces'](images/DeleteBookUserguide.png)
+* `delbook b/Tales of Kokoro` will remove a book titled "Tales of Kokoro" from the library.
 
-// todo Add note saying that delbook will remove the first book where the name matches (not all the books)
 
-### Borrow a book by a user: `borrow`
+![result for 'delbook b/Tales of Kokoro'](images/cmdimages/delbookTalesofKokoro.png)
+![result for 'delbook b/Tales of Kokoro'](images/cmdimages/delbookresultTalesofKokoro.png)
+### Borrowing a book: `borrow`
 
-Borrow a book from the library by a user.
+Library user borrows a book. A book is removed from the library's book list and added to the library user's book list.
 
 Format: `borrow INDEX b/BOOKTITLE`
 
-* Borrow the book with `BOOKTITLE` to user `INDEX`.
-* The index refers to the index number shown in the displayed Contact List.
+* Library user at position `INDEX` in the contact list borrows a book titled `BOOKTITLE`.
+* This index refers to the index number associated with the target library user in the contact list.
+* Borrowing a book decreases the library user's merit score by 1.
 
 Examples:
-* `borrow 1 b/The Hero with a Thousand Faces` will record user index 1, borrows a book called "The Hero with a Thousand Faces".
-![result for 'borrow 1 b/The Hero with a Thousand Faces'](images/BorrowBookUserguide.png)
+* `borrow 1 b/Tales of Kokoro` will record the user index 1 borrowing a book titled "Tales of Kokoro".
 
-### Return a book from a user : `return`
 
-Returns the specified book borrowed by the specified user.
+![result for 'borrow b/Tales of Kokoro'](images/cmdimages/borrowTalesofKokoro.png)
+
+### Returning a book : `return`
+
+Library user returns a book. A book is removed from the library user's book list and added to the library's book list.
 
 Format: `return INDEX b/BOOKTITLE`
 
-* Return a book `BOOKTITLE` borrowed by user `INDEX`.
-* The index `INDEX` refers to the index number shown in the displayed Contact List.
+* Library user at position `INDEX` in the contact list returns a book titled `BOOKTITLE`.
+* This index refers to the index number associated with the target library user in the contact list.
+* Returning a book increases the library user's merit score by 1.
 
 Examples:
-* `return 1 b/The Hero with a Thousand Faces` returns a book of title "The Hero with a Thousand Faces" from the user at index 1.<br>
-![result for 'return 1 b/The Hero with a Thousand Faces'](images/ReturnBookUserguide.png)
+* `return 1 b/Tales of Kokoro` returns a book titled "Tales of Kokoro" from the user at index 1.<br>
 
-### Donate a book from a user : `donate`
 
-Records a user donating a book to the library.
+![result for 'return b/Tales of Kokoro'](images/cmdimages/returnTalesofKokoro.png)
+
+### Donating a book : `donate`
+
+Library user donates a book. A book is added to the library's book list.
 
 Format: `donate INDEX b/BOOKTITLE`
 
-* A user `INDEX` has donated book `BOOKTITLE`.
-* The index refers to the index number shown in the displayed Contact List.
-* For every book that is successfully donated, user's merit score increases by 1.
+* Library user at position `INDEX` in the contact list donates a book titled `BOOKTITLE`.
+* This index refers to the index number associated with the target library user in the contact list.
+* Donating a book increases the library user's merit score by 1.
+
+> **Note:** This differs from `addbook` as this command also increases the merit score of the associated library user.
 
 Examples:
-* `donate 4 b/The Hero with a Thousand Faces` will record user index 4, donates a book called "The Hero with a Thousand Faces".
+* `donate 1 b/Tales of Kokoro` will record user index 1 donating a book titled "Tales of Kokoro".
+
+
+![result for 'donate b/Tales of Kokoro'](images/cmdimages/donateTalesofKokoro.png)
 
 ### Set the merit score threshold of the library: `limit`
 
@@ -283,20 +341,30 @@ Sets the limit of the library such that only users with a merit score more than 
 Format: `limit [THRESHOLD]`
 
 * Sets the limit of the merit score to the specified `THRESHOLD`.
-* The limit refers to the threshold such that any user with a merit score less the `THRESHOLD` is not allowed to borrow from the library.
-* `THRESHOLD` can be any integer.
+* The limit refers to the threshold such that any library user with a merit score less the `THRESHOLD` is not allowed to borrow from the library.
 * `THRESHOLD` is optional. Typing `limit` without `THRESHOLD` will display the currently set threshold.
 * The default threshold set for libraries is -3.
 
 Examples:
-* `limit` will display the current limit.
-* `limit -4` will set the limit of the library to -4
+* `limit` will display the current merit score limit.
+
+
+![result for 'limit'](images/cmdimages/limitresult.png)
+
+
+* `limit -10` will set the merit score limit of the library to -10.
+
+
+![result for 'limit'](images/cmdimages/limitnumresult.png)
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the Contact List.
+Clears all entries of library users from the contact list.
 
 Format: `clear`
+
+> **Note:** `clear` only supports clearing all users in the contact list. To clear all books in the library, we can use `delbook` command to clear the books one by one.
+
 
 ### Exiting the program : `exit`
 
@@ -314,47 +382,48 @@ Format: `exit`
 
 ### Saving the data
 
-MyBookshelf offers an automated data saving feature, 
-ensuring that any modifications to your library's records are promptly preserved on your hard disk without necessitating manual intervention.
-This functionality simplifies your workflow by automatically saving your progress, enabling seamless continuation from your last session upon reopening the application. 
-<br>
+MyBookshelf offers an automated data saving feature.
+
+This ensures that any modifications to your library's records will be preserved on your hard disk without necessitating manual intervention.
+
+This functionality simplifies your workflow by automatically saving your progress, enabling seamless continuation from your last session upon reopening the application.
+
 MyBookshelf also focuses on data integrity, guaranteeing that only accurate records are maintained within the system.
-Invalid data for available books will be automatically discarded and that particular data will not be saved.
+
+Invalid data for available books will be automatically discarded and will not be saved.
 
 
 ### Editing the data file
 
-MyBookshelf user's data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`.
-MyBookshelf library available books data are saved automatically as a txt file at `[JAR file location]/data/library.txt`.
-Advanced users are welcome to update data directly by editing that data file.
+User data in *MyBookshelf* is saved automatically as a JSON file at `[JAR file location]/data/addressbook.json`.
 
-<box type="warning" seamless>
+Library book data in *MyBookshelf* is saved automatically as a .txt file at `[JAR file location]/data/library.txt`.
 
-**Caution:**
-If your changes to the data file makes its format invalid, MyBookshelf will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Experienced users are welcome to make changes to the data directly by editing these data files.
+
+> **Caution:**
+If your changes to the data file makes its format invalid, MyBookshelf will discard all saved data and start with an empty data file at the next run. <br>
+Hence, it is recommended to have a backup of the file ready before editing it.<br>
 Furthermore, certain edits can cause the MyBookshelf to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
-</box>
+
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Note
 
-1. Every user starts from merit score 0.
-1. Donating increases merit score by 1.
-1. Borrowing is **ONLY** allowed for user with **Merit Score >= Threshold** (Threshold can be set by using `limit` command.
-1. Users can borrow multiple books as long as they have sufficient merit score.
-1. The default threshold is set at -3.
-1. Threshold can be set by librarian multiple times.
-1. `edit` command only supports editing user's personal information (name, phone number, email, address and tags, but not merit score and borrowed books).
-1. `add` command is used to record new user's personal information into the Contact List.
-1. `add` and `edit` command **DOES NOT** support adding/editing merit score or borrowed book.
+1. Every library user starts with a default merit score of 0.
+1. **ONLY** library users with a **Merit Score >= Threshold** are allowed to borrow books.
+1. Library users can borrow multiple books as long as their merit score is above the threshold.
+1. The default threshold is set at -3. Use the `limit` command to set the threshold.
+1. `edit` can only be used to change the library user's personal information. This includes their name, phone number, email address, home address and tags. (Not merit score and borrowing book list).
+1. `add` and `edit` command **DOES NOT** support the direct adding and/or editing of merit score or user's book list.
 1. `add`, `delete`, `edit`, `clear` and `find` commands are for managing users, while `addbook`, `delbook`, `borrow`, `donate` and `return` commands are for managing books.
-1. `borrow` command is cases-sensitive to allow books of similar titles to be differentiated.
-1. `delbook` deletes one book at a time to prevent accidental deletion of all entries with the same book  title.
-1. Email and phone numbers have not been made unique identifiers as there may be case scenarios where two users might share the same email or phone number such as small child and a parent.
-1. Book title is used instead of index as there is no urgent need for current functions like `borrow` or `addbook`. Furthermore, there is a plan to implement a findbook function in the future which will require use of book title. If booktitle is the same, include author name or other distinguishing features in brackets to differentiate book under `donate` and `addbook` commands.
-1. `delete` command will delete users along with any books borrowed. This is to allow for more flexibility. If books are returned, community library manager can use `return` command to include the books back into the list.
-1. There are no constraints for book titles (except empty book title) as book title can be in any form (e.g. Book title with additional whitespaces) and in any languages (e.g. Chinese or Arabic).
+1. The field `BOOKTITLE` is case-sensitive to allow books of similar titles to be differentiated.
+1. While there are no restrictions on `BOOKTITLE` (expect that it cannot be empty), we cannot guarantee the performance when books with titles in other languages are inserted.
+1. `delbook` deletes one book at a time to prevent accidental deletion of all entries with the same book title.
+1. We allow entries with the same email and phone number into the contact list as there may be cases where two users share the same contact details. An example would be when a child does not own a mobile phone nor has an email and has to share with his/her parent.
+1. Commands that modifies book lists will reference the book using their respective book titles instead of their indexes. This is because the `findbook` command has not been implemented yet and would make indexing specific books in a large book list unfeasible.
+1. We allow `delete` to remove the library user's book list. This allows for more flexibility in managing the library. If books are returned, the library manager can use the `return` command to account for the books before deleting the person.
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -366,11 +435,16 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 2. Will rename the current `clear` command to `clearuser` to clear all the data of library users.
 3. Will be adding a `clearall` command to clear both library book and library user data.
 
-### Introducing unique id for books
-1. Will be adding a id parameter for book object to allow each book copy of the same title to be unique.
+### Introducing the `findbook` command
+1. As the number of books in the library increases, the library manager has to spend more time scrolling through the list to search for a book.
+2. The `findbook` command will allow the library manager quickly check for the existence of a specific book in the library.
+3. This will also allow us to explore the use of indexing to run commands that modify the book list instead of having to do so with the lengthy book title.
 
-### Archiving data files
-_Details coming soon..._
+### Introducing the `undo` and `redo` commands
+1. Even the most meticulous and fastest typists are bound to make some unintended errors.
+2. With the `undo` command, user experience will be enhanced as these mistakes can be reverted with a simple yet effective command.
+3. Similarly, the addition of the `redo` command further improves user experience by allowing users to effortlessly revert back to undone actions, refining the process.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -411,3 +485,24 @@ _Details coming soon..._
 | **Return**  | `return INDEX b/BOOKTITLE`<br> e.g., `return 1  b/The Hero with a Thousand Faces`                                                                                          |
 | **Donate**  | `donate INDEX b/BOOKTITLE`<br> e.g., `donate 1 b/The Hero with a Thousand Faces`                                                                                           |
 | **Limit**   | `limit THRESHOLD` <br> e.g. `limit 0`                                                                                                                                      |
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Glossary
+
+1. `Library User:` The people that are saved into the contact list of *MyBookshelf*. Sometimes referred to as "borrowers".
+
+
+2. `Library Manager:` Community Library Managers (CLM) are the people using the MyBookshelf application. CLMs are responsible for adding, storing, and updating the entire library database via *MyBookshelf*.
+
+
+3. `Contact List:` Refers to the list of library users currently stored in the *MyBookshelf* application. It appears in the left column of the User Interface.
+
+
+4. `Library Book List:` Refers to the list of available `Book`(s) currently stored in the *MyBookshelf* application. It appears in the right column of the User Interface.
+
+
+5. `Book:` Identified by its `BOOKTITLE`. Appears in both the `Library User`'s book list and the `Library Book List`.
+
+
+6. `Merit Score:` A score associated with each `Library User`. This score provides an estimate of the number of books a library user can borrow.

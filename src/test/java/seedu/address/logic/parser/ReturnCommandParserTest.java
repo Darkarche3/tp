@@ -21,7 +21,7 @@ public class ReturnCommandParserTest {
         // no index specified
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
 
-        // only consists of spaces
+        // only consists of white spaces
         assertParseFailure(parser, "     ", MESSAGE_INVALID_FORMAT);
     }
 

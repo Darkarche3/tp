@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.ReadOnlyLibrary;
 import seedu.address.model.book.Book;
 import seedu.address.model.person.Person;
+import seedu.address.storage.LibraryStorage;
 
 /**
  * Represents a collection of books in a library.
@@ -27,7 +28,7 @@ public class Library implements ReadOnlyLibrary {
 
     private ObservableList<Book> bookList;
     private Threshold threshold;
-    private LibraryLogic libraryLogic;
+    private LibraryStorage libraryLogic;
 
     /**
      * Construct an empty library.
@@ -35,7 +36,7 @@ public class Library implements ReadOnlyLibrary {
     public Library() {
         bookList = FXCollections.observableArrayList();
         threshold = new Threshold();
-        libraryLogic = new LibraryLogic();
+        libraryLogic = new LibraryStorage();
     }
 
     /**
@@ -62,7 +63,12 @@ public class Library implements ReadOnlyLibrary {
      * @param bookList The list of books to initialize the library with.
      */
     public Library(ObservableList<Book> bookList) {
-        this.bookList = bookList;
+        ObservableList<Book> expectedBookList = FXCollections.observableArrayList();
+        for (Book book : bookList) {
+            expectedBookList.add(book);
+        }
+        this.bookList = expectedBookList;
+        threshold = new Threshold();
     }
 
     /**
@@ -72,7 +78,11 @@ public class Library implements ReadOnlyLibrary {
      * @param threshold The threshold limit
      */
     public Library(ObservableList<Book> bookList, Threshold threshold) {
-        this.bookList = bookList;
+        ObservableList<Book> expectedBookList = FXCollections.observableArrayList();
+        for (Book book : bookList) {
+            expectedBookList.add(book);
+        }
+        this.bookList = expectedBookList;
         this.threshold = threshold;
     }
 
@@ -120,7 +130,11 @@ public class Library implements ReadOnlyLibrary {
     }
 
     public void setBookList(ObservableList<Book> bookList) {
-        this.bookList = bookList;
+        ObservableList<Book> expectedBookList = FXCollections.observableArrayList();
+        for (Book book : bookList) {
+            expectedBookList.add(book);
+        }
+        this.bookList = expectedBookList;
     }
 
     public void setThreshold(Threshold threshold) {
@@ -181,6 +195,9 @@ public class Library implements ReadOnlyLibrary {
             return true;
         } else if (other instanceof Library) {
             Library otherLibrary = (Library) other;
+            if (this.list().size() != otherLibrary.list().size()) {
+                return false;
+            }
             for (int i = 0; i < this.list().size(); i++) {
                 if (!this.bookList.get(i).equals(otherLibrary.bookList.get(i))) {
                     return false;

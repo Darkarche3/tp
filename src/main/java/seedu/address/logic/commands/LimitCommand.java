@@ -56,4 +56,19 @@ public class LimitCommand extends Command {
         model.setThreshold(threshold);
         return new CommandResult(String.format(MESSAGE_LIMIT_THRESHOLD_SUCCESS, threshold));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof LimitCommand)) {
+            return false;
+        }
+
+        LimitCommand otherLimitCommand = (LimitCommand) other;
+        return threshold.equals(otherLimitCommand.threshold);
+    }
 }

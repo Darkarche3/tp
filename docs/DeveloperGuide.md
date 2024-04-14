@@ -50,7 +50,7 @@ The bulk of the app's work is done by the following four components:
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how the components interact with each other for the scenario where the library manager issues the command `delete 1`.
 
 <puml src="diagrams/ArchitectureSequenceDiagram.puml" width="574" />
 
@@ -77,7 +77,7 @@ The `UI` component uses the JavaFx UI framework. The layout of these UI parts ar
 
 The `UI` component,
 
-* executes user commands using the `Logic` component.
+* executes library manager commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
@@ -160,24 +160,52 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Merit Score feature
 
-We have added an attribute `Merit Score` to `Person` Class. The reason behind this is to have a measurement of a user's credibility, so that the library will not run out of books due to excessive borrow. <br> 
-<br>
-Every user will have a default merit score of 0 upon adding to the Contact List. Donating and returning books will increase the user's merit score by 1, while borrowing books will decrease user's merit score by 1. <br>
-<br>
-Before borrowing, **MyBookshelf** will check if the user has sufficient merit score. Successful borrow only happens when user's merit score exceeds the limit threshold. <br>
-<br>
-PS: You can set the threshold by using `limit` command. See more below.
+**Merit Score Attribute:**
+* Added to the `Person` class.
+* Represents a measurement of a library user's credibility.
+* Default merit score of 0 assigned to every library user upon instantiate to the Contact List.
 
-### Library and LibraryLogic feature
+**Operations Affecting Merit Score:**
+* Donating books: Increases the library user's merit score by 1.
+* Returning books: Increases the library user's merit score by 1.
+* Borrowing books: Decreases the library user's merit score by 1.
 
-_**[Library & LibraryLogic (should be Library Storage) implementation to be added here, mention why not a part of storage, mention cannot change book list directly in app]**_
+**Threshold Check Before Borrowing:**
+* Implemented in `MyBookshelf`.
+* Ensures that a library user's merit score exceeds the limit threshold before allowing a successful borrow.
+* Library users must have a merit score greater than or equal to the threshold to borrow books successfully.
+
+**Threshold Setting:**
+* Library users can set the threshold using the `limit` command.
+* Allows customization of the threshold limit, which determines the minimum merit score required for successful borrowing.
+
+These changes aim to regulate borrowing behavior, preventing excessive borrowing and ensuring fair access to library resources based on library user's credibility as measured by their merit score.
+
+### Library and LibraryStorage feature
+
+**Library Class:**
+* This class represents all available books in a library.
+* It contains methods for adding, deleting, and listing books, as well as checking if a person can borrow a book based on their merit score.
+* It internally uses an ObservableList<Book> to manage the list of books.
+* It also manages a Threshold object to determine if a person can borrow a book.
+* Notably, it does not directly handle storage operations such as loading or saving books from/to a file. Instead, it delegates these responsibilities to the LibraryStorage class.
+
+**LibraryStorage Class:**
+* This class manages the loading and saving of available books to a text file.
+* It uses a file path to determine where to store the data.
+* It handles loading threshold and book data from a file into an ObservableList<Book> and Threshold object respectively.
+* It also saves threshold and book data from an ReadOnlyLibrary object (which is implemented by the Library class) to a file.
+
+These two classes work together to provide functionality for managing a library's collection of books, with `Library` handling operations directly related to book management and `LibraryStorage` handling file I/O operations. 
+
+This separation of concerns helps in keeping the code modular and maintainable.
 
 `Library` now acts as a similar entity to the `AddressBook` and `UserPrefs` and is now composited into `Model`, and implements the ReadOnlyLibrary Interface.
 
 `Model` now contains useful `Library` operations such as:
 * `Threshold` operations
 * `Book` operations on the book list in a library
-* Checks for if users can borrow books in a library
+* Checks for if library users can borrow books in a library
 
 [Link to updated Model UML Class diagram]
 
@@ -185,64 +213,64 @@ _**[Library & LibraryLogic (should be Library Storage) implementation to be adde
 
 This command is facilitated through the use of `Threshold` as an attribute in the `Library` class.
 
-Any user has to have a `Merit Score` greater or equals to the set `Threshold` in order to borrow from the `Library`.
+Any library user has to have a `Merit Score` greater or equals to the set `Threshold` in order to borrow from the `Library`.
 
-As `Threshold` is now an attribute of `Library`, the user's ability to borrow now depends on the Library instance and not within the Borrow Command.
+As `Threshold` is now an attribute of `Library`, the library user's ability to borrow now depends on the Library instance and not within the Borrow Command.
 
-Limit Command sets the `Threshold` of the `Library`, resulting in all users being affected by the change at the same time when the Limit Command is called.
+Limit Command sets the `Threshold` of the `Library`, resulting in all library users being affected by the change at the same time when the Limit Command is called.
 
 The default value of a `Threshold` is set as `-3`. Any calls to the Limit Command with the same value of the current `Threshold` will result in a duplicate threshold detected message.
 
-`Library` now has a method to check if a user can borrow a book from the library by internally comparing the user's `Merit Score` and the library's `Threshold`. Borrow Command now utilises this function to check if a user is able to Borrow a book from the Library instead of handling the check within the Borrow Command itself.
+`Library` now has a method to check if a library user can borrow a book from the library by internally comparing the user's `Merit Score` and the library's `Threshold`. Borrow Command now utilises this function to check if a user is able to Borrow a book from the Library instead of handling the check within the Borrow Command itself.
 
 #### Desired Usage
 
-Librarians can retroactively disallow users from borrowing books from the Library, with users having to meet the limit set before being able to borrow again.
+Library managers can retroactively disallow library users from borrowing books from the Library, with library users having to meet the limit set before being able to borrow again.
 
 1. Library starts in a default state. After some borrowing occurred.
-   * User A has `Merit Score`:0
-   * User B has `Merit Score`: -2
-   * Both user A and user B can borrow books from the library
-1. Librarian calls `limit 0`
+   * Library user A has `Merit Score`:0
+   * Library user B has `Merit Score`: -2
+   * Both library user A and library user B can borrow books from the library
+1. Library manager calls `limit 0`
    * `Threshold`: 0
-   * User A has `Merit Score`: 0 (greater than or equal to `Threshold`)
-   * User B has `Merit Score`: -2 (less than `Threshold`)
-   * User A can borrow but user B cannot borrow from the Library
-1. Librarian calls `limit -2`
+   * Library user A has `Merit Score`: 0 (greater than or equal to `Threshold`)
+   * Library user B has `Merit Score`: -2 (less than `Threshold`)
+   * Library user A can borrow but library user B cannot borrow from the Library
+1. Library manager calls `limit -2`
    * `Threshold`: -2
-   * User A has `Merit Score`: 0 (greater than or equal to `Threshold`)
-   * User B has `Merit Score`: -2 (greater than or equal to `Threshold`)
-   * Both user A and user B can borrow books from the library
-1. User B borrows a book
+   * Library user A has `Merit Score`: 0 (greater than or equal to `Threshold`)
+   * Library user B has `Merit Score`: -2 (greater than or equal to `Threshold`)
+   * Both library user A and library user B can borrow books from the library
+1. Library user B borrows a book
    * `Threshold`: -2
-   * User A has `Merit Score`: 0 (greater than or equal to `Threshold`)
-   * User B has `Merit Score`: -3 (greater than or equal to `Threshold`)
-   * User A can borrow but user B cannot borrow from the Library
-1. Librarian calls `limit 1`
+   * Library user A has `Merit Score`: 0 (greater than or equal to `Threshold`)
+   * Library user B has `Merit Score`: -3 (greater than or equal to `Threshold`)
+   * Library user A can borrow but library user B cannot borrow from the Library
+1. Library manager calls `limit 1`
    * `Threshold`: 1
-   * User A has `Merit Score`: 0 (less than `Threshold`)
-   * User B has `Merit Score`: -3 (less than `Threshold`)
-   * Both user A and user B cannot borrow books from the library
-1. User A returns a book and user B donates a book each
+   * Library user A has `Merit Score`: 0 (less than `Threshold`)
+   * Library user B has `Merit Score`: -3 (less than `Threshold`)
+   * Both library user A and library user B cannot borrow books from the library
+1. Library user A returns a book and library user B donates a book each
    * `Threshold`: 1
-   * User A has `Merit Score`: 1 (greater than or equal to `Threshold`)
-   * User B has `Merit Score`: -2 (less than `Threshold`)
-   * Both user A and user B can donate and return to the library
-   * User A can borrow but user B still cannot borrow from the Library
+   * Library user A has `Merit Score`: 1 (greater than or equal to `Threshold`)
+   * Library user B has `Merit Score`: -2 (less than `Threshold`)
+   * Both library user A and library user B can donate and return to the library
+   * Library user A can borrow but library user B still cannot borrow from the Library
 
 #### Alternative Implementation
 
-It is also plausible for `Threshold` to be implemented as an attribute within each user.
+It is also plausible for `Threshold` to be implemented as an attribute within each library user.
 
-This would also change the implementation for the `limit` Command to now individually set limits to each specified user.
+This would also change the implementation for the `limit` Command to now individually set limits to each specified library user.
 
-This would give the librarian greater flexibility to vary each of the user's individual ability to borrow books.
+This would give the library manager greater flexibility to vary each of the library user's individual ability to borrow books.
 
-This implementation was decided against as setting a standardised limit would give an easier time for librarians to manage all users at the same time, and not having to individually manage each user's `Threshold`
+This implementation was decided against as setting a standardised limit would give an easier time for library managers to manage all library users at the same time, and not having to individually manage each user's `Threshold`
 
-Individual user's ability to borrow can also be increased and decreased indirectly by changing the user's merit score. **[LINK TO SECTION ON CHANGING MERIT SCORE]**
+Individual library user's ability to borrow can also be increased and decreased indirectly by changing the library user's merit score. **[LINK TO SECTION ON CHANGING MERIT SCORE]**
 
-Note: the user's Merit Score cannot be decreased without altering the user's borrowing book list. **[LINK TO SECTION ON DECREASING MERIT SCORE]**
+Note: the library user's Merit Score cannot be decreased without altering the library user's borrowing book list. **[LINK TO SECTION ON DECREASING MERIT SCORE]**
 
 ### \[Proposed\] Undo/redo feature
 
@@ -258,15 +286,15 @@ These operations are exposed in the `Model` interface as `Model#commitAddressBoo
 
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+Step 1. The library manager launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
 
 <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The library manager executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
 <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
 
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The library manager executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
 
 <puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
 
@@ -276,14 +304,14 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 
 </box>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The library manager now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
 
 <puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
 
 
 <box type="info" seamless>
 
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
+**Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the library manager rather
 than attempting to perform the undo.
 
 </box>
@@ -306,19 +334,19 @@ The `redo` command does the opposite — it calls `Model#redoAddressBook()`,
 
 <box type="info" seamless>
 
-**Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+**Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the library manager rather than attempting to perform the redo.
 
 </box>
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
+Step 5. The library manager then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
 
 <puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
+Step 6. The library manager executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
 
 <puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
 
-The following activity diagram summarizes what happens when a user executes a new command:
+The following activity diagram summarizes what happens when a library manager executes a new command:
 
 <puml src="diagrams/CommitActivityDiagram.puml" width="250" />
 
@@ -337,10 +365,6 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 _{more aspects and alternatives to be added}_
 
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Future Enhancements**
@@ -356,7 +380,7 @@ _{Explain here how the data archiving feature will be implemented}_
      * Reformatting toString() to include new lines for easier readability.
      * Format specific fields to be displayed into the command result.
    * Change message when `clear` command is executed to use the words "Contact List" instead of "Address book" for clarity.
-   * Improve error message when `INDEX` entered by user is greater than the length of the Contact List to be clearer (e.g. Index is larger than the number of people in the list).
+   * Improve error message when `INDEX` entered by library manager is greater than the length of the Contact List to be clearer (e.g. Index is larger than the number of people in the list).
    * Improve the usage message for commands that changes like `borrow`, `return`, `edit`.
      * Change the phrasing of "Edits the book list" to be clearer (E.g. "Remove book from library user's book list" in `return` command).
      * Remove the phrase "in the last person listing" as it is confusing.
@@ -364,9 +388,9 @@ _{Explain here how the data archiving feature will be implemented}_
    * Currently only checks if the `NAME` field are exactly the same.
    * Can be changed to check if `PHONE` or `EMAIL` are exactly the same as they are unique identifiers and not `NAME`.
    * Allows for `NAME` to be case-insensitive (John Doe and john doe are the same person).
-   * Allows for users with the same name to exist (John Doe with phone number 123 is different from John Doe with phone number 911).
+   * Allows for library users with the same name to exist (John Doe with phone number 123 is different from John Doe with phone number 911).
    * Can throw warnings if `NAME` differs by only by whitespaces (John Doe and John   Doe are similar and could be duplicates).
-1. Add labels under each user in the Contact List panel in the UI
+1. Add labels under each library user in the Contact List panel in the UI
    * Label each field to allow for easier readability, especially between email and address (e.g. e: example@email.com, a: Kent Ridge View).
 
 --------------------------------------------------------------------------------------------------------------------
@@ -392,29 +416,29 @@ _{Explain here how the data archiving feature will be implemented}_
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
-* needs to keep track of which user borrowed which book
-* needs to keep track of which user returned which book
+* needs to keep track of which library user borrowed which book
+* needs to keep track of which library user returned which book
 
-**Value proposition**: manage users and keeps track of borrowing and returning of books faster than a typical mouse/GUI driven app
+**Value proposition**: manage library users and keeps track of borrowing and returning of books faster than a typical mouse/GUI driven app
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                       | I want to …​                                                | So that I can…​                                                                  |
-|----------|-----------------------------------------------|-------------------------------------------------------------|----------------------------------------------------------------------------------|
-| `* * *`  | new librarian                                 | see usage instructions                                      | refer to instructions when I forget how to use the App                           |
-| `* * *`  | librarian                                     | add a new library user                                      | record a new user's information                                                  |
-| `* * *`  | librarian                                     | delete a library user                                       | remove entries that I no longer need                                             |
-| `* * *`  | librarian                                     | find a library user by name                                 | locate details of persons without having to go through the entire list           |
-| `*`      | librarian with many users in the Contact List | sort library user by name                                   | locate a person easily                                                           |
-| `* * *`  | librarian                                     | record the phone number of the library user                 | send SMS reminders to notify them that someone else is looking for the book      |
-| `* * *`  | librarian                                     | record the email address of the library user                | send an email reminders to notify them that someone else is looking for the book |
-| `* * *`  | librarian                                     | record the postal address of the library user               | send a warning letter when breaching community guidelines                        |
-| `* * *`  | librarian                                     | record the book title of all books in the library           | keep track of the books available in the library at the moment                   |
-| `* * *`  | librarian                                     | record the book title the library user has borrowed         | keep track of the books the borrower has borrowed                                |
-| `* *`    | librarian                                     | be able to decide the threshold merit score for the library | decide the limit of books to borrow to the users                                 |
+| Priority | As a …​                                             | I want to …​                                                | So that I can…​                                                                  |
+|----------|-----------------------------------------------------|-------------------------------------------------------------|----------------------------------------------------------------------------------|
+| `* * *`  | new library manager                                 | see usage instructions                                      | refer to instructions when I forget how to use the App                           |
+| `* * *`  | library manager                                     | add a new library user                                      | record a new user's information                                                  |
+| `* * *`  | library manager                                     | delete a library user                                       | remove entries that I no longer need                                             |
+| `* * *`  | library manager                                     | find a library user by name                                 | locate details of persons without having to go through the entire list           |
+| `*`      | library manager with many users in the Contact List | sort library user by name                                   | locate a person easily                                                           |
+| `* * *`  | library manager                                     | record the phone number of the library user                 | send SMS reminders to notify them that someone else is looking for the book      |
+| `* * *`  | library manager                                     | record the email address of the library user                | send an email reminders to notify them that someone else is looking for the book |
+| `* * *`  | library manager                                     | record the postal address of the library user               | send a warning letter when breaching community guidelines                        |
+| `* * *`  | library manager                                     | record the book title of all books in the library           | keep track of the books available in the library at the moment                   |
+| `* * *`  | library manager                                     | record the book title the library user has borrowed         | keep track of the books the borrower has borrowed                                |
+| `* *`    | library manager                                     | be able to decide the threshold merit score for the library | decide the limit of books to borrow to the users                                 |
 
 *{More to be added}* 
 
@@ -422,120 +446,380 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `MyBookshelf` and the **Actor** is the `Community Library Manager (CLM)`, unless specified otherwise)
 
-#### Use case: UC1 - Add user to Contact List
+#### Use case: UC1 - Add library user to Contact List
 
 #### MSS:
 
-1.  User provides the following details:
+1.  Library user provides the following details:
     * Name
     * Phone number
     * Email
     * Address
     * Optionally, additional tags
-2. CLM enters the provided information.
-3. MyBookshelf adds the user to the Contact List.
-4. MyBookshelf notifies CLM that the user has been successfully added.
+2. Library manager enters the provided information.
+3. MyBookshelf adds the library user to the Contact List.
+4. MyBookshelf notifies library manager that the library user has been successfully added.
 
 ***Use case ends***
 
 #### Extensions:
-
 * 2a. MyBookshelf detects an error in the entered information.
-
     * 2a1. MyBookshelf requests for the valid information.
+    * 2a2. Library manager requests information from user.
+    * 2a3. Library manager enters new information.
+      Steps 2a1-2a3 are repeated until the information entered is valid.
 
-    * 2a2. CLM requests information from user.
+  ***Use case resumes from step 3***
 
-    * 2a3. CLM enters new information.
-    
-    Steps 2a1-2a3 are repeated until the information entered are valid.
+* *a. At any time, library manager chooses to cancel the addition of user.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
 
-    ***Use case resumes from step 3.***
+  ***Use case ends***
 
-* *a . At any time, CLM chooses to cancel the addition of user.<br>
+#### Use case: UC2 - List all library users in the Contact List
 
-  * *a1. CLM clears the command line using the backspace key.<br>
-  
+#### MSS:
+
+1. Library manager intends to list all library users.
+2. Library manager enters the command.
+3. MyBookshelf retrieves the information from the Contact List.
+4. MyBookshelf displays a list of all library users, including their names, contact information, and any other relevant details.
+5. Library manager reviews the list of library users.
+
+***Use case ends***
+
+#### Extensions:
+* *a. At any time, library manager chooses to cancel the addition of library user.<br>
+
+    * *a1. library manager clears the command line using the backspace key.<br>
+
   ***Use case ends.***
 
-**Use case: Borrower borrows a book from the library**
+#### Use case: UC3 - Edit a library user's information
 
-**MSS**
+#### MSS:
 
-1.  Borrower requests to borrow a book.
-2.  Librarian requests to list borrowers.
-3.  MyBookshelf shows a list of borrowers.
-4.  Librarian adds the book to the borrower.
-5.  MyBookshelf updates the borrower's details.
+1. Library manager intends to edit a library user's information.
+2. Library manager enters the command.
+3. MyBookshelf updates the library user's information according to the provided changes.
+4. MyBookshelf notifies library manager that the library user has been successfully edited.
 
-    Use case ends.
+***Use case ends***
 
-**Extensions**
+#### Extensions:
+* 2a. MyBookshelf detects invalid index.
+    * 2a1. MyBookshelf notifies library manager with an error message.
+    * 2a2. Library manager <u>Find a library user in the Contact List (UC4)</u>.
+    * 2a3. If not exist, library manager <u>Add library user to the Contact List (UC1)</u>, else records down the index for later use in the edit process.
 
-* 2a. The list is empty.
+  ***Use case resumes from step 2.***
 
-  Use case ends.
+* 2b. MyBookshelf detects an error in the entered information.
+    * 2b1. MyBookshelf requests for the valid information.
+    * 2b2. Library manager requests information from the library user.
+    * 2b3. Library manager enters new information.
+      Steps 2b1-2b3 are repeated until the information entered is valid.
 
-* 4a. The given index is invalid.
+  ***Use case resumes from step 3.***
 
-    * 4a1. MyBookshelf shows an error message.
+* *a. At any time, library manager chooses to cancel the edition of the library user.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
 
-      Use case resumes at step 3.
-
-*{More to be added}*
-
-**Use case: Borrower returns a book to the library**
-
-**MSS**
-
-1.  Borrower requests to return a book.
-2.  Librarian requests to list borrowers.
-3.  MyBookshelf shows a list of borrowers.
-4.  Librarian removes the book from the borrower.
-5.  MyBookshelf updates the borrower's details.
+  ***Use case ends.***
 
 
-    Use case ends.
+#### Use case: UC4 - Find a library user in the Contact List
+#### MSS:
+1. Library manager intends to find library users using keyword(s).
+2. Library manager enters the command.
+3. MyBookshelf searches for library users whose names matches any of the provided keyword(s).
+4. MyBookshelf returns a list of library users matching at least one keyword.
+5. Library manager reviews the list of library users returned by the search.
 
-**Extensions**
+***Use case ends***
 
-* 2a. The list is empty.
+#### Extensions:
+* *a. At any time, Library manager chooses to cancel the finding of library user.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
 
-  Use case ends.
+  ***Use case ends.***
 
-* 4a. The given index is invalid.
 
-    * 4a1. AddressBook shows an error message.
+#### Use case: UC5 - Delete a library user from the Contact List
+#### MSS:
+1. Library manager intends to delete a user.
+2. Library manager enters the command.
+3. MyBookshelf deletes the user from the Contact List.
+4. MyBookshelf notifies library manager that the user has been successfully deleted.
 
-      Use case resumes at step 3.
+***Use case ends***
 
-*{More to be added}*
+#### Extensions:
+* 2a. MyBookshelf detects invalid index.
+    * 2a1. MyBookshelf notifies library manager with an error message.
+    * 2a2. Library manager performs <u>Find a library user in the Contact List (UC4)</u>.
+    * 2a3. Library manager performs <u>Delete a library user from the Contact List (UC5)</u>.
+
+  ***Use case resumes from step 2.***
+
+* *a. At any time, library manager chooses to cancel the deletion of the library user.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC6 - Library user borrow a book
+#### MSS:
+1. Library user intends to borrow a book to the library.
+2. Library manager reads the book title of the book provided by the library user.
+3. Library manager enters the command.
+4. MyBookshelf removes the book from library and adds the book to the library user's borrow list.
+5. MyBookshelf notifies library manager that the library user has successfully borrowed a book.
+
+***Use case ends***
+
+#### Extensions:
+* 3a. MyBookshelf detects invalid index for library user.
+    * 3a1. MyBookshelf notifies library manager with an error message.
+  * 3a2. Library manager performs <u>Find a library user in the Contact List (UC4)</u> and <u>Library user borrows a book (UC6)</u>.
+  * 3a3. If not exist, library manager performs <u>Add library user to the Contact List (UC1)</u> and <u>Library user borrows a book (UC6)</u>.
+
+  ***Use case resumes from step 3.***
+
+* 3b. MyBookshelf detects an error in the book title.
+    * 3b1. MyBookshelf notifies library manager with an error message.
+    * 3b2. Library manager confirms book title from user again.
+    * 3b3. Library manager enters new book title.
+      Steps 3b1-3b3 are repeated until the book title entered is valid.
+
+  ***Use case resumes from step 3.***
+
+* *a. At any time, library manager chooses to cancel the borrow process of library user.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC7 - Library user returns a book
+#### MSS:
+1. Library user intends to return a book to the library.
+2. Library manager reads the book title of the book provided by the library user.
+3. Library manager enters the command to return the book.
+4. MyBookshelf adds the book to the library and removes the book from the library user's borrow list.
+5. MyBookshelf notifies library manager that the library user has successfully returned the book.
+
+***Use case ends***
+
+#### Extensions:
+* 3a. MyBookshelf detects invalid index for library user.
+    * 3a1. MyBookshelf notifies library manager with an error message.
+    * 3a2. Library manager performs <u>Find a library user in the Contact List (UC4)</u>.
+    * 3a3. Library manager performs <u>Library user returns a book (UC7)</u>.
+
+  ***Use case resumes from step 3.***
+
+* 3b. MyBookshelf detects an error in the book title.
+    * 3b1. MyBookshelf notifies library manager with an error message.
+    * 3b2. Library manager confirms book title again.
+    * 3b3. Library manager enters new book title.
+      Steps 3b1-3b3 are repeated until the book title entered is valid.
+
+  ***Use case resumes from step 3.***
+
+* *a. At any time, Library manager chooses to cancel the return process of library user.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC8 - Library user donates a book
+#### MSS:
+1. Library user intends to donate a book to the library.
+2. Library manager reads the book title of the book provided by the library user.
+3. Library manager enters the command to donate the book.
+4. MyBookshelf adds the book to the library.
+5. MyBookshelf notifies library manager that the library user has successfully donated a book.
+
+***Use case ends***
+
+#### Extensions:
+* 3a. MyBookshelf detects invalid index for the library user.
+    * 3a1. MyBookshelf notifies library manager with an error message.
+    * 3a2. Library manager performs <u>Find a library user in the Contact List (UC4)</u> and <u>Library user donates a book (UC8)</u>.
+    * 3a3. If not exist, library manager performs <u>Add library user to the Contact List (UC1)</u> and <u>Library user donates a book (UC8)</u>.
+
+  ***Use case resumes from step 3.***
+
+* 3b. MyBookshelf detects an error in the book title.
+    * 3b1. MyBookshelf notifies library manager with an error message.
+    * 3b2. Library manager confirms book title again.
+    * 3b3. Library manager enters new book title.
+      Steps 3b1-3b3 are repeated until the book title entered is valid.
+
+  ***Use case resumes from step 3.***
+
+* *a. At any time, library manager chooses to cancel the donate process.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC9 - Add a book to the library
+#### MSS:
+1. Library manager intends to add a book to the library.
+2. Library manager enters the command to add the book.
+3. MyBookshelf adds the book to the library.
+4. MyBookshelf notifies library manager that the book has been successfully added to the library.
+
+***Use case ends***
+
+#### Extensions:
+* 2b. MyBookshelf detects an error in the book title.
+    * 2b1. MyBookshelf notifies library manager with an error message.
+    * 2b2. Library manager confirms book title of the book.
+    * 2b3. Library manager enters new book title.
+      Steps 2b1-2b3 are repeated until the book title entered is valid.
+
+  ***Use case resumes from step 2.***
+
+* *a. At any time, library manager chooses to cancel the addition of the book.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC10 - Delete a book from the library
+#### MSS:
+1. Library manager intends to delete a book from the library.
+2. Library manager enters the command to delete the book.
+3. MyBookshelf deletes the book from the library.
+4. MyBookshelf notifies library manager that the book has been successfully deleted from the library.
+
+***Use case ends***
+
+#### Extensions:
+* 2b. MyBookshelf detects an error in the book title.
+    * 2b1. MyBookshelf notifies library manager with an error message.
+    * 2b2. Library manager confirms book title of the book.
+    * 2b3. Library manager enters new book title.
+      Steps 2b1-2b3 are repeated until the book title entered is valid.
+
+  ***Use case resumes from step 2.***
+
+* *a. At any time, Library manager chooses to cancel the deletion of the book.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC11 - View the limit for library
+#### MSS:
+1. Library manager intends to view the limit of the library.
+2. Library manager enters the command to view.
+3. MyBookshelf displays the current limit of the library.
+
+***Use case ends***
+
+#### Extensions:
+* *a. At any time, library manager chooses to cancel to view the limit of the library.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC12 - Set the limit for library
+#### MSS:
+1. Library manager intends to set the limit for library.
+2. Library manager enters the command to set limit.
+3. MyBookshelf sets the limit of the library.
+4. MyBookshelf notifies library manager that the limit has been successfully updated for the library.
+
+***Use case ends***
+
+#### Extensions:
+* 2a. MyBookshelf detects invalid limit.
+    * 2a1. MyBookshelf notifies library manager with an error message.
+    * 2a2. Library manager reentered the limit.
+      Steps 2a1-2a2 are repeated until the limit entered is valid.
+
+  ***Use case resumes from step 3.***
+
+* *a. At any time, library manager chooses to cancel the setting of limit.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC13 - Clear the Contact List
+#### MSS:
+1. Library manager requests to clear the Contact List (delete all library users).
+2. Library manager enters the command.
+3. MyBookshelf clears all library users in the Contact List.
+4. MyBookshelf notifies library manager that all library users have been successfully removed.
+
+***Use case ends***
+
+#### Extensions:
+* *a. At any time, library manager chooses to cancel to clear the Contact List.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC14 - Help
+#### MSS:
+1. Library manager intends to access help.
+2. Library manager enters the command.
+3. MyBookshelf pops up a help window.
+
+***Use case ends***
+
+#### Extensions:
+* *a. At any time, library manager chooses to cancel to access for help.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
+
+
+#### Use case: UC15 - Exit MyBookshelf
+#### MSS:
+1. Library manager intends to exit.
+2. Library manager enters the command.
+3. MyBookshelf successfully exited.
+
+***Use case ends***
+
+#### Extensions:
+* *a. At any time, library manager chooses to cancel help.<br>
+    * *a1. Library manager clears the command line using the backspace key.<br>
+
+  ***Use case ends.***
 
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
 2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4. Should be easy to use and fast to learn for  users who are new to this application.
-5. Response time should be fast enough that it does not take the user a long time to use it.
-6. Should be easy to recognise and remember necessary commands to minimise need for user to check what command to use.
+3. A library manager with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4. Should be easy to use and fast to learn for library managers who are new to this application.
+5. Response time should be fast enough that it does not take the library manager a long time to use it.
+6. Should be easy to recognise and remember necessary commands to minimise need for library manager to check what command to use.
 
 *{More to be added}*
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS.
-* **Librarian**: Community Library Manager, who is also the main target user of MyBookshelf.
-* **User**: People who uses the community library, including people who donate books to library and people who borrow books from the library. Users are also referred as **Borrower** when they are borrowing / had borrowed books from the library.
-* **Personal Information**: Personal Information of a user, e.g. name, phone number, email, address and tags, but not borrowed books and merit score.
+* **Library manager**: Community Library Manager (CLM), who is also the main target user of MyBookshelf. **Librarian** is also referred as **Library manager**."
+* **Library user**: People who uses the community library, including people who donate books to library and people who borrow books from the library. **User** sometimes is also referred as **Library user** (Except when explaining *user stories* / *target user*)."
+* **Personal Information**: Personal Information of a library user, e.g. name, phone number, email, address and tags, but not borrowed books and merit score.
 * **Book**: A Book Class containing details relating to book.
-* **Borrow**: An action where a user borrows a book from the library.
-* **Return**: An Action where a user returns the book which they borrowed from the library.
+* **Borrow**: An action where a library user borrows a book from the library.
+* **Return**: An Action where a library user returns the book which they borrowed from the library.
 * **Donate**: An action where a person donates a book to the library.
 * **Merit Score**: A measurement of a person's credibility. Everyone starts from 0. Donating and returning books increases merit score, while borrowing books decreases merit score.
-* **Threshold**: A threshold for merit score. A user must higher merit score than threshold in order to borrow books. Threshold can be set to the library by librarian anytime.
-* **Contact List**: The list where it stores all the user's information, including personal information (e.g. name, phone number, etc.) , merit score and books he/she is borrowing. **Contact List** is also referred as **AddressBook** or **User List**. 
-* **Available Books**: The books from the library which are available to be lent to users at the moment. Sometimes, it is also referred as the **Library**.
+* **Threshold**: A threshold for merit score. A library user must higher merit score than threshold in order to borrow books. Threshold can be set to the library by library manager anytime.
+* **Contact List**: The list where it stores all the library user's information, including personal information (e.g. name, phone number, etc.) , merit score and books he/she is borrowing. **Contact List** is also referred as **AddressBook** or **User List**. 
+* **Available Books**: The books from the library which are available to be lent to library users at the moment. Sometimes, it is also referred as the **Library**.
 
 
 --------------------------------------------------------------------------------------------------------------------

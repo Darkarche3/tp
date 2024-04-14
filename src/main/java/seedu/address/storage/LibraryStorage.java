@@ -1,4 +1,4 @@
-package seedu.address.model.library;
+package seedu.address.storage;
 
 import static seedu.address.commons.util.StringUtil.isInteger;
 
@@ -20,14 +20,12 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.model.ReadOnlyLibrary;
 import seedu.address.model.book.Book;
-import seedu.address.storage.JsonAddressBookStorage;
+import seedu.address.model.library.Threshold;
 
 /**
  * The LibraryLogic Class manages the loading and saving of available books to a txt file.
  */
-public class LibraryLogic {
-    //TODO Refactor LibraryLogic to LibraryStorage and change file location to under storage package
-
+public class LibraryStorage {
     private static final Logger logger = LogsCenter.getLogger(JsonAddressBookStorage.class);
 
     /**
@@ -49,7 +47,7 @@ public class LibraryLogic {
      *
      * @param filePath the file path where books are stored
      */
-    public LibraryLogic(String filePath) {
+    public LibraryStorage(String filePath) {
         this.filePath = filePath;
         this.availableBooks = FXCollections.observableArrayList();
         this.threshold = new Threshold();
@@ -58,7 +56,7 @@ public class LibraryLogic {
     /**
      * Constructs a LibraryLogic object with default file path
      */
-    public LibraryLogic() {
+    public LibraryStorage() {
         this.filePath = Paths.get("data", "library.txt").toString();
         this.availableBooks = FXCollections.observableArrayList();
         this.threshold = new Threshold();

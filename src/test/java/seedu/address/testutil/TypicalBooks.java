@@ -11,6 +11,7 @@ import seedu.address.model.library.Library;
  * A utility class containing a list of {@code Book} objects in the Library to be used in tests.
  */
 public class TypicalBooks {
+    public static final Book BOOK_IN_LIBRARY = new Book("Book in library");
     public static final Book GUMIHO = new Book("Gumiho");
 
     public static final Book FIFTY_SHADES = new Book("Fifty Shades");
@@ -29,6 +30,6 @@ public class TypicalBooks {
     }
 
     public static List<Book> getTypicalBooks() {
-        return new ArrayList<>(Arrays.asList(GUMIHO, FIFTY_SHADES));
+        return new ArrayList<>(Arrays.asList(GUMIHO, FIFTY_SHADES, BOOK_IN_LIBRARY));
     }
 }

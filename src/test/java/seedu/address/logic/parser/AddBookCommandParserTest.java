@@ -6,16 +6,15 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.DonateCommand;
+import seedu.address.logic.commands.AddBookCommand;
 import seedu.address.model.book.Book;
-import seedu.address.testutil.TypicalIndexes;
 
 
-public class DonateCommandParserTest {
+public class AddBookCommandParserTest {
     private static final String BOOK_TITLE_STUB = "Book Stub";
     private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, DonateCommand.MESSAGE_USAGE);
-    private DonateCommandParser parser = new DonateCommandParser();
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddBookCommand.MESSAGE_USAGE);
+    private AddBookCommandParser parser = new AddBookCommandParser();
 
     @Test
     public void parse_missingParts_failure() {
@@ -34,27 +33,23 @@ public class DonateCommandParserTest {
 
     @Test
     public void parse_invalidPreamble_failure() {
-        // negative index
-        assertParseFailure(parser, "-5", MESSAGE_INVALID_FORMAT);
-
-        // zero index
-        assertParseFailure(parser, "0", MESSAGE_INVALID_FORMAT);
-
         // invalid arguments being parsed as preamble
-        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "some random string", MESSAGE_INVALID_FORMAT);
 
         // invalid prefix being parsed as preamble
-        assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "i/ string", MESSAGE_INVALID_FORMAT);
     }
 
     @Test
     public void parse_allFieldsPresent_success() {
+        // user input is leading with one white space because of multiargu mapper issue
+        // without it will result in illegalArgumentException (i spent 30 mins on this :/)
         // book title with no space in front and at back
-        assertParseSuccess(parser, "9 " + CliSyntax.PREFIX_BOOKLIST + BOOK_TITLE_STUB,
-                new DonateCommand(TypicalIndexes.INDEX_KEPLER, new Book(BOOK_TITLE_STUB)));
+        assertParseSuccess(parser, " " + CliSyntax.PREFIX_BOOKLIST + BOOK_TITLE_STUB,
+                new AddBookCommand(new Book(BOOK_TITLE_STUB)));
 
         // book title with spaces in front and at back
-        assertParseSuccess(parser, "9 " + CliSyntax.PREFIX_BOOKLIST + "    " + BOOK_TITLE_STUB + "    ",
-                new DonateCommand(TypicalIndexes.INDEX_KEPLER, new Book(BOOK_TITLE_STUB)));
+        assertParseSuccess(parser, " " + CliSyntax.PREFIX_BOOKLIST + "    " + BOOK_TITLE_STUB + "    ",
+                new AddBookCommand(new Book(BOOK_TITLE_STUB)));
     }
 }

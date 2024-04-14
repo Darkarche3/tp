@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalThresholds.THRESHOLD_MINUS_TWO;
+import static seedu.address.testutil.TypicalThresholds.THRESHOLD_ONE;
+import static seedu.address.testutil.TypicalThresholds.THRESHOLD_ZERO;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,6 +57,28 @@ public class ParserUtilTest {
 
         // Leading and trailing whitespaces
         assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+    }
+
+    @Test
+    public void parseThreshold_invalidInput_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseThreshold("10 a"));
+    }
+
+    // TODO: Change the outcome of this test to give our a specific error when more than Integer.MAX_VALUE in v1.5
+    @Test
+    public void parseThreshold_outOfRangeInput_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseThreshold("2147483648"));
+    }
+
+    @Test
+    public void parseThreshold_validInput_success() throws Exception {
+        // No whitespaces
+        assertEquals(THRESHOLD_ONE, ParserUtil.parseThreshold("1"));
+        assertEquals(THRESHOLD_MINUS_TWO, ParserUtil.parseThreshold("-2"));
+
+
+        // Leading and trailing whitespaces
+        assertEquals(THRESHOLD_ZERO, ParserUtil.parseThreshold("  0  "));
     }
 
     @Test

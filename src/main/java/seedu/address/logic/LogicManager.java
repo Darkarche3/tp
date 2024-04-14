@@ -16,8 +16,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.book.Book;
-import seedu.address.model.library.LibraryLogic;
 import seedu.address.model.person.Person;
+import seedu.address.storage.LibraryStorage;
 import seedu.address.storage.Storage;
 
 /**
@@ -34,7 +34,7 @@ public class LogicManager implements Logic {
     private final Model model;
     private final Storage storage;
     private final AddressBookParser addressBookParser;
-    private final LibraryLogic libraryLogic;
+    private final LibraryStorage libraryLogic;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
@@ -43,7 +43,7 @@ public class LogicManager implements Logic {
         this.model = model;
         this.storage = storage;
         addressBookParser = new AddressBookParser();
-        libraryLogic = new LibraryLogic();
+        libraryLogic = new LibraryStorage();
     }
 
     @Override

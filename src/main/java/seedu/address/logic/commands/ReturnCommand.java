@@ -23,7 +23,7 @@ public class ReturnCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the book list of the person identified "
             + "by the index number used in the last person listing. "
             + "If book exists in the person's book list, it will be removed. \n"
-            + "Parameters: INDEX (must be a positive integer) \n"
+            + "Parameters: INDEX (must be a positive integer) "
             + PREFIX_BOOKLIST + "[borrow]\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_BOOKLIST + "Likes to swim.";

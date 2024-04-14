@@ -71,6 +71,15 @@ public class TypicalPersons {
             .withBooks("How To Become a Better Reader?")
             .withMeritScore(1).build();
 
+    // Manually added
+    public static final Person BAD_MERIT_NOT_BORROWING_JOE = new PersonBuilder().withName("Joe Meme")
+            .withAddress("123A, King's Street, #13-5")
+            .withEmail("joe@gmail.com")
+            .withPhone("89899898")
+            .withTags("LowMerit")
+            .withBooks()
+            .withMeritScore(-100).build();
+
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
             .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).build();
@@ -95,6 +104,6 @@ public class TypicalPersons {
 
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE,
-                JACKER, KEPLER));
+                JACKER, KEPLER, BAD_MERIT_NOT_BORROWING_JOE));
     }
 }
