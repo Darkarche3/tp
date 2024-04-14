@@ -56,8 +56,10 @@ public class AddBookCommandTest {
     public void equals() {
         Book bookStub1 = new Book(BOOK_TITLE_1_STUB);
         Book bookStub2 = new Book(BOOK_TITLE_2_STUB);
+        Book emptyBookStub = new Book(EMPTY_BOOK_STUB);
         AddBookCommand addBookCommand1 = new AddBookCommand(bookStub1);
         AddBookCommand addBookCommand2 = new AddBookCommand(bookStub2);
+        AddBookCommand addBookCommand3 = new AddBookCommand(emptyBookStub);
 
         // same object -> returns true
         assertTrue(addBookCommand1.equals(addBookCommand1));
@@ -72,7 +74,10 @@ public class AddBookCommandTest {
         // null -> returns false
         assertFalse(addBookCommand1.equals(null));
 
-        // different person -> returns false
+        // different book -> returns false
         assertFalse(addBookCommand1.equals(addBookCommand2));
+
+        // empty book -> returns false
+        assertFalse(addBookCommand1.equals(addBookCommand3));
     }
 }

@@ -25,6 +25,7 @@ public class DeleteBookCommandParser implements Parser<DeleteBookCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_BOOKLIST);
 
         String bookTitle;
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_BOOKLIST);
         try {
             bookTitle = argMultimap.getValue(PREFIX_BOOKLIST).get();
         } catch (NoSuchElementException nee) {

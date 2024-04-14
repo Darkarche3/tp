@@ -106,6 +106,7 @@ public class BorrowCommandTest {
     public void equals() {
         BorrowCommand borrowCommand1 = new BorrowCommand(INDEX_FIRST_PERSON, new Book(EMPTY_BOOK_STUB));
         BorrowCommand borrowCommand2 = new BorrowCommand(INDEX_SECOND_PERSON, new Book(EMPTY_BOOK_STUB));
+        BorrowCommand borrowCommand3 = new BorrowCommand(INDEX_SECOND_PERSON, new Book(BOOK_TITLE_STUB));
 
         // same object -> returns true
         assertTrue(borrowCommand1.equals(borrowCommand1));
@@ -122,5 +123,8 @@ public class BorrowCommandTest {
 
         // different person -> returns false
         assertFalse(borrowCommand1.equals(borrowCommand2));
+
+        // different book -> returns false
+        assertFalse(borrowCommand1.equals(borrowCommand3));
     }
 }

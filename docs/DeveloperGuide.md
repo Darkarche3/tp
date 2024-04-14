@@ -809,17 +809,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS.
-* **Library manager**: Community Library Manager (CLM), who is also the main target user of MyBookshelf. **Librarian** is also referred as **Library manager**."
-* **Library user**: People who uses the community library, including people who donate books to library and people who borrow books from the library. **User** sometimes is also referred as **Library user** (Except when explaining *user stories* / *target user*)."
+* **Library Manager**: Community Library Managers (CLM) are the people using the MyBookshelf application. CLMs are responsible for adding, storing, and updating the entire library database via *MyBookshelf*.
+* **Library User**: The people that are saved into the Contact List of *MyBookshelf*. Sometimes referred as to "borrowers".
 * **Personal Information**: Personal Information of a library user, e.g. name, phone number, email, address and tags, but not borrowed books and merit score.
-* **Book**: A Book Class containing details relating to book.
+* **Book**: Identified by its `BOOKTITLE`. Appears in both the `Library User`'s book list and the `Library Book List`.
 * **Borrow**: An action where a library user borrows a book from the library.
 * **Return**: An Action where a library user returns the book which they borrowed from the library.
 * **Donate**: An action where a person donates a book to the library.
-* **Merit Score**: A measurement of a person's credibility. Everyone starts from 0. Donating and returning books increases merit score, while borrowing books decreases merit score.
+* **Merit Score**: A score associated with each `Library User`. This score provides an estimate of the number of books a library user can borrow.
 * **Threshold**: A threshold for merit score. A library user must higher merit score than threshold in order to borrow books. Threshold can be set to the library by library manager anytime.
-* **Contact List**: The list where it stores all the library user's information, including personal information (e.g. name, phone number, etc.) , merit score and books he/she is borrowing. **Contact List** is also referred as **AddressBook** or **User List**. 
-* **Available Books**: The books from the library which are available to be lent to library users at the moment. Sometimes, it is also referred as the **Library**.
+* **Contact List**: Refers to the list of library users currently stored in the *MyBookshelf* application. It appears in the left column of the User Interface.
+* **Library Book List**: Refers to the list of available `Book`(s) currently stored in the *MyBookshelf* application. It appears in the right column of the User Interface. Sometimes referred as "library" or "available books".
 
 
 --------------------------------------------------------------------------------------------------------------------

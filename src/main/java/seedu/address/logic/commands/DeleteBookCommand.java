@@ -68,7 +68,7 @@ public class DeleteBookCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof DeleteCommand)) {
+        if (!(other instanceof DeleteBookCommand)) {
             return false;
         }
 

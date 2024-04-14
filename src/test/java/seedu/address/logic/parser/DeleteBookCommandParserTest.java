@@ -2,12 +2,14 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 //import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.DeleteBookCommand;
 //import seedu.address.model.book.Book;
+import seedu.address.model.book.Book;
 
 
 public class DeleteBookCommandParserTest {
@@ -40,7 +42,7 @@ public class DeleteBookCommandParserTest {
         assertParseFailure(parser, "i/ string", MESSAGE_INVALID_FORMAT);
     }
 
-    /*@Test
+    @Test
     public void parse_allFieldsPresent_success() {
         // book title with no space in front and at back
         assertParseSuccess(parser, " " + CliSyntax.PREFIX_BOOKLIST + BOOK_TITLE_STUB,
@@ -49,5 +51,5 @@ public class DeleteBookCommandParserTest {
         // book title with spaces in front and at back
         assertParseSuccess(parser, " " + CliSyntax.PREFIX_BOOKLIST + "    " + BOOK_TITLE_STUB + "    ",
                 new DeleteBookCommand(new Book(BOOK_TITLE_STUB)));
-    }*/
+    }
 }

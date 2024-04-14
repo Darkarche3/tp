@@ -29,6 +29,7 @@ public class ReturnCommandParser implements Parser<ReturnCommand> {
 
         Index index;
         String bookTitle;
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_BOOKLIST);
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
             bookTitle = argMultimap.getValue(PREFIX_BOOKLIST).get();

@@ -28,6 +28,7 @@ public class DonateCommandParser implements Parser<DonateCommand> {
 
         Index index;
         String bookTitle;
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_BOOKLIST);
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
             bookTitle = argMultimap.getValue(PREFIX_BOOKLIST).get();

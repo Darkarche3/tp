@@ -96,23 +96,27 @@ public class ReturnCommandTest {
 
     @Test
     public void equals() {
-        ReturnCommand returnFirstCommand = new ReturnCommand(INDEX_FIRST_PERSON, new Book(EMPTY_BOOK_STUB));
-        ReturnCommand returnSecondCommand = new ReturnCommand(INDEX_SECOND_PERSON, new Book(EMPTY_BOOK_STUB));
+        ReturnCommand returnCommand1 = new ReturnCommand(INDEX_FIRST_PERSON, new Book(EMPTY_BOOK_STUB));
+        ReturnCommand returnCommand2 = new ReturnCommand(INDEX_SECOND_PERSON, new Book(EMPTY_BOOK_STUB));
+        ReturnCommand returnCommand3 = new ReturnCommand(INDEX_SECOND_PERSON, new Book(BOOK_TITLE_STUB));
 
         // same object -> returns true
-        assertTrue(returnFirstCommand.equals(returnFirstCommand));
+        assertTrue(returnCommand1.equals(returnCommand1));
 
         // same values -> returns true
         ReturnCommand returnFirstCommandCopy = new ReturnCommand(INDEX_FIRST_PERSON, new Book(EMPTY_BOOK_STUB));
-        assertTrue(returnFirstCommand.equals(returnFirstCommandCopy));
+        assertTrue(returnCommand1.equals(returnFirstCommandCopy));
 
         // different types -> returns false
-        assertFalse(returnFirstCommand.equals(1));
+        assertFalse(returnCommand1.equals(1));
 
         // null -> returns false
-        assertFalse(returnFirstCommand.equals(null));
+        assertFalse(returnCommand1.equals(null));
 
         // different person -> returns false
-        assertFalse(returnFirstCommand.equals(returnSecondCommand));
+        assertFalse(returnCommand1.equals(returnCommand2));
+
+        // different book -> returns false
+        assertFalse(returnCommand1.equals(returnCommand3));
     }
 }
