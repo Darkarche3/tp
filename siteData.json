@@ -112,6 +112,9 @@
       "headings": {
         "mybookshelf-user-guide": "MyBookshelf User Guide",
         "quick-start": "Quick start",
+        "a-quick-walkthrough-of-mybookshelf": "A Quick Walkthrough of MyBookshelf",
+        "overview": "Overview:",
+        "library-user-information": "Library User Information:",
         "features": "Features",
         "notes-about-the-command-format": "Notes about the command format:",
         "notes-about-the-parameters-used": "Notes about the parameters used:",
