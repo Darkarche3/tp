@@ -19,28 +19,79 @@ Tailored for fast typists, MyBookshelf can get your contact and borrowing manage
 
 ## Quick start
 
+### Windows
 1. Ensure that you have `Java 11` or above installed in your computer.
+   - You can refer to this [YouTube video](https://www.youtube.com/watch?v=3nOmkqO0-SM) to check your current Java version. 
+   - If you do not have `Java 11`, you are recommended to download it from [here](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
+
+1. Download the latest `mybookshelf.jar` from [here](https://github.com/AY2324S2-CS2103T-F11-2/tp/releases).
+
+1. Copy and paste the file to you will use as the _home folder_ for the *MyBookshelf* app.
+    - Open your _file explorer_ with Windows Key + E or clicking the _file explorer_ icon.
+    - Navigate to the _Downloads_ folder (Default directory for downloaded files will be the _Downloads_ folder).
+    - Copy the downloaded `mybookshelf.jar` and paste it to the folder you will use as the _home folder_ for the *MyBookshelf* app.
+
+1. Access the command prompt.
+    - Open the Run menu with Windows Key + R, then type "cmd".<br>
+      ![Ui](images/QuickStart/Windows/WindowsRtypeCMD.png)<br>
+    - Click "Ok".
+    - Command prompt window will appear in a few seconds. Command prompt window should look similar the image below.<br>
+      ![Ui](images/QuickStart/Windows/CommandPrompt.png)<br>
+    - If you have issues opening command prompt, you can refer this [YouTube video](https://www.youtube.com/watch?v=pBheH2QtktI&t=92s).
+      
+1. `cd` into the folder you placed `mybookshelf.jar` file in, and enter the following command to run the application.<br>
+  ```
+  java -jar mybookshelf.jar
+  ```
+   - You can refer to the image below.<br> 
+     _Note_: _YOUR_USERNAME_ and _HOME_FOLDER_FOR_MYBOOKSHELF_ might be different from yours.<br>
+   ![Ui](images/QuickStart/Windows/jarmybookshelf.png)<br>
+
+1. A window similar to the one below should appear in a few seconds. Notice that the app initialises with some sample data.<br>
+
+   ![Ui](images/QuickStart/Windows/default.png)<br>
+
+1. Type the command into the command box and press Enter to execute it. e.g. typing [**`help`**](#viewing-help--help) and pressing Enter will open the help window.<br>
+
+1. You can refer to [Glossary](#glossary) for the definition of some words used and [Command Summary](#command-summary) for a quick overview of the commands. Refer to the [Features](#features) below for more details of each command.
 
 
-2. Download the latest `MyBookshelf.jar` from [here](https://github.com/AY2324S2-CS2103T-F11-2/tp/releases).
+### MacOS
+1. Ensure that you have `Java 11` or above installed in your computer.
+    - You can refer to this [YouTube video](https://www.youtube.com/watch?v=3nOmkqO0-SM) to check your current Java version.
+    - If you do not have `Java 11`, you are recommended to download from [here](https://www.azul.com/downloads/?version=java-11-lts&os=macos&architecture=arm-64-bit&package=jdk-fx)
+
+1. Download the latest `mybookshelf.jar` from [here](https://github.com/AY2324S2-CS2103T-F11-2/tp/releases).
+
+1. Copy and paste the file to you will use as the _home folder_ for the *MyBookshelf* app.
+    - Open your _finder_ by clicking the _finder_ icon.
+    - Navigate to the _Downloads_ folder (Default directory for downloaded files will be the _Downloads_ folder).
+    - Copy the downloaded `mybookshelf.jar` and paste it to the folder you will use as the _home folder_ for the *MyBookshelf* app.
+
+1. Access the terminal.
+    - Open the Spotlight search window using Command + Space, then type "Terminal".
+    - Double-click on Terminal in search result.<br>
+      ![Ui](images/QuickStart/MacOS/search.png)<br>
+    - Terminal window will appear in a few seconds. Terminal window should look similar the image below.<br>
+      ![Ui](images/QuickStart/MacOS/terminal.png)<br>
+    - If you have issues opening Terminal window, you can refer [here](https://discussions.apple.com/thread/366608?sortBy=best)
+
+1. `cd` into the folder you placed `mybookshelf.jar` file in, and enter the following command to run the application.<br>
+  ```
+  java -jar mybookshelf.jar
+  ```
+   - You can refer to the image below.<br>
+     _Note_: _YOUR_USERNAME_ and _HOME_FOLDER_FOR_MYBOOKSHELF_ might be different from yours.<br>
+   ![Ui](images/QuickStart/MacOS/jarmybookshelf.png)<br>
 
 
-3. Paste the file into the folder you want to use as the _home folder_ for the *MyBookshelf* app.
+1. A window similar to the one below should appear in a few seconds. Notice that the app initialises with some sample data.<br>
 
+   ![Ui](images/QuickStart/MacOS/default.png)
 
-4. Open the command terminal, `cd` into the folder you placed the jar file in, and enter the following command `java -jar MyBookshelf.jar` to run the application.<br>
+1. Type the command into the command box and press Enter to execute it. e.g. typing [**`help`**](#viewing-help--help) and pressing Enter will open the help window.<br>
 
-
-5. A window similar to the one below should appear in a few seconds. Notice that the app initialises with some sample data.<br>
-
-
-   ![Ui](images/cmdimages/UG_UI_image.jpg)
-
-
-6. Type the command into the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-
-
-7. Refer to the [Features](#features) below for details of each command.
+1. You can refer to [Glossary](#glossary) for the definition of some words used and [Command Summary](#command-summary) for a quick overview of the commands. Refer to the [Features](#features) below for more details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -71,7 +122,7 @@ Tailored for fast typists, MyBookshelf can get your contact and borrowing manage
 5. **Phone Number:** The phone number of the library user.
 6. **Address:** The home address of the library user.
 7. **Email:** The email address of the library user.
-8. **User's Borrowed Books:** The list of books that the library user is currently borrowing from the library.
+8. **User's Book List:** The list of books that the library user is currently borrowing from the library.
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -421,7 +472,7 @@ Examples:
 
 ![result for 'limit'](images/cmdimages/limitnumresult.png)
 
-### Clearing all entries : `clear`
+### Clearing all library users : `clear`
 
 Clears all entries of library users from the contact list.
 
@@ -429,7 +480,7 @@ Format: `clear`
 
 <box type="note" seamless>
 
-**Note:** `clear` only supports clearing all users in the contact list. To clear all books in the library, we can use `delbook` command to clear the books one by one.
+**Note:** `clear` only supports clearing all users in the contact list. To clear all books from the library, refer to the tutorial on [clearing the library](#how-to-clear-the-whole-library).
 
 </box>
 
@@ -460,7 +511,7 @@ MyBookshelf also focuses on data integrity, guaranteeing that only accurate reco
 Invalid data for available books will be automatically discarded and will not be saved.
 
 
-### Editing the data file
+### Editing the data files
 
 User data in *MyBookshelf* is saved automatically as a JSON file at `[JAR file location]/data/addressbook.json`.
 
@@ -484,16 +535,16 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 1. Every library user starts with a default merit score of 0.
 1. **ONLY** library users with a **Merit Score >= Threshold** are allowed to borrow books.
 1. Library users can borrow multiple books as long as their merit score is above the threshold.
-1. The default threshold is set at -3. Use the `limit` command to set the threshold.
-1. `edit` can only be used to change the library user's personal information. This includes their name, phone number, email address, home address and tags. (Not merit score and borrowing book list).
-1. `add` and `edit` command **DOES NOT** support the direct adding and/or editing of merit score or user's book list.
-1. `add`, `delete`, `edit`, `clear` and `find` commands are for managing users, while `addbook`, `delbook`, `borrow`, `donate` and `return` commands are for managing books.
+1. The default threshold is set at -3. Use the [`limit`](#set-the-merit-score-threshold-of-the-library--limit) command to set the threshold.
+1. [`edit`](#editing-a-library-user--edit) can only be used to change the library user's personal information. This includes his/her name, phone number, email address, home address and tags. (Not merit score and user's book list).
+1. [`add`](#adding-a-library-user--add) and [`edit`](#editing-a-library-user--edit) command **DOES NOT** support the direct adding and/or editing of merit score or user's book list.
+1. [`add`](#adding-a-library-user--add), [`delete`](#deleting-a-library-user--delete), [`edit`](#editing-a-library-user--edit), [`clear`](#clearing-all-library-users--clear) and [`find`](#locating-library-users-by-name--find) commands are for managing users, while [`addbook`](#add-a-book-to-library--addbook), [`delbook`](#delete-a-book-from-library--delbook), [`borrow`](#borrowing-a-book--borrow), [`donate`](#donating-a-book--donate) and [`return`](#returning-a-book--return) commands are for managing books.
 1. The field `BOOKTITLE` is case-sensitive to allow books of similar titles to be differentiated.
 1. While there are no restrictions on `BOOKTITLE` (expect that it cannot be empty), we cannot guarantee the performance when books with titles in other languages are inserted.
-1. `delbook` deletes one book at a time to prevent accidental deletion of all entries with the same book title.
+1. [`delbook`](#delete-a-book-from-library--delbook) deletes one book at a time to prevent accidental deletion of all entries with the same book title.
 1. We allow entries with the same email and phone number into the contact list as there may be cases where two users share the same contact details. An example would be when a child does not own a mobile phone nor has an email and has to share with his/her parent.
-1. Commands that modifies book lists will reference the book using their respective book titles instead of their indexes. This is because the `findbook` command has not been implemented yet and would make indexing specific books in a large book list unfeasible.
-1. We allow `delete` to remove the library user's book list. This allows for more flexibility in managing the library. If books are returned, the library manager can use the `return` command to account for the books before deleting the person.
+1. Commands that modifies book lists will reference the book using their respective book titles instead of their indexes. This is because the [`findbook`](#introducing-the-findbook-command) command has not been implemented yet and would make indexing specific books in a large book list unfeasible.
+1. We allow [`delete`](#deleting-a-library-user--delete) to remove the library user's book list. This allows for more flexibility in managing the library. If books are returned, the library manager can use the [`return`](#returning-a-book--return) command to account for the books before deleting the person.
 1. Do not use words that start with b/, a/ as part of booktitles and addressess respectively. Tip: If you have a word starting with b/ or a/, you can type a filler character before.
    E.g. addbook b/Book with .b/ in the title.
 
@@ -523,6 +574,12 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous MyBookshelf home folder.
 
+**Q**: How do I manually change the merit score of a library user that I have added?<br>
+**A**: Please read the tutorial section on [increasing](#how-to-increase-merit-score-of-a-library-user) and [decreasing](#how-to-decrease-merit-score-of-a-library-user) merit score.
+
+**Q**: Can I clear both the contact list and the library at the same time?
+**A**: Unfortunately, *MyBookshelf* currently cannot clear both the contact list and the library at the same time. You can use the [`clear`](#clearing-all-library-users--clear) command to clear the contact list and refer to [this](#how-to-clear-the-whole-library) section to clear the library.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -533,47 +590,137 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 4. There can be different individuals with the same name, but our current implementation does not support this due to our definition of duplicated people. Will be fixed in the future. Refer to the Developer Guide for more information.
 5. Duplicated library users can be added with the same name but different capitalisation, due to our definition of duplicated people. Will be fixed in the future. Refer to the Developer Guide for more information.
 6. All parameters except `INDEX` and `THRESHOLD` do not have a limit to the number of characters. Refer to the Developer Guide for more information.
-7. The `clear` command only clears the library user data. The usage pertaining to this command will be made clearer with the implementation of future features. Refer to the **Future Features** section above for more information.
+7. The [`clear`](#clearing-all-library-users--clear) command only clears the library user data. The usage pertaining to this command will be made clearer with the implementation of future features. Refer to the [Future Features](#future-features) section above for more information.
 8. UI may not display special characters as intended.
-9. Some languages may cause the UI to display unexpectedly. For example, Arabic characters will cause the text starts from right to left.
+9. Some languages may cause the UI to display unexpectedly. For example, Arabic characters will cause the number next to book titles to appear from right to left.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Tutorials
+
+### How to increase Merit Score of a library user
+
+With the current features, there is no direct command to manually increase the merit score of a library user. 
+
+You can use the following steps below to indirectly increase the merit score of an individual library user:
+1. Make the library user whose merit score you want to increase donate a placeholder book using [`donate`](#donating-a-book--donate).
+1. Repeat step 1 by the amount you want to increase the library user's merit score by.
+1. Delete **all** the placeholder books that you had added from the library using [`delbook`](#delete-a-book-from-library--delbook).
+
+Example: You want to increase the merit score of the third library user by 2.
+1. Enter `donate 3 b/placeholder book`.
+1. Enter `donate 3 b/placeholder book`.
+1. Enter `delbook b/placeholder book`.
+1. Enter `delbook b/placeholder book`.
+
+### How to decrease Merit Score of a library user
+
+With the current features, there is no direct command to manually decrease the merit score of a library user.
+
+#### Method 1: Within MyBookshelf
+
+<box type="warning" seamless>
+
+Due to current limitations, following this method **will force** the library user to alter their list of books
+
+</box>
+
+You can use the following steps below to indirectly increase the merit score of an individual library user:
+1. Add placeholder books from the library using [`addbook`](#add-a-book-to-library--addbook).
+1. Repeat step 1 by the amount you want to decrease the library user's merit score by.
+1. Make the library user whose merit score you want to increase borrow **all** the placeholder books you added using [`borrow`](#borrowing-a-book--borrow).
+
+Example: You want to decrease the merit score of the second library user by 2.
+1. Enter `addbook b/~~~ignore book~~~`.
+1. Enter `addbook b/~~~ignore book~~~`.
+1. Enter `borrow 2 b/~~~ignore book~~~`.
+1. Enter `borrow 2 b/~~~ignore book~~~`.
+
+<box type="tip" seamless>
+
+Since these placeholder books will stay in the library user's book list, you should name your placeholder books with names that can be easily differentiated and ignored.
+
+Keeping the placeholder books titled the same and using characters that can be sorted to the bottom alphabetically (use larger values in this [chart](https://www.javatpoint.com/java-ascii-table)) can also help.
+
+</box>
+
+#### Method 2: Editing the data file
+
+Using this method will not alter the library user's book list. Please read the above section on [Editing Data Files](#editing-the-data-files) before proceeding.
+
+1. Locate the data file at this file location: `[JAR file location]/data/addressbook.json`
+1. Open the file with any valid application of your choice. For this example, we will open the file with Notepad on Windows.
+1. Locate the library user you wish to edit and edit their merit score.
+
+![Edit Merit Score Tutorial](images/TutorialEditData.png)
+
+### How to clear the whole library
+
+The current [`clear`](#clearing-all-library-users--clear) command is designed to clear the contact list only but there is **no command** to clear books from the library.
+
+The **safest** method to clear the library would be to individually delete each book from the library using the `delbook` command.
+
+You can quickly delete books from the library by directly editing the data file. Please read the above section on [Editing Data Files](#editing-the-data-files) before proceeding.
+
+1. Locate the data file at this file location: `[JAR file location]/data/library.txt`
+1. Open the file with any text editor of your choice. For this example, we will open the file with Notepad on Windows.
+1. Delete all lines after the first line (first line is the number you have set as the limit for your library).
+
+![Clear Library Tutorial](images/TutorialClearLibrary.png)
+
+<box type="warning" seamless>
+
+In this version of *MyBookshelf*, you can put in an invalid input into the `library.txt` file (E.g. non-number for merit score/whitespace for book title) and the data file will be treated as corrupted, causing the program to start up with an empty library.
+
+While this is a method you can also use to clear the library, we highly advise against purposefully corrupting your own data files as you will reset the limit you have set for your library.
+
+We also cannot guarantee that this will not cause unexpected behaviour in other parts of *MyBookshelf* and this may not work for future versions of *MyBookshelf*.
+
+</box>
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
 
-| Action      | Format, Examples                                                                                                                                                           |
-|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add**     | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/goodDonater t/sponsor`   |
-| **Clear**   | `clear`                                                                                                                                                                    |
-| **Delete**  | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                        |
-| **Edit**    | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                |
-| **Find**    | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                 |
-| **List**    | `list`                                                                                                                                                                     |
-| **Help**    | `help`                                                                                                                                                                     |
-| **AddBook** | `addbook b/BOOKTITLE`<br> e.g., `addbook b/The Hero with a Thousand Faces`                                                                                                 |
-| **DelBook** | `delbook b/BOOKTITLE`<br> e.g., `delbook b/The Hero with a Thousand Faces`                                                                                                 |
-| **Borrow**  | `borrow INDEX b/BOOKTITLE`<br> e.g., `borrow 1 b/The Hero with a Thousand Faces`                                                                                           |
-| **Return**  | `return INDEX b/BOOKTITLE`<br> e.g., `return 1  b/The Hero with a Thousand Faces`                                                                                          |
-| **Donate**  | `donate INDEX b/BOOKTITLE`<br> e.g., `donate 1 b/The Hero with a Thousand Faces`                                                                                           |
-| **Limit**   | `limit THRESHOLD` <br> e.g. `limit 0`                                                                                                                                      |
+| Action      | Format, Examples                                                                                                                                                         |
+|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add**     | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/goodDonater t/sponsor` |
+| **Clear**   | `clear`                                                                                                                                                                  |
+| **Delete**  | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                      |
+| **Edit**    | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                              |
+| **Find**    | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                               |
+| **List**    | `list`                                                                                                                                                                   |
+| **Help**    | `help`                                                                                                                                                                   |
+| **AddBook** | `addbook b/BOOKTITLE`<br> e.g., `addbook b/Tales of Kokoro`                                                                                                              |
+| **DelBook** | `delbook b/BOOKTITLE`<br> e.g., `delbook b/Tales of Kokoro`                                                                                                              |
+| **Borrow**  | `borrow INDEX b/BOOKTITLE`<br> e.g., `borrow 1 b/Tales of Kokoro`                                                                                                        |
+| **Return**  | `return INDEX b/BOOKTITLE`<br> e.g., `return 1  b/Tales of Kokoro`                                                                                                       |
+| **Donate**  | `donate INDEX b/BOOKTITLE`<br> e.g., `donate 1 b/Tales of Kokoro`                                                                                                        |
+| **Limit**   | `limit [THRESHOLD]` <br> e.g. `limit 0`                                                                                                                                  |
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Glossary
 
-1. `Library User:` The people that are saved into the contact list of *MyBookshelf*. Sometimes referred to as "borrowers".
+1. **Library User**: The people that are saved into the contact list of *MyBookshelf*. Sometimes referred to as "borrowers".
 
 
-2. `Library Manager:` Community Library Managers (CLM) are the people using the MyBookshelf application. CLMs are responsible for adding, storing, and updating the entire library database via *MyBookshelf*.
+2. **Library Manager**: Community Library Managers (CLM) are the people using the MyBookshelf application. CLMs are responsible for adding, storing, and updating the entire library database via *MyBookshelf*.
 
 
-3. `Contact List:` Refers to the list of library users currently stored in the *MyBookshelf* application. It appears in the left column of the User Interface.
+3. **Contact List**: Refers to the list of library users currently stored in the *MyBookshelf* application. It appears in the left column of the User Interface.
 
 
-4. `Library Book List:` Refers to the list of available `Book`(s) currently stored in the *MyBookshelf* application. It appears in the right column of the User Interface. Sometimes referred to as "available books" or simply "library".
+4. **Book**: Identified by its `BOOKTITLE`. Appears in both the `User's Book List` and the `Library Book List`.
 
 
-5. `Book:` Identified by its `BOOKTITLE`. Appears in both the `Library User`'s book list and the `Library Book List`.
+5. **User's Book List**: Refers to the list of `Book`(s) currently borrowed by an individual library user.
 
 
-6. `Merit Score:` A score associated with each `Library User`. This score provides an estimate of the number of books a library user can borrow.
+6. **Library Book List**: Refers to the list of available `Book`(s) currently stored in the *MyBookshelf* application. It appears in the right column of the User Interface. Sometimes referred to as "available books" or simply "library".
+
+
+7. **Merit Score**: A score associated with each `Library User`. This score provides an estimate of the number of books a library user can borrow.
+
+
+8. **Limit**: Refers to limit set for the library and is synonymous with `THRESHOLD`, where library users are only allowed to borrow books when their merit score is greater or equal than the limit that has been set.

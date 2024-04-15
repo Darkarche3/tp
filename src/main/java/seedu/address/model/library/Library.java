@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import seedu.address.model.ReadOnlyLibrary;
 import seedu.address.model.book.Book;
 import seedu.address.model.person.Person;
-import seedu.address.storage.LibraryStorage;
 
 /**
  * Represents a collection of books in a library.
@@ -28,7 +27,6 @@ public class Library implements ReadOnlyLibrary {
 
     private ObservableList<Book> bookList;
     private Threshold threshold;
-    private LibraryStorage libraryLogic;
 
     /**
      * Construct an empty library.
@@ -36,7 +34,6 @@ public class Library implements ReadOnlyLibrary {
     public Library() {
         bookList = FXCollections.observableArrayList();
         threshold = new Threshold();
-        libraryLogic = new LibraryStorage();
     }
 
     /**

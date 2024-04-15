@@ -131,7 +131,8 @@ The `Model` component,
 
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` object.
+* stores a `Library` object that represents the library data i.e. `Threshold` and all `Book` objects. This is exposed to the outside as a `ReadOnlyLibrary` object. The books are exposed to outsiders as an unmodifiable `ObservableList<Book>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 <box type="info" seamless>
@@ -844,192 +845,145 @@ testers are expected to do more *exploratory* testing.
 ### Launch and shutdown
 
 1. Initial launch
-
-   1. Download `mybookshelf.jar` and copy into an empty folder
-
+   1. Download `mybookshelf.jar` and copy into an empty folder.
    1. Double-click the jar file <br>
       Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 1. Saving window preferences
-
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-
    1. Re-launch the app by double-clicking the jar file or running `java -jar mybookshelf.jar`.<br>
       Expected: The most recent window size and location is retained.
 
 1. Exiting the app using `exit` command
-
    1. Type `exit` to the command box.<br>
-   <br>
-   Expected: The app window closes.
+      Expected: The app window closes.
 
 1. Exiting the app by clicking the close button
-
    1. Navigate to the top right corner of MyBookshelf.
-   
    1. Click the close button.<br>
-   <br>
-   Expected: The app window closes.
+      Expected: The app window closes.
    
 1. Exiting the app by clicking the `Exit` button in `File` tab
-
    1. Navigate to the top left corner of MyBookshelf.
-   
    1. Click the `File` tab.
-   
    1. Click the `Exit` button.<br>
-   <br>
-   Expected: The app window closes.
+      Expected: The app window closes.
 
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
-
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-
    1. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-
    1. Test case: `delete 0`<br>
       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-### Add a book into the library book list
+### Adding a book to the library
 
-1. Add a book into the library book list.
-
+1. Add a book into the library book list
    1. Prerequisite: `BOOKTITLE` must not contain 'b/' with leading white spaces (e.g. Please b/ careful).
-   
    1. Test case: `addbook b/Percy Jackson`<br>
       Expected: Book 'Percy Jackson' is successfully added to the library book list.
-   
    1. Test case: `addbook b/`<br>
       Expected: No book is added to the library book list as `BOOKTITLE` cannot be empty. Error details shown in the status message. Status bar remains the same.
 
-### Delete a book from the library book list
+### Removing a book from the library
 
 1. Delete a book from the library book list
-
-   1. Prerequisite: `BOOKTITLE` must match one of the books' `BOOKTITLE` in the library book list.
-   
-   1. Prerequisite: `BOOKTITLE` must not contain 'b/' with leading white spaces (e.g. Please b/ careful).
-   
+   1. Prerequisite: `BOOKTITLE` must match one of the books' `BOOKTITLE` in the library book list. `BOOKTITLE` must not contain 'b/' with leading white spaces (e.g. Please b/ careful).
    1. Test case: `delbook b/Percy Jackson`<br>
       Expected: Book 'Percy Jackson' has been successfully removed from the library book list.
-   
    1. Test case: `delbook b/`<br>
       Expected: No book is removed from the library book list as `BOOKTITLE` cannot be empty. Error details shown in the status message. Status bar remains the same.
 
-### Check the current threshold of the library
+### Donating a book to the library
 
-   1. Check the current threshold of the library.
+1. Library user donates a book to the library
+   1. Prerequisite: `BOOKTITLE` must not contain 'b/' with leading white spaces (e.g. Please b/ careful).
+   1. Test case: `donate 1 b/Percy Jackson`<br>
+      Expected: Book 'Percy Jackson' is successfully added to the library book list. Book 'Percy Jackson' will be displayed in library book list upon successful donation.
+   1. Test case: `donate 1 b/`<br>
+      Expected: No book is added to the library book list as `BOOKTITLE` cannot be empty. Error details shown in the status message. Status bar remains the same.
+   1. Other incorrect donate commands to try: `donate`, `donate 1`, `...` (where x is larger than the list size)<br>
+      Expected: No book is donated. Error details shown in the status message. Status bar remains the same.
 
-      1. Prerequisite: The library has a valid `THRESHOLD`.
+### Borrowing a book from the library
 
-      1. Test case: `limit`<br>
-      
+1. Library user borrows a book from the library
+   1. Prerequisite: `BOOKTITLE` must match one of the books' `BOOKTITLE` in the library book list. `BOOKTITLE` must not contain "b/" with leading white spaces (e.g. Please b/ careful).
+   1. Test case: `borrow 1 b/Percy Jackson`<br>
+      Expected: Book 'Percy Jackson' is successfully removed from the library book list and added to user's book list. Book 'Percy Jackson' will be displayed in user's book list upon successful borrow.
+   1. Test case: `borrow 1 b/`<br>
+      Expected: No book is added to the user's book list as `BOOKTITLE` cannot be empty. Error details shown in the status message. Status bar remains the same.
+   1. Other incorrect borrow commands to try: `borrow`, `borrow 1`, `...` (where x is larger than the list size)<br>
+      Expected: No book is borrowed. Error details shown in the status message. Status bar remains the same.
+
+### Returning a book to the library
+
+1. Library user returns a book to the library
+   1. Prerequisite: `BOOKTITLE` must match one of the books' `BOOKTITLE` in the user's book list. `BOOKTITLE` must not contain "b/" with leading white spaces (e.g. Please b/ careful).
+   1. Test case: `return 1 b/Percy Jackson`<br>
+      Expected: Book 'Percy Jackson' is successfully added to library book list and removed from the user's book list. Book 'Percy Jackson' will be displayed in library book list upon successful borrow.
+   1. Test case: `return 1 b/`<br>
+      Expected: No book is added to the library book list as `BOOKTITLE` cannot be empty. Error details shown in the status message. Status bar remains the same.
+   1. Other incorrect return commands to try: `return`, `return 1`, `...` (where x is larger than the list size)<br>
+      Expected: No book is returned. Error details shown in the status message. Status bar remains the same.
+
+### Viewing the current threshold of the library
+
+1. Check the current limit threshold of the library
+   1. Prerequisite: The library has a valid `THRESHOLD`.
+   1. Test case: `limit`<br>
       Expected: The result box shows the current `THRESHOLD` of the library.
 
-### Set a new threshold to the library
+### Setting a new threshold to the library
 
-   1. Set a new threshold to the library
+1. Setting a new threshold to the library
+   1. Prerequisite: The library has a valid `THRESHOLD`. The new `THRESHOLD` is an integer between `-2147483648` and `2147483647`.
+   1. Test case: `limit 0`(Provided the new `THRESHOLD` is different from the old `THRESHOLD`)<br> 
+      Expected: `THRESHOLD` of the library is set to `0`.
+   1. Test case: `limit -3` (Provided the original `THRESHOLD` is identical with the `THRESHOLD` we want to change)<br>
+      Expected: `THRESHOLD` remains the same.
 
-      1. Prerequisite: The library has a valid `THRESHOLD`.
+### Loading data
 
-      1. Prerequisite: The new `THRESHOLD` is an integer between `-2147483648` and `2147483647`.
+1. Dealing with missing library user's data file
+   1. MyBookshelf handles the issue where library user's data file is missing.
+   1. MyBookshelf is unable to find specific file located at `data/addressbook.json`.
+   1. MyBookshelf creates a new empty file located at `data/addressbook.json`.
+   1. MyBookshelf loads the empty `data/addressbook.json` file.
 
-      1. Test case: `limit 0`<br>
-         Expected: Provided the new `THRESHOLD` is different from the old `THRESHOLD`.
+1. Dealing with corrupted library user's data file
+   1. MyBookshelf handles the issue where library user's data file is corrupted.
+   1. Prerequisites: The data file exists and is located at `data/addressbook.json`.
+   1. MyBookshelf detects an error while reading a specific file located at `data/addressbook.json`.
+   1. MyBookshelf discards all data of `data/addressbook.json`.
+   1. MyBookshelf loads the empty `data/addressbook.json` file.
 
-      1. Test case: `limit -3` (Provided the original `THRESHOLD` is identical with the `THRESHOLD` we want to change)<br>
-         Expected: `THRESHOLD` remains the same.
+1. Dealing with missing library book list's data file
+   1. MyBookshelf handles the issue where library book list's data file is missing.
+   1. MyBookshelf is unable to find specific file located at `data/library.txt`.
+   1. MyBookshelf creates a new empty file located at `data/library.txt`.
+   1. MyBookshelf loads the empty `data/library.txt` file.
 
-### Donate a book
-
-1. Donate a book which is available in the Library list.
-  1. Prerequisite: `BOOKTITLE` must not contain 'b/' with leading white spaces (e.g. Please b/ careful).
-
-  1. Test case: `donate 1 b/Percy Jackson`<br>
-     Expected: The book 'Percy Jackson' is added to the libary booklist.
-  
-  1. Test case: `donate 1 b/`<br>
-     Expected: No book is added to the libary book list as `BOOKLIST` cannot be empty. Error details shown in the status message. Status bar remains the same.
-  
-  1. Other incorrect donate commands to try: `donate`, `donate 1`, `...` (where x is larger than the list size)<br>
-     Expected: No book is donated. Error details shown in the status message. Status bar remains the same.
-
-### Borrow a book
-
-1. Borrowing a book which is available in the Library list.
-  1. Prerequisite: `BOOKTITLE` must match one of the books' `BOOKTITLE` in the library book list.
-
-  1. Prerequisite: `BOOKTITLE` must not contain "b/" with leading white spaces (e.g. Please b/ careful).
-
-  1. Test case: `borrow 1 b/Percy Jackson`<br>
-     Expected: The book 'Percy Jackson' is removed from the libary booklist. The user's booklist will display the title 'Percy Jackson' to show user has successfully borrowed.
-
-  1. Test case: `borrow 1 b/`<br>
-     Expected: No book is added to the user's book list as `BOOKLIST` cannot be empty. Error details shown in the status message. Status bar remains the same.
-
-  1. Other incorrect borrow commands to try: `borrow`, `borrow 1`, `...` (where x is larger than the list size)<br>
-     Expected: No book is borrowed. Error details shown in the status message. Status bar remains the same.
-
-### Return a book
-
-1. Returning a book which is available in the Library list.
-  1. Prerequisite: Ensure that there exists at least one book in the user's booklist with the book title you wish to return.
-
-  1. Prerequisite: `BOOKTITLE` must not contain "b/" with leading white spaces (e.g. Please b/ careful).
-
-  1. Test case: `return 1 b/Percy Jackson`<br>
-     Expected: The book 'Percy Jackson' is removed from the user's booklist. The library booklist will display the title 'Percy Jackson' to show user has successfully returned.
-
-  1. Test case: `return 1 b/`<br>
-     Expected: No book is added to the libary book list as `BOOKLIST` cannot be empty. Error details shown in the status message. Status bar remains the same.
-
-  1. Other incorrect return commands to try: `return`, `return 1`, `...` (where x is larger than the list size)<br>
-     Expected: No book is returned. Error details shown in the status message. Status bar remains the same.
+1. Dealing with corrupted library book list's data file
+   1. MyBookshelf handles the issue where library book list's data file is corrupted.
+   1. Prerequisites: The data file exists and is located at `data/library.txt`.
+   1. MyBookshelf loads data from `data/library.txt`.
+   1. MyBookshelf detects an error while reading a specific data in `data/library.txt`.
+   1. MyBookshelf discards the specific data.
+   1. MyBookshelf continues to load data from `data/library.txt`.
 
 ### Saving data
 
 1. Saving library user's data
-
-    1. Prerequisites: The data file exists and is located at data/addressbook.json. Data in data file is valid.
-
-    1. MyBookshelf will automatically save the newest information upon any successful commands.
+   1. Prerequisites: The data file exists and is located at `data/addressbook.json`. Data in data file is valid.
+   1. MyBookshelf will automatically save the newest information upon any successful commands.
 
 1. Saving library book list's data
+   1. Prerequisites: The data file exists and is located at `data/library.txt`. Data in data file is valid.
+   1. MyBookshelf will automatically save the newest information upon any successful commands.
 
-    1. Prerequisites: The data file exists and is located at data/library.txt. Data in data file is valid.
 
-    1. MyBookshelf will automatically save the newest information upon any successful commands.
-
-1. Dealing with missing/corrupted library user's data files
-
-    1. MyBookshelf is unable to find specific file located at data/addressbook.json.
-
-    1. MyBookshelf creates a new empty file located at data/addressbook.json.
-
-    1. MyBookshelf loads the empty addressbook.json file.
-
-1. Dealing with missing library book list's data files
-
-    1. MyBookshelf is unable to find specific file located at data/library.txt.
-
-    1. MyBookshelf creates a new empty file located at data/library.txt.
-
-    1. MyBookshelf will load the empty data/library.txt file.
-
-1. Dealing with corrupted library book list's data files
-
-    1. Prerequisites: The data file exists and is located at data/library.txt.
-
-    1. MyBookshelf loads data from data/library.txt.
-
-    1. MyBookshelf notices an error while reading a specific data in data/library.txt.
-
-    1. MyBookshelf discards the specific data.
-
-    1. MyBookshelf continues to load data from data/library.txt.
