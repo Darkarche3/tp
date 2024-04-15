@@ -25,21 +25,21 @@
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
-        <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
-        <HBox fx:id="meritScoreHBox">
-          <Label text="(Merit Score: " styleClass="cell_big_label"/>
+        <Label fx:id="name" text="\$first" styleClass="cell_big_label" wrapText="true"/>
+        <HBox fx:id="meritScoreHBox" alignment="CENTER_RIGHT" minWidth="200">
+          <Label text="(Merit Score: " styleClass="cell_big_label" wrapText="true"/>
 <!--          <Label fx:id="meritScore" styleClass="cell_big_label" text="\$meritScore"-->
 <!--                 style="-fx-background-color: green; -fx-text-fill: white; -fx-background-radius: 5;" />-->
           <Label fx:id="meritScore" styleClass="cell_big_label" text="\$meritScore"
-                 style="-fx-text-fill: white;" />
-          <Label text=")" styleClass="cell_big_label"/>
+                 style="-fx-text-fill: white;" wrapText="true"/>
+          <Label text=")" styleClass="cell_big_label" wrapText="true"/>
         </HBox>
       </HBox>
       <FlowPane fx:id="tags" />
       <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
       <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
       <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
-      <Label fx:id="borrow" styleClass="cell_small_label" text="\$borrow" />
+      <Label fx:id="borrow" styleClass="cell_small_label" text="\$borrow" wrapText="true"/>
 
     </VBox>
   </GridPane>

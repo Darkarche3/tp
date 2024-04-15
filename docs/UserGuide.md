@@ -235,7 +235,7 @@ Format: `help`
 
 ### Adding a library user: `add`
 
-Adds a new library user to the contact list. Fields are populated with the library user's personal information.
+Adds a new library user to the contact list. Parameters are populated with the library user's personal information.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
@@ -279,7 +279,7 @@ Edits an existing library user's personal information from the contact list.
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
 * Edits the library user at the specified `INDEX`. This index refers to the index number of the target library user in the contact list.
-* At least one of the optional fields must be provided.
+* At least one of the optional parameters must be provided.
 * Existing values in the contact list will be updated to the input values.
 * When editing tags, the existing tags of the library user will be removed i.e adding of tags is not cumulative.
 * You can remove all the library user’s tags by typing `t/` without specifying any tags after it.
@@ -521,7 +521,7 @@ Experienced users are welcome to make changes to the data directly by editing th
 
 <box type="warning" seamless>
 
-**Caution:**
+**Warning:**
 If your changes to the data file makes its format invalid, MyBookshelf will discard all saved data and start with an empty data file at the next run. <br>
 Hence, it is recommended to have a backup of the file ready before editing it.<br>
 Furthermore, certain edits can cause the MyBookshelf to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
@@ -539,7 +539,7 @@ Furthermore, certain edits can cause the MyBookshelf to behave in unexpected way
 1. [`edit`](#editing-a-library-user--edit) can only be used to change the library user's personal information. This includes his/her name, phone number, email address, home address and tags. (Not merit score and user's book list).
 1. [`add`](#adding-a-library-user--add) and [`edit`](#editing-a-library-user--edit) command **DOES NOT** support the direct adding and/or editing of merit score or user's book list.
 1. [`add`](#adding-a-library-user--add), [`delete`](#deleting-a-library-user--delete), [`edit`](#editing-a-library-user--edit), [`clear`](#clearing-all-library-users--clear) and [`find`](#locating-library-users-by-name--find) commands are for managing users, while [`addbook`](#add-a-book-to-library--addbook), [`delbook`](#delete-a-book-from-library--delbook), [`borrow`](#borrowing-a-book--borrow), [`donate`](#donating-a-book--donate) and [`return`](#returning-a-book--return) commands are for managing books.
-1. The field `BOOKTITLE` is case-sensitive to allow books of similar titles to be differentiated.
+1. The parameter `BOOKTITLE` is case-sensitive to allow books of similar titles to be differentiated.
 1. While there are no restrictions on `BOOKTITLE` (expect that it cannot be empty), we cannot guarantee the performance when books with titles in other languages are inserted.
 1. [`delbook`](#delete-a-book-from-library--delbook) deletes one book at a time to prevent accidental deletion of all entries with the same book title.
 1. We allow entries with the same email and phone number into the contact list as there may be cases where two users share the same contact details. An example would be when a child does not own a mobile phone nor has an email and has to share with his/her parent.
@@ -621,7 +621,7 @@ With the current features, there is no direct command to manually decrease the m
 
 <box type="warning" seamless>
 
-Due to current limitations, following this method **will force** the library user to alter their list of books
+**Warning:** Due to current limitations, following this method **will force** the library user to alter their list of books
 
 </box>
 
@@ -638,7 +638,7 @@ Example: You want to decrease the merit score of the second library user by 2.
 
 <box type="tip" seamless>
 
-Since these placeholder books will stay in the library user's book list, you should name your placeholder books with names that can be easily differentiated and ignored.
+**Tips:** Since these placeholder books will stay in the library user's book list, you should name your placeholder books with names that can be easily differentiated and ignored.
 
 Keeping the placeholder books titled the same and using characters that can be sorted to the bottom alphabetically (use larger values in this [chart](https://www.javatpoint.com/java-ascii-table)) can also help.
 
@@ -670,7 +670,7 @@ You can quickly delete books from the library by directly editing the data file.
 
 <box type="warning" seamless>
 
-In this version of *MyBookshelf*, you can put in an invalid input into the `library.txt` file (E.g. non-number for merit score/whitespace for book title) and the data file will be treated as corrupted, causing the program to start up with an empty library.
+**Warning:** In this version of *MyBookshelf*, you can put in an invalid input into the `library.txt` file (E.g. non-number for merit score/whitespace for book title) and the data file will be treated as corrupted, causing the program to start up with an empty library.
 
 While this is a method you can also use to clear the library, we highly advise against purposefully corrupting your own data files as you will reset the limit you have set for your library.
 
@@ -702,25 +702,34 @@ We also cannot guarantee that this will not cause unexpected behaviour in other 
 
 ## Glossary
 
+1. **CLI**: Command-Line Interface, a tool you employ to communicate with your operating system via your keyboard.
+
+1. **GUI**: Graphical User Interface, a graphical interface where users engage with visual elements like icons, buttons, and menus.
+
+1. **JSON**: JavaScript Object Notation, a text format for storing and transporting data.
+
+1. **Parameter**: Data that users input into commands.
+
+1. **Alphanumeric**: A character that is either a letter or a number.
+
 1. **Library User**: The people that are saved into the contact list of *MyBookshelf*. Sometimes referred to as "borrowers".
 
+1. **Library Manager**: Community Library Managers (CLM) are the people using the MyBookshelf application. CLMs are responsible for adding, storing, and updating the entire library database via *MyBookshelf*.
 
-2. **Library Manager**: Community Library Managers (CLM) are the people using the MyBookshelf application. CLMs are responsible for adding, storing, and updating the entire library database via *MyBookshelf*.
+1. **Contact List**: Refers to the list of library users currently stored in the *MyBookshelf* application. It appears in the left column of the User Interface.
 
+1. **Book**: Identified by its `BOOKTITLE`. Appears in both the `User's Book List` and the `Library Book List`.
 
-3. **Contact List**: Refers to the list of library users currently stored in the *MyBookshelf* application. It appears in the left column of the User Interface.
+1. **User's Book List**: Refers to the list of `Book`(s) currently borrowed by an individual library user.
 
+1. **Library Book List**: Refers to the list of available `Book`(s) currently stored in the *MyBookshelf* application. It appears in the right column of the User Interface. Sometimes referred to as "available books" or simply "library".
 
-4. **Book**: Identified by its `BOOKTITLE`. Appears in both the `User's Book List` and the `Library Book List`.
+1. **Command**: Instructions given to the application to perform specific tasks.
 
+1. **Merit Score**: A score associated with each `Library User`. This score provides an estimate of the number of books a library user can borrow.
 
-5. **User's Book List**: Refers to the list of `Book`(s) currently borrowed by an individual library user.
+1. **Limit**: Refers to limit set for the library and is synonymous with `THRESHOLD`, where library users are only allowed to borrow books when their merit score is greater or equal than the limit that has been set.
 
+1. **Threshold**: The minimum merit score required for a library user to borrow books from the library.
 
-6. **Library Book List**: Refers to the list of available `Book`(s) currently stored in the *MyBookshelf* application. It appears in the right column of the User Interface. Sometimes referred to as "available books" or simply "library".
-
-
-7. **Merit Score**: A score associated with each `Library User`. This score provides an estimate of the number of books a library user can borrow.
-
-
-8. **Limit**: Refers to limit set for the library and is synonymous with `THRESHOLD`, where library users are only allowed to borrow books when their merit score is greater or equal than the limit that has been set.
+1. **Data Saving**: The automated feature of the application that preserves modifications to the library's records by saving them on the hard disk.
